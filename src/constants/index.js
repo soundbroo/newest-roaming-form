@@ -22,13 +22,19 @@ export const FORM_TITLES = {
         inn: "senderInn",
         kpp: "senderKpp",
         name: "senderName",
-        id: "senderId"
+        id: "senderId",
+        lastname: "senderLastname",
+        firstname: "senderFirstname",
+        patronymic: "senderPatronymic"
       },
       {
         inn: "receiverInn",
         kpp: "receiverKpp",
         name: "receiverName",
-        id: "receiverId"
+        id: "receiverId",
+        lastname: "receiverLastname",
+        firstname: "receiverFirstname",
+        patronymic: "receiverPatronymic"
       }
     ],
     typeDataTitle: "Введите данные вашего клиента"

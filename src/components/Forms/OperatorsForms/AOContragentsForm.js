@@ -5,10 +5,11 @@ import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOpera
 
 // Шаблон для страницы Операторам - Данные контрагентов
 
-const AOContragentsForm = ({ activeForm, stepFieldsNames }) => (
+const AOContragentsForm = ({ activeForm, stepFieldsNames, values }) => (
   <TemplateOperatorsForm
     activeForm={activeForm}
     stepFieldsNames={stepFieldsNames}
+    values={values}
   />
 );
 

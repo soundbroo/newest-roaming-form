@@ -8,7 +8,7 @@ import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOpera
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
-const ClientForm = ({ activeForm, stepFieldsNames }) => (
+const ClientForm = ({ activeForm, stepFieldsNames, values }) => (
   <>
     <Field
       name="request_id"
@@ -18,6 +18,7 @@ const ClientForm = ({ activeForm, stepFieldsNames }) => (
     <TemplateOperatorsForm
       activeForm={activeForm}
       stepFieldsNames={stepFieldsNames}
+      values={values}
     />
   </>
 );

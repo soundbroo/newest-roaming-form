@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Paper } from "@material-ui/core";
 import styled from "styled-components";
 import { Form as FinalForm } from "react-final-form";
 
+import { FormsValuesContext, FormsValuesProvider } from "utils/context";
 import Stepper from "components/Common/Stepper";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
@@ -17,6 +18,8 @@ const onSubmit = async values => {
 const Form = ({ activePage }) => {
   const [activeForm, setActiveForm] = useState(0);
 
+  const [values, setValues] = useContext(FormsValuesContext);
+
   const activeFormData = Object.values(FORM_TITLES).find(
     form => form.id === activePage
   );
@@ -25,7 +28,9 @@ const Form = ({ activePage }) => {
   const stepTitles = activeFormData.stepTitles;
   const stepFieldsNames = activeFormData.stepFieldsNames;
 
-  const renderActiveForm = () => {
+  const renderActiveForm = values => {
+    setValues(values);
+
     switch (activePage) {
       //   case 0:
       //     switch (activeForm) {
@@ -43,6 +48,7 @@ const Form = ({ activePage }) => {
               <ClientForm
                 activeForm={activeForm}
                 stepFieldsNames={stepFieldsNames}
+                values={values}
               />
             );
           case 1:
@@ -50,6 +56,7 @@ const Form = ({ activePage }) => {
               <AOContragentsForm
                 activeForm={activeForm}
                 stepFieldsNames={stepFieldsNames}
+                values={values}
               />
             );
           //   case 2:
@@ -62,21 +69,25 @@ const Form = ({ activePage }) => {
     <>
       <FinalForm
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit}>
-            <FormWrapper>
-              <MainTitle>{mainTitle}</MainTitle>
-              <Stepper
-                steps={stepTitles}
-                activePage={activePage}
-                setActiveForm={setActiveForm}
-              />
-              <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
-              {renderActiveForm()}
-            </FormWrapper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
-          </form>
-        )}
+        render={({ handleSubmit, form, submitting, pristine, values }) => {
+          return (
+            <FormsValuesProvider>
+              <form onSubmit={handleSubmit}>
+                <FormWrapper>
+                  <MainTitle>{mainTitle}</MainTitle>
+                  <Stepper
+                    steps={stepTitles}
+                    activePage={activePage}
+                    setActiveForm={setActiveForm}
+                  />
+                  <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
+                  {renderActiveForm(values)}
+                </FormWrapper>
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
+              </form>
+            </FormsValuesProvider>
+          );
+        }}
       />
     </>
   );

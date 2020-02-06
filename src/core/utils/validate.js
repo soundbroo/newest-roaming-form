@@ -1,4 +1,4 @@
 export const required = value => (value ? undefined : "Обязательное поле");
 
-export const validateInn = value =>
-  value?.length < 10 ? "Тест Неверный ИНН" : undefined;
+export const validateInn = ({ value, isFullnameShown, setIsFullNameShown }) =>
+  value?.length === 12 ? console.log(value, isFullnameShown) : undefined;

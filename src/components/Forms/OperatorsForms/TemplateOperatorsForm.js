@@ -12,11 +12,12 @@ import { required } from "utils/validate";
 
 // Шаблон для страницы Операторам с полями ИНН, КПП, Название организации/ФИО, Идентификатор
 
-const TemplateOperatorsForm = ({ activeForm, stepFieldsNames }) => (
+const TemplateOperatorsForm = ({ activeForm, stepFieldsNames, values }) => (
   <FormFieldsWrapper>
     <TemplateDefaultForm
       activeForm={activeForm}
       stepFieldsNames={stepFieldsNames}
+      values={values}
     />
     <FormFieldsRow>
       <Field
