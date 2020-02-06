@@ -1,28 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { Paper, Tabs, Tab } from "@material-ui/core";
+import { Person, Business, SignalCellularAlt } from "@material-ui/icons";
+import styled from "styled-components";
 
-const Navigation = () => {
-  const [value, setValue] = useState(0);
-
+const Navigation = ({ activePage, setActivePage }) => {
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setActivePage(newValue);
   };
 
   return (
-    <Paper>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        <Tab label="Клиентам" />
-        <Tab label="Операторам" />
-        <Tab label="Состояние роуминга" />
-      </Tabs>
-    </Paper>
+    <NavigationWrapper>
+      <Paper>
+        <Tabs
+          value={activePage}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          centered
+        >
+          <Tab label="Клиентам" icon={<Person />} />
+          <Tab label="Операторам" icon={<Business />} />
+          <Tab label="Состояние роуминга" icon={<SignalCellularAlt />} />
+        </Tabs>
+      </Paper>
+    </NavigationWrapper>
   );
 };
 
 export default Navigation;
+
+const NavigationWrapper = styled.div`
+  margin-bottom: 32px;
+`;
