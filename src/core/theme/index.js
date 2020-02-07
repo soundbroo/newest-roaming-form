@@ -1,7 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 
-const muiTheme = createMuiTheme({
+export const muiTheme = createMuiTheme({
   palette: {
     primary: {
       light: purple[700],
@@ -31,4 +31,4 @@ const muiTheme = createMuiTheme({
   }
 });
 
-export default muiTheme;
+export const styledTheme = {};

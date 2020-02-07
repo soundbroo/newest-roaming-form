@@ -17,7 +17,8 @@ module.exports = {
       components: path.resolve(__dirname, "./src/components"),
       constants: path.resolve(__dirname, "./src/constants"),
       theme: path.resolve(__dirname, "./src/core/theme"),
-      utils: path.resolve(__dirname, "./src/core/utils")
+      utils: path.resolve(__dirname, "./src/core/utils"),
+      hooks: path.resolve(__dirname, "./src/core/hooks")
     }
   },
   optimization: {

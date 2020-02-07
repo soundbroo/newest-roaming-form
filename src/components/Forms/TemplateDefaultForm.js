@@ -28,8 +28,6 @@ const TemplateDefaultForm = ({ activeForm, stepFieldsNames }) => {
     }
   }, []);
 
-  console.log(values);
-
   return (
     <>
       <FormFieldsRow>

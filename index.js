@@ -3,13 +3,16 @@ import { render } from "react-dom";
 import purple from "@material-ui/core/colors/purple";
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import muiTheme from "theme";
+import { ThemeProvider } from "styled-components";
+import { muiTheme, styledTheme } from "theme";
 
 import App from "./src/App";
 
 render(
   <MuiThemeProvider theme={muiTheme}>
-    <App />
+    <ThemeProvider theme={styledTheme}>
+      <App />
+    </ThemeProvider>
   </MuiThemeProvider>,
   document.getElementById("root")
 );

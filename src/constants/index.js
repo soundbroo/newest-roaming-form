@@ -17,24 +17,24 @@ export const FORM_TITLES = {
       "Контрагенты в АО Калуга Астрал",
       "Проверка введенных данных"
     ],
-    stepFieldsNames: [
+    stepFieldsNames: formIndex => [
       {
-        inn: "senderInn",
-        kpp: "senderKpp",
-        name: "senderName",
-        id: "senderId",
-        lastname: "senderLastname",
-        firstname: "senderFirstname",
-        patronymic: "senderPatronymic"
+        inn: `sender${formIndex}Inn`,
+        kpp: `sender${formIndex}Kpp`,
+        name: `sender${formIndex}Name`,
+        id: `sender${formIndex}Id`,
+        lastname: `sender${formIndex}Lastname`,
+        firstname: `sender${formIndex}Firstname`,
+        patronymic: `sender${formIndex}Patronymic`
       },
       {
-        inn: "receiverInn",
-        kpp: "receiverKpp",
-        name: "receiverName",
-        id: "receiverId",
-        lastname: "receiverLastname",
-        firstname: "receiverFirstname",
-        patronymic: "receiverPatronymic"
+        inn: `receiver${formIndex}Inn`,
+        kpp: `receiver${formIndex}Kpp`,
+        name: `receiver${formIndex}Name`,
+        id: `receiver${formIndex}Id`,
+        lastname: `receiver${formIndex}Lastname`,
+        firstname: `receiver${formIndex}Firstname`,
+        patronymic: `receiver${formIndex}Patronymic`
       }
     ],
     typeDataTitle: "Введите данные вашего клиента"
