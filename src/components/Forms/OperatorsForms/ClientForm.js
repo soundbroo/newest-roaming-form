@@ -7,6 +7,21 @@ import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOpera
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
+const Component = ({ activeForm, stepFieldsNames, valuess }) => (
+  <>
+    <Field
+      name="request_id"
+      component={TextFieldAdapter}
+      label="Идентификатор заявки в системе роумингового оператора"
+    />
+    <TemplateOperatorsForm
+      activeForm={activeForm}
+      stepFieldsNames={stepFieldsNames(index)}
+      values={values}
+    />
+  </>
+);
+
 const ClientForm = ({ activeForm, stepFieldsNames, values }) => {
   const [numberOfForms, setNumberOfForms] = useState(0);
 

@@ -15,7 +15,11 @@ const useFormGenerator = (Component, activeForm, stepFieldsNames, values) => {
 
     return (
       <Fragment key={index}>
-        {Component(activeForm, indexedFieldsName, values)}
+        <Component
+          activeForm={activeForm}
+          stepFieldsNames={indexedFieldsName}
+          values={values}
+        />
       </Fragment>
     );
   };

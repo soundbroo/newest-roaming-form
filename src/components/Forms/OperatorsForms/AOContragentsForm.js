@@ -4,31 +4,24 @@ import { Button } from "@material-ui/core";
 
 import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOperatorsForm";
 import useFormGenerator from "hooks/useFormGenerator";
+import GeneratedForm from "components/Forms/GeneratedForm";
 // Шаблон для страницы Операторам - Данные контрагентов
 
-const Component = (activeForm, stepFieldsNames, values) => (
-  <TemplateOperatorsForm
-    activeForm={activeForm}
-    stepFieldsNames={stepFieldsNames}
-    values={values}
-  />
-);
-
 const AOContragentsForm = ({ activeForm, stepFieldsNames, values }) => {
-  const [formsArray, addForm] = useFormGenerator(
-    Component,
-    activeForm,
-    stepFieldsNames,
-    values
+  const component = ({ activeForm, stepFieldsNames, values }) => (
+    <TemplateOperatorsForm
+      activeForm={activeForm}
+      stepFieldsNames={stepFieldsNames}
+      values={values}
+    />
   );
-
   return (
-    <>
-      {formsArray.map(form => form)}
-      <Button variant="contained" color="primary" onClick={addForm}>
-        Добавить клиента
-      </Button>
-    </>
+    <GeneratedForm
+      component={component}
+      activeForm={activeForm}
+      stepFieldsNames={stepFieldsNames}
+      values={values}
+    />
   );
 };
 
