@@ -1,10 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
 import { MAX_NUMBER_OF_FORMS } from "constants";
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
-const useFormGenerator = (Component, activeForm, stepFieldsNames, values) => {
+const useFormGenerator = ({
+  component: Component,
+  activeForm,
+  stepFieldsNames
+}) => {
   // const [numberOfForms, setNumberOfForms] = useState(0);
 
   // console.log("activePage", activePage, "stepFieldsNames", stepFieldsNames);
@@ -18,7 +22,6 @@ const useFormGenerator = (Component, activeForm, stepFieldsNames, values) => {
           index={index}
           activeForm={activeForm}
           stepFieldsNames={indexedFieldsName}
-          values={values}
           deleteForm={deleteForm}
         />
       </Fragment>

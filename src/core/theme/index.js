@@ -27,6 +27,11 @@ export const muiTheme = createMuiTheme({
       root: {
         marginLeft: 10
       }
+    },
+    MuiExpansionPanel: {
+      root: {
+        width: "100%"
+      }
     }
   }
 });

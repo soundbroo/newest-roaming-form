@@ -11,6 +11,7 @@ import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
+import InputValidationForm from "components/Forms/InputValidationForm";
 import { FORM_TITLES } from "constants";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -22,7 +23,7 @@ const onSubmit = async values => {
 const Form = ({ activePage }) => {
   const [activeForm, setActiveForm] = useState(0);
 
-  const [values, setValues] = useContext(FormsValuesContext);
+  // const [values, setValues] = useContext(FormsValuesContext);
 
   const activeFormData = Object.values(FORM_TITLES).find(
     form => form.id === activePage
@@ -34,12 +35,11 @@ const Form = ({ activePage }) => {
 
   const formDefaultProps = {
     activeForm,
-    stepFieldsNames,
-    values
+    stepFieldsNames
   };
 
   const renderActiveForm = values => {
-    setValues(values);
+    // setValues(values);
 
     switch (activePage) {
       case 0:
@@ -60,8 +60,8 @@ const Form = ({ activePage }) => {
                 {...formDefaultProps}
               />
             );
-          // case 2:
-          //   return <CheckTypedData />;
+          case 2:
+            return <InputValidationForm values={values} />;
         }
       case 1:
         switch (activeForm) {
@@ -81,8 +81,8 @@ const Form = ({ activePage }) => {
                 {...formDefaultProps}
               />
             );
-          //   case 2:
-          //     return <CheckTypedData />;
+          case 2:
+            return <InputValidationForm values={values} />;
         }
     }
   };
@@ -93,21 +93,21 @@ const Form = ({ activePage }) => {
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => {
           return (
-            <FormsValuesProvider>
-              <form onSubmit={handleSubmit}>
-                <FormWrapper>
-                  <MainTitle>{mainTitle}</MainTitle>
-                  <Stepper
-                    steps={stepTitles}
-                    activePage={activePage}
-                    setActiveForm={setActiveForm}
-                  />
-                  <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
-                  {renderActiveForm(values)}
-                </FormWrapper>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </form>
-            </FormsValuesProvider>
+            // <FormsValuesProvider>
+            <form onSubmit={handleSubmit}>
+              <FormWrapper>
+                <MainTitle>{mainTitle}</MainTitle>
+                <Stepper
+                  steps={stepTitles}
+                  activePage={activePage}
+                  setActiveForm={setActiveForm}
+                />
+                <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
+                {renderActiveForm(values)}
+              </FormWrapper>
+              <pre>{JSON.stringify(values, 0, 2)}</pre>
+            </form>
+            // </FormsValuesProvider>
           );
         }}
       />

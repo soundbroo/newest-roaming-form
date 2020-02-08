@@ -9,22 +9,22 @@ export const FORM_TITLES = {
     ],
     stepFieldsNames: formIndex => [
       {
-        inn: `clientsSender${formIndex}Inn`,
-        kpp: `clientsSender${formIndex}Kpp`,
-        name: `clientsSender${formIndex}Name`,
-        id: `clientsSender${formIndex}Id`,
-        lastname: `clientsSender${formIndex}Lastname`,
-        firstname: `clientsSender${formIndex}Firstname`,
-        patronymic: `clientsSender${formIndex}Patronymic`
+        inn: `clients_sender_${formIndex}_inn`,
+        kpp: `clients_sender_${formIndex}_kpp`,
+        name: `clients_sender_${formIndex}_name`,
+        id: `clients_sender_${formIndex}_id`,
+        lastname: `clients_sender_${formIndex}_lastname`,
+        firstname: `clients_sender_${formIndex}_firstname`,
+        patronymic: `clients_sender_${formIndex}_patronymic`
       },
       {
-        inn: `clientsReceiver${formIndex}Inn`,
-        kpp: `clientsReceiver${formIndex}Kpp`,
-        name: `clientsReceiver${formIndex}Name`,
-        id: `clientsReceiver${formIndex}Id`,
-        lastname: `clientsReceiver${formIndex}Lastname`,
-        firstname: `clientsReceiver${formIndex}Firstname`,
-        patronymic: `clientsReceiver${formIndex}Patronymic`
+        inn: `clients_receiver_${formIndex}_inn`,
+        kpp: `clients_receiver_${formIndex}_kpp`,
+        name: `clients_receiver_${formIndex}_name`,
+        id: `clients_receiver_${formIndex}_id`,
+        lastname: `clients_receiver_${formIndex}_lastname`,
+        firstname: `clients_receiver_${formIndex}_firstname`,
+        patronymic: `clients_receiver_${formIndex}_patronymic`
       }
     ],
     typeDataTitle: "Введите данные вашей организации"
@@ -39,22 +39,22 @@ export const FORM_TITLES = {
     ],
     stepFieldsNames: formIndex => [
       {
-        inn: `operatorsSender${formIndex}Inn`,
-        kpp: `operatorsSender${formIndex}Kpp`,
-        name: `operatorsSender${formIndex}Name`,
-        id: `operatorsSender${formIndex}Id`,
-        lastname: `operatorsSender${formIndex}Lastname`,
-        firstname: `operatorsSender${formIndex}Firstname`,
-        patronymic: `operatorsSender${formIndex}Patronymic`
+        inn: `operators_sender_${formIndex}_inn`,
+        kpp: `operators_sender_${formIndex}_kpp`,
+        name: `operators_sender_${formIndex}_name`,
+        id: `operators_sender_${formIndex}_id`,
+        lastname: `operators_sender_${formIndex}_lastname`,
+        firstname: `operators_sender_${formIndex}_firstname`,
+        patronymic: `operators_sender_${formIndex}_patronymic`
       },
       {
-        inn: `operatorsReceiver${formIndex}Inn`,
-        kpp: `operatorsReceiver${formIndex}Kpp`,
-        name: `operatorsReceiver${formIndex}Name`,
-        id: `operatorsReceiver${formIndex}Id`,
-        lastname: `operatorsReceiver${formIndex}Lastname`,
-        firstname: `operatorsReceiver${formIndex}Firstname`,
-        patronymic: `operatorsReceiver${formIndex}Patronymic`
+        inn: `operators_receiver_${formIndex}_inn`,
+        kpp: `operators_receiver_${formIndex}_kpp`,
+        name: `operators_receiver_${formIndex}_name`,
+        id: `operators_receiver_${formIndex}_id`,
+        lastname: `operators_receiver_${formIndex}_lastname`,
+        firstname: `operators_receiver_${formIndex}_firstname`,
+        patronymic: `operators_receiver_${formIndex}_patronymic`
       }
     ],
     typeDataTitle: "Введите данные вашего клиента"
@@ -62,3 +62,8 @@ export const FORM_TITLES = {
 };
 
 export const MAX_NUMBER_OF_FORMS = 99;
+
+export const VALIDATION_FORM_TITLE = {
+  sender: "Ваши данные",
+  receiver: "Данные контрагентов"
+};

@@ -16,7 +16,6 @@ import { required } from "utils/validate";
 const TemplateOperatorsForm = ({
   activeForm,
   stepFieldsNames,
-  values,
   deleteForm,
   index
 }) => (
@@ -25,7 +24,6 @@ const TemplateOperatorsForm = ({
     <TemplateDefaultForm
       activeForm={activeForm}
       stepFieldsNames={stepFieldsNames}
-      values={values}
     />
     <FormFieldsRow>
       <Field

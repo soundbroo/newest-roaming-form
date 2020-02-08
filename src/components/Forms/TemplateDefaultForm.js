@@ -13,20 +13,20 @@ import { required, validateInn } from "utils/validate";
 const TemplateDefaultForm = ({ activeForm, stepFieldsNames }) => {
   const [isFullNameShown, setIsFullNameShown] = useState(false);
 
-  const [values, setValues] = useContext(FormsValuesContext);
+  // const [values, setValues] = useContext(FormsValuesContext);
 
-  useEffect(() => {
-    setValues({ test: "test" });
-    const innName = stepFieldsNames?.[activeForm]?.inn;
-    switch (values?.[innName]?.length) {
-      case 11:
-        return setIsFullNameShown(false);
-      case 12:
-        return setIsFullNameShown(true);
-      case 13:
-        return setIsFullNameShown(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   setValues({ test: "test" });
+  //   const innName = stepFieldsNames?.[activeForm]?.inn;
+  //   switch (values?.[innName]?.length) {
+  //     case 11:
+  //       return setIsFullNameShown(false);
+  //     case 12:
+  //       return setIsFullNameShown(true);
+  //     case 13:
+  //       return setIsFullNameShown(false);
+  //   }
+  // }, []);
 
   return (
     <>
