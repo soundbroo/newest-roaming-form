@@ -1,8 +1,6 @@
 import React from "react";
-import { Field } from "react-final-form";
 import { Button } from "@material-ui/core";
 
-import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOperatorsForm";
 import useFormGenerator from "hooks/useFormGenerator";
 // Шаблон для страницы Операторам - Данные контрагентов
 

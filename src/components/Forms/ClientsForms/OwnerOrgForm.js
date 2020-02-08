@@ -6,14 +6,10 @@ import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOpera
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
-const ClientForm = props => (
+const OwnerOrgForm = props => (
   <>
-    <Field
-      name="request_id"
-      component={TextFieldAdapter}
-      label="Идентификатор заявки в системе роумингового оператора"
-    />
     <TemplateOperatorsForm {...props} />
+    <Field name="email" component={TextFieldAdapter} label="E-mail" />
   </>
 );
-export default ClientForm;
+export default OwnerOrgForm;

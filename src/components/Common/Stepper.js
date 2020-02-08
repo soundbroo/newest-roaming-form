@@ -8,16 +8,16 @@ import Typography from "@material-ui/core/Typography";
 
 export default function HorizontalNonLinearStepper({
   steps,
-  setActiveForm,
-  error
+  activePage,
+  setActiveForm
 }) {
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [completed, setCompleted] = React.useState({});
+
   useEffect(() => {
     setActiveStep(0);
     setCompleted({});
-  }, [steps]);
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
+  }, [steps, activePage]);
 
   const isLastStep = () => {
     return activeStep === steps.length - 1;

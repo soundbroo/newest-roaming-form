@@ -1,36 +1,48 @@
 import React, { Fragment, useState } from "react";
-import { Field } from "react-final-form";
-import { Button } from "@material-ui/core";
 
-import TextFieldAdapter from "components/Common/TextFieldAdapter";
-import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOperatorsForm";
+import { MAX_NUMBER_OF_FORMS } from "constants";
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
 const useFormGenerator = (Component, activeForm, stepFieldsNames, values) => {
-  const [numberOfForms, setNumberOfForms] = useState(0);
+  // const [numberOfForms, setNumberOfForms] = useState(0);
+
+  // console.log("activePage", activePage, "stepFieldsNames", stepFieldsNames);
 
   const renderForm = index => {
     const indexedFieldsName = stepFieldsNames(index);
-
+    // console.log(indexedFieldsName);
     return (
       <Fragment key={index}>
         <Component
+          index={index}
           activeForm={activeForm}
           stepFieldsNames={indexedFieldsName}
           values={values}
+          deleteForm={deleteForm}
         />
       </Fragment>
     );
   };
 
-  const [formsArray, setFormsArray] = useState([renderForm(numberOfForms)]);
+  const [formsArray, setFormsArray] = useState([renderForm(0)]);
 
   const addForm = () => {
-    if (numberOfForms <= 5) {
-      const index = numberOfForms + 1;
-      setNumberOfForms(index);
-      setFormsArray([...formsArray, renderForm(index)]);
+    if (formsArray.length - 1 < MAX_NUMBER_OF_FORMS) {
+      // const index = numberOfForms + 1;
+      // setNumberOfForms(index);
+      setFormsArray([...formsArray, renderForm(formsArray.length)]);
+    }
+  };
+
+  const deleteForm = key => {
+    if (key > 0) {
+      // console.log(formsArray);
+      setFormsArray(() => {
+        formsArray.slice(key, 1);
+        return [...formsArray];
+      });
+      // console.log(formsArray);
     }
   };
 

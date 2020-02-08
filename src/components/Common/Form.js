@@ -1,10 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 import styled from "styled-components";
 import { Form as FinalForm } from "react-final-form";
 
 import { FormsValuesContext, FormsValuesProvider } from "utils/context";
 import Stepper from "components/Common/Stepper";
+
+import GeneratedForm from "components/Forms/GeneratedForm";
+import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
+import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import { FORM_TITLES } from "constants";
@@ -28,35 +32,53 @@ const Form = ({ activePage }) => {
   const stepTitles = activeFormData.stepTitles;
   const stepFieldsNames = activeFormData.stepFieldsNames;
 
+  const formDefaultProps = {
+    activeForm,
+    stepFieldsNames,
+    values
+  };
+
   const renderActiveForm = values => {
     setValues(values);
 
     switch (activePage) {
-      //   case 0:
-      //     switch (activeForm) {
-      //       case 0:
-      //         return <OwnerOrgForm />;
-      //       case 1:
-      //         return <ContragentsForm />;
-      //       case 2:
-      //         return <CheckTypedData />;
-      //     }
-      case 1:
+      case 0:
         switch (activeForm) {
           case 0:
             return (
-              <ClientForm
-                activeForm={activeForm}
-                stepFieldsNames={stepFieldsNames}
-                values={values}
+              <GeneratedForm
+                key={activeForm}
+                component={OwnerOrgForm}
+                {...formDefaultProps}
               />
             );
           case 1:
             return (
-              <AOContragentsForm
-                activeForm={activeForm}
-                stepFieldsNames={stepFieldsNames}
-                values={values}
+              <GeneratedForm
+                key={activeForm}
+                component={ContragentsForm}
+                {...formDefaultProps}
+              />
+            );
+          // case 2:
+          //   return <CheckTypedData />;
+        }
+      case 1:
+        switch (activeForm) {
+          case 0:
+            return (
+              <GeneratedForm
+                key={activeForm}
+                component={ClientForm}
+                {...formDefaultProps}
+              />
+            );
+          case 1:
+            return (
+              <GeneratedForm
+                key={activeForm}
+                component={AOContragentsForm}
+                {...formDefaultProps}
               />
             );
           //   case 2:
