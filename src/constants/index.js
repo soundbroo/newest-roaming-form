@@ -64,6 +64,19 @@ export const FORM_TITLES = {
 export const MAX_NUMBER_OF_FORMS = 99;
 
 export const VALIDATION_FORM_TITLE = {
+  noDataToSend: "Нет данных для отправки",
+  noDataDescription: `Отстутствуют или недостаточно данных для отправки на сервер.
+  Проверьте введенные данные на шагах:`,
   sender: "Ваши данные",
   receiver: "Данные контрагентов"
+};
+
+export const TITLES_FOR_KEYS = {
+  inn: "ИНН",
+  kpp: "КПП",
+  name: "Название организации",
+  id: "Идентификатор",
+  lastname: "Фамилия",
+  firstname: "Имя",
+  patronymic: "Отчество"
 };

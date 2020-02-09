@@ -9,9 +9,11 @@ import Typography from "@material-ui/core/Typography";
 export default function HorizontalNonLinearStepper({
   steps,
   activePage,
-  setActiveForm
+  setActiveForm,
+  activeStep,
+  setActiveStep
 }) {
-  const [activeStep, setActiveStep] = React.useState(0);
+  // const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
 
   useEffect(() => {

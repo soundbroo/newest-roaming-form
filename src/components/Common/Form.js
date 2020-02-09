@@ -3,9 +3,11 @@ import { Paper } from "@material-ui/core";
 import styled from "styled-components";
 import { Form as FinalForm } from "react-final-form";
 
-import { FormsValuesContext, FormsValuesProvider } from "utils/context";
-import Stepper from "components/Common/Stepper";
+// import { FormsValuesContext, FormsValuesProvider } from "utils/context";
 
+import useStepChanger from "hooks/useStepChanger";
+
+import Stepper from "components/Common/Stepper";
 import GeneratedForm from "components/Forms/GeneratedForm";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
@@ -22,6 +24,7 @@ const onSubmit = async values => {
 
 const Form = ({ activePage }) => {
   const [activeForm, setActiveForm] = useState(0);
+  const [activeStep, setActiveStep] = useStepChanger(0);
 
   // const [values, setValues] = useContext(FormsValuesContext);
 
@@ -29,13 +32,18 @@ const Form = ({ activePage }) => {
     form => form.id === activePage
   );
   const mainTitle = activeFormData.mainTitle;
-  const typeDataTitle = activeFormData.typeDataTitle;
+  const typeDataTitle = activeFormData.stepTitles[activeStep];
   const stepTitles = activeFormData.stepTitles;
   const stepFieldsNames = activeFormData.stepFieldsNames;
 
   const formDefaultProps = {
     activeForm,
     stepFieldsNames
+  };
+
+  const activeFormProps = {
+    setActiveStep,
+    setActiveForm
   };
 
   const renderActiveForm = values => {
@@ -61,7 +69,12 @@ const Form = ({ activePage }) => {
               />
             );
           case 2:
-            return <InputValidationForm values={values} />;
+            return (
+              <InputValidationForm
+                values={values}
+                buttonProps={activeFormProps}
+              />
+            );
         }
       case 1:
         switch (activeForm) {
@@ -82,7 +95,12 @@ const Form = ({ activePage }) => {
               />
             );
           case 2:
-            return <InputValidationForm values={values} />;
+            return (
+              <InputValidationForm
+                values={values}
+                buttonProps={activeFormProps}
+              />
+            );
         }
     }
   };
@@ -101,6 +119,8 @@ const Form = ({ activePage }) => {
                   steps={stepTitles}
                   activePage={activePage}
                   setActiveForm={setActiveForm}
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
                 />
                 <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
                 {renderActiveForm(values)}
