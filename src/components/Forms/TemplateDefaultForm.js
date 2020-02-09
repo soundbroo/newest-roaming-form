@@ -10,7 +10,7 @@ import { required, validateInn } from "utils/validate";
 
 // Дефолтный шаблон с полями ИНН, КПП, Название организации/ФИО
 
-const TemplateDefaultForm = ({ activeForm, stepFieldsNames }) => {
+const TemplateDefaultForm = ({ children, activeForm, stepFieldsNames }) => {
   const [isFullNameShown, setIsFullNameShown] = useState(false);
 
   // const [values, setValues] = useContext(FormsValuesContext);
@@ -75,6 +75,7 @@ const TemplateDefaultForm = ({ activeForm, stepFieldsNames }) => {
           </>
         )}
       </FormFieldsRow>
+      {children}
     </>
   );
 };

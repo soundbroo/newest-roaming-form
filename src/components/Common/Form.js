@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 import styled from "styled-components";
 import { Form as FinalForm } from "react-final-form";
+import arrayMutators from "final-form-arrays";
 
 // import { FormsValuesContext, FormsValuesProvider } from "utils/context";
 
@@ -25,6 +26,10 @@ const onSubmit = async values => {
 const Form = ({ activePage }) => {
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
+
+  useEffect(() => {
+    setActiveForm(0);
+  }, [activePage]);
 
   // const [values, setValues] = useContext(FormsValuesContext);
 
@@ -55,7 +60,7 @@ const Form = ({ activePage }) => {
           case 0:
             return (
               <GeneratedForm
-                key={activeForm}
+                key={0}
                 component={OwnerOrgForm}
                 {...formDefaultProps}
               />
@@ -63,7 +68,7 @@ const Form = ({ activePage }) => {
           case 1:
             return (
               <GeneratedForm
-                key={activeForm}
+                key={1}
                 component={ContragentsForm}
                 {...formDefaultProps}
               />
@@ -71,6 +76,7 @@ const Form = ({ activePage }) => {
           case 2:
             return (
               <InputValidationForm
+                key={3}
                 values={values}
                 buttonProps={activeFormProps}
               />
@@ -81,7 +87,7 @@ const Form = ({ activePage }) => {
           case 0:
             return (
               <GeneratedForm
-                key={activeForm}
+                key={4}
                 component={ClientForm}
                 {...formDefaultProps}
               />
@@ -89,7 +95,7 @@ const Form = ({ activePage }) => {
           case 1:
             return (
               <GeneratedForm
-                key={activeForm}
+                key={5}
                 component={AOContragentsForm}
                 {...formDefaultProps}
               />
@@ -97,6 +103,7 @@ const Form = ({ activePage }) => {
           case 2:
             return (
               <InputValidationForm
+                key={6}
                 values={values}
                 buttonProps={activeFormProps}
               />
@@ -109,7 +116,17 @@ const Form = ({ activePage }) => {
     <>
       <FinalForm
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine, values }) => {
+        mutators={{ ...arrayMutators }}
+        render={({
+          form: {
+            mutators: { push, pop }
+          },
+          handleSubmit,
+          form,
+          submitting,
+          pristine,
+          values
+        }) => {
           return (
             // <FormsValuesProvider>
             <form onSubmit={handleSubmit}>

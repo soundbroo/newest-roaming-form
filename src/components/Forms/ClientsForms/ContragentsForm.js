@@ -1,8 +1,13 @@
 import React from "react";
+import { FormFieldsRow } from "components/Common/styled";
 
-import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOperatorsForm";
+import TemplateDefaultForm from "components/Forms/TemplateDefaultForm";
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
-const ContragentsForm = props => <TemplateOperatorsForm {...props} />;
+const ContragentsForm = props => (
+  <TemplateDefaultForm {...props}>
+    <FormFieldsRow></FormFieldsRow>
+  </TemplateDefaultForm>
+);
 export default ContragentsForm;

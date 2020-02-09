@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { FieldArray } from "react-final-form-arrays";
 
 import { MAX_NUMBER_OF_FORMS } from "constants";
 
@@ -17,6 +18,9 @@ const useFormGenerator = ({
     const indexedFieldsName = stepFieldsNames(index);
     // console.log(indexedFieldsName);
     return (
+      // <FieldArray name="data">
+      //   {({ fields }) =>
+      //     fields.map((name, index) => (
       <Fragment key={index}>
         <Component
           index={index}
@@ -25,6 +29,9 @@ const useFormGenerator = ({
           deleteForm={deleteForm}
         />
       </Fragment>
+      //     ))
+      //   }
+      // </FieldArray>
     );
   };
 

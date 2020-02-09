@@ -8,12 +8,13 @@ import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOpera
 
 const ClientForm = props => (
   <>
-    <Field
-      name="request_id"
-      component={TextFieldAdapter}
-      label="Идентификатор заявки в системе роумингового оператора"
-    />
-    <TemplateOperatorsForm {...props} />
+    <TemplateOperatorsForm {...props}>
+      <Field
+        name="request_id"
+        component={TextFieldAdapter}
+        label="Идентификатор заявки в системе роумингового оператора"
+      />
+    </TemplateOperatorsForm>
   </>
 );
 export default ClientForm;
