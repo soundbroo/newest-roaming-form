@@ -2,19 +2,17 @@ import React, { useState, useContext, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 import styled from "styled-components";
 import { Form as FinalForm } from "react-final-form";
+import { FieldArray } from "react-final-form-arrays";
 import arrayMutators from "final-form-arrays";
 
-// import { FormsValuesContext, FormsValuesProvider } from "utils/context";
+import ClientsPage from "pages/ClientsPage";
+import OperatorsPage from "pages/OperatorsPage";
 
 import useStepChanger from "hooks/useStepChanger";
 
 import Stepper from "components/Common/Stepper";
 import GeneratedForm from "components/Forms/GeneratedForm";
-import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
-import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
-import ClientForm from "components/Forms/OperatorsForms/ClientForm";
-import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
-import InputValidationForm from "components/Forms/InputValidationForm";
+
 import { FORM_TITLES } from "constants";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -31,8 +29,6 @@ const Form = ({ activePage }) => {
     setActiveForm(0);
   }, [activePage]);
 
-  // const [values, setValues] = useContext(FormsValuesContext);
-
   const activeFormData = Object.values(FORM_TITLES).find(
     form => form.id === activePage
   );
@@ -41,74 +37,31 @@ const Form = ({ activePage }) => {
   const stepTitles = activeFormData.stepTitles;
   const stepFieldsNames = activeFormData.stepFieldsNames;
 
-  const formDefaultProps = {
+  const pageProps = {
     activeForm,
-    stepFieldsNames
+    activeFormProps: {
+      setActiveStep,
+      setActiveForm
+    }
   };
 
-  const activeFormProps = {
-    setActiveStep,
-    setActiveForm
-  };
-
-  const renderActiveForm = values => {
-    // setValues(values);
+  const renderActiveForm = ({ values, form, handleSubmit, push, pop }) => {
+    const formProps = { push, pop };
 
     switch (activePage) {
       case 0:
-        switch (activeForm) {
-          case 0:
-            return (
-              <GeneratedForm
-                key={0}
-                component={OwnerOrgForm}
-                {...formDefaultProps}
-              />
-            );
-          case 1:
-            return (
-              <GeneratedForm
-                key={1}
-                component={ContragentsForm}
-                {...formDefaultProps}
-              />
-            );
-          case 2:
-            return (
-              <InputValidationForm
-                key={3}
-                values={values}
-                buttonProps={activeFormProps}
-              />
-            );
-        }
+        return (
+          <form onSubmit={handleSubmit}>
+            <ClientsPage {...pageProps} {...formProps} values={values} />
+          </form>
+        );
       case 1:
-        switch (activeForm) {
-          case 0:
-            return (
-              <GeneratedForm
-                key={4}
-                component={ClientForm}
-                {...formDefaultProps}
-              />
-            );
-          case 1:
-            return (
-              <GeneratedForm
-                key={5}
-                component={AOContragentsForm}
-                {...formDefaultProps}
-              />
-            );
-          case 2:
-            return (
-              <InputValidationForm
-                key={6}
-                values={values}
-                buttonProps={activeFormProps}
-              />
-            );
-        }
+        return (
+          <form onSubmit={handleSubmit}>
+            <OperatorsPage {...pageProps} {...formProps} values={values} />
+          </form>
+        );
+      // case 2: ...
     }
   };
 
@@ -119,7 +72,8 @@ const Form = ({ activePage }) => {
         mutators={{ ...arrayMutators }}
         render={({
           form: {
-            mutators: { push, pop }
+            mutators: { push, pop },
+            reset
           },
           handleSubmit,
           form,
@@ -127,9 +81,12 @@ const Form = ({ activePage }) => {
           pristine,
           values
         }) => {
+          useEffect(() => {
+            reset();
+          }, [activePage]);
+
           return (
-            // <FormsValuesProvider>
-            <form onSubmit={handleSubmit}>
+            <>
               <FormWrapper>
                 <MainTitle>{mainTitle}</MainTitle>
                 <Stepper
@@ -140,11 +97,26 @@ const Form = ({ activePage }) => {
                   setActiveStep={setActiveStep}
                 />
                 <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
-                {renderActiveForm(values)}
+                {renderActiveForm({
+                  values,
+                  form,
+                  handleSubmit,
+                  reset,
+                  push,
+                  pop
+                })}
               </FormWrapper>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
-            </form>
-            // </FormsValuesProvider>
+              <b
+                style={{
+                  position: "fixed",
+                  right: 200,
+                  right: 10,
+                  fontSize: 14
+                }}
+              >
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
+              </b>
+            </>
           );
         }}
       />
@@ -161,6 +133,10 @@ const FormWrapper = styled(Paper)`
   align-items: center;
   max-width: 600px;
   padding: 15px;
+
+  form {
+    width: 100%;
+  }
 `;
 
 const MainTitle = styled.div``;

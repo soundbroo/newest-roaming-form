@@ -7,26 +7,6 @@ export const FORM_TITLES = {
       "Данные контрагентов",
       "Проверка введенных данных"
     ],
-    stepFieldsNames: formIndex => [
-      {
-        inn: `clients_sender_${formIndex}_inn`,
-        kpp: `clients_sender_${formIndex}_kpp`,
-        name: `clients_sender_${formIndex}_name`,
-        id: `clients_sender_${formIndex}_id`,
-        lastname: `clients_sender_${formIndex}_lastname`,
-        firstname: `clients_sender_${formIndex}_firstname`,
-        patronymic: `clients_sender_${formIndex}_patronymic`
-      },
-      {
-        inn: `clients_receiver_${formIndex}_inn`,
-        kpp: `clients_receiver_${formIndex}_kpp`,
-        name: `clients_receiver_${formIndex}_name`,
-        id: `clients_receiver_${formIndex}_id`,
-        lastname: `clients_receiver_${formIndex}_lastname`,
-        firstname: `clients_receiver_${formIndex}_firstname`,
-        patronymic: `clients_receiver_${formIndex}_patronymic`
-      }
-    ],
     typeDataTitle: "Введите данные вашей организации"
   },
   operators: {
@@ -37,27 +17,46 @@ export const FORM_TITLES = {
       "Контрагенты в АО Калуга Астрал",
       "Проверка введенных данных"
     ],
-    stepFieldsNames: formIndex => [
-      {
-        inn: `operators_sender_${formIndex}_inn`,
-        kpp: `operators_sender_${formIndex}_kpp`,
-        name: `operators_sender_${formIndex}_name`,
-        id: `operators_sender_${formIndex}_id`,
-        lastname: `operators_sender_${formIndex}_lastname`,
-        firstname: `operators_sender_${formIndex}_firstname`,
-        patronymic: `operators_sender_${formIndex}_patronymic`
-      },
-      {
-        inn: `operators_receiver_${formIndex}_inn`,
-        kpp: `operators_receiver_${formIndex}_kpp`,
-        name: `operators_receiver_${formIndex}_name`,
-        id: `operators_receiver_${formIndex}_id`,
-        lastname: `operators_receiver_${formIndex}_lastname`,
-        firstname: `operators_receiver_${formIndex}_firstname`,
-        patronymic: `operators_receiver_${formIndex}_patronymic`
-      }
-    ],
     typeDataTitle: "Введите данные вашего клиента"
+  }
+};
+
+export const FIELDS_NAMES = {
+  inn: {
+    type: "inn",
+    label: "ИНН"
+  },
+  kpp: {
+    type: "kpp",
+    label: "КПП"
+  },
+  name: {
+    type: "name",
+    label: "Название организации"
+  },
+  id: {
+    type: "id",
+    label: "Идентификатор"
+  },
+  lastname: {
+    type: "lastname",
+    label: "Фамилия"
+  },
+  firstname: {
+    type: "firstname",
+    label: "Имя"
+  },
+  patronymic: {
+    type: "patronymic",
+    label: "Отчество"
+  },
+  operator: {
+    type: "operator",
+    label: "Выберете оператора"
+  },
+  request_id: {
+    type: "request_id",
+    label: "Идентификатор заявки в системе роумингового оператора"
   }
 };
 
@@ -80,3 +79,34 @@ export const TITLES_FOR_KEYS = {
   firstname: "Имя",
   patronymic: "Отчество"
 };
+
+export const OPERATORS = [
+  {
+    value: "2JD",
+    label: "АО НИИАС – 2JD"
+  },
+  {
+    value: "2BN",
+    label: "Линк-Сервис – 2BN"
+  },
+  {
+    value: "2BM",
+    label: "СКБ Контур.Диадок – 2BM"
+  },
+  {
+    value: "2AL",
+    label: "Такском – 2AL"
+  },
+  {
+    value: "2AK",
+    label: "ТаксНет – 2AK"
+  },
+  {
+    value: "2BE",
+    label: "Тензор СБиС – 2BE"
+  },
+  {
+    value: "2IG",
+    label: "Synerdocs – 2IG"
+  }
+];

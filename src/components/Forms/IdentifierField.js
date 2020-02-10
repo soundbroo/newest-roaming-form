@@ -4,9 +4,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { required } from "utils/validate";
 
+import { FIELDS_NAMES } from "constants";
+
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 
-const IdentifierField = ({ stepFieldsNames, activeForm, inputAdornment }) => {
+const IdentifierField = ({ inputAdornment, name }) => {
   const adornmentProps = {
     startAdornment: (
       <InputAdornment position="start">{inputAdornment}</InputAdornment>
@@ -15,10 +17,10 @@ const IdentifierField = ({ stepFieldsNames, activeForm, inputAdornment }) => {
 
   return (
     <Field
-      name={stepFieldsNames[activeForm].id}
+      name={`${name}.${FIELDS_NAMES.id.type}`}
       component={TextFieldAdapter}
       validate={required}
-      label="Идентификатор"
+      label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}
     />
   );

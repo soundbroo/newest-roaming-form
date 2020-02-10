@@ -4,15 +4,17 @@ import { Field } from "react-final-form";
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 import TemplateOperatorsForm from "components/Forms/OperatorsForms/TemplateOperatorsForm";
 
-// Шаблон для страницы Операторам - Данные вашего клиента
+import { FIELDS_NAMES } from "constants";
 
+// Шаблон для страницы Операторам - Данные вашего клиента
+// Тут баг, дважды рендерится поле, возможно что-то с ключами
 const ClientForm = props => (
   <>
     <TemplateOperatorsForm {...props}>
       <Field
-        name="request_id"
+        name={`${props.name}.${FIELDS_NAMES.request_id.type}`}
         component={TextFieldAdapter}
-        label="Идентификатор заявки в системе роумингового оператора"
+        label={FIELDS_NAMES.request_id.label}
       />
     </TemplateOperatorsForm>
   </>

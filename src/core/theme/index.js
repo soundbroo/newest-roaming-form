@@ -16,7 +16,7 @@ export const muiTheme = createMuiTheme({
     }
   },
   overrides: {
-    MuiTextField: {
+    MuiFormControl: {
       root: {
         width: "100%",
         paddingLeft: 10,

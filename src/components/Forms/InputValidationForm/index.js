@@ -18,11 +18,13 @@ const InputValidationForm = ({ values, buttonProps }) => {
     }
   };
 
+  // Костыль для тестирования одного экземпляра формы, переписать
+
   for (let key in values) {
     const fieldData = values[key];
-    const [_, agent, number, field] = key.split("_");
-    data[agent][number] === undefined ? (data[agent][number] = {}) : false;
-    data[agent][number] = { ...data[agent][number], [field]: fieldData };
+    const [_, agent, field] = key.split("_");
+    data[agent].length === 0 ? data[agent].push({}) : false;
+    data[agent][0] = { ...data[agent][0], [field]: fieldData };
   }
 
   const renderError = () => {

@@ -1,77 +1,34 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Form, Field } from "react-final-form";
-import styled from "styled-components";
+import { Field } from "react-final-form";
 
-import { FormsValuesContext } from "utils/context";
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 import { FormFieldsRow } from "components/Common/styled";
 
+import InputField from "components/Forms/InputField";
+
 import { required, validateInn } from "utils/validate";
+
+import { FIELDS_NAMES } from "constants";
 
 // Дефолтный шаблон с полями ИНН, КПП, Название организации/ФИО
 
-const TemplateDefaultForm = ({ children, activeForm, stepFieldsNames }) => {
+const TemplateDefaultForm = ({ children, name }) => {
   const [isFullNameShown, setIsFullNameShown] = useState(false);
-
-  // const [values, setValues] = useContext(FormsValuesContext);
-
-  // useEffect(() => {
-  //   setValues({ test: "test" });
-  //   const innName = stepFieldsNames?.[activeForm]?.inn;
-  //   switch (values?.[innName]?.length) {
-  //     case 11:
-  //       return setIsFullNameShown(false);
-  //     case 12:
-  //       return setIsFullNameShown(true);
-  //     case 13:
-  //       return setIsFullNameShown(false);
-  //   }
-  // }, []);
 
   return (
     <>
       <FormFieldsRow>
-        <Field
-          name={stepFieldsNames[activeForm].inn}
-          component={TextFieldAdapter}
-          validate={required}
-          label="ИНН*"
-        />
-        <Field
-          name={stepFieldsNames[activeForm].kpp}
-          component={TextFieldAdapter}
-          validate={required}
-          label="КПП"
-        />
+        <InputField name={name} fieldType="inn" />
+        <InputField name={name} fieldType="kpp" />
       </FormFieldsRow>
       <FormFieldsRow>
         {!isFullNameShown ? (
-          <Field
-            name={stepFieldsNames[activeForm].name}
-            component={TextFieldAdapter}
-            validate={required}
-            label="Название организации"
-          />
+          <InputField name={name} fieldType="name" />
         ) : (
           <>
-            <Field
-              name={stepFieldsNames[activeForm].lastname}
-              component={TextFieldAdapter}
-              validate={required}
-              label="Фамилия*"
-            />
-            <Field
-              name={stepFieldsNames[activeForm].firstname}
-              component={TextFieldAdapter}
-              validate={required}
-              label="Имя*"
-            />
-            <Field
-              name={stepFieldsNames[activeForm].patronymic}
-              component={TextFieldAdapter}
-              validate={required}
-              label="Отчество"
-            />
+            <InputField name={name} fieldType="lastname" />
+            <InputField name={name} fieldType="firstname" />
+            <InputField name={name} fieldType="patronymic" />
           </>
         )}
       </FormFieldsRow>

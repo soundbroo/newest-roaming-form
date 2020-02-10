@@ -9,26 +9,13 @@ import { FormFieldsRow } from "components/Common/styled";
 
 // Шаблон для страницы Операторам с полями ИНН, КПП, Название организации/ФИО, Идентификатор
 
-const TemplateOperatorsForm = ({
-  children,
-  activeForm,
-  stepFieldsNames,
-  deleteForm,
-  index
-}) => (
-  <FormFieldsWrapper deleteForm={() => deleteForm(index)}>
-    <div>{index}</div>
-    <FormFieldsRow>{children}</FormFieldsRow>
-    <TemplateDefaultForm
-      activeForm={activeForm}
-      stepFieldsNames={stepFieldsNames}
-    />
+const TemplateOperatorsForm = props => (
+  <>
+    <FormFieldsRow>{props.children}</FormFieldsRow>
+    <TemplateDefaultForm {...props} />
     <FormFieldsRow>
-      <IdentifierField
-        activeForm={activeForm}
-        stepFieldsNames={stepFieldsNames}
-      />
+      <IdentifierField name={props.name} inputAdornment="EXMPL" />
     </FormFieldsRow>
-  </FormFieldsWrapper>
+  </>
 );
 export default TemplateOperatorsForm;

@@ -15,7 +15,7 @@ const useFormGenerator = ({
   // console.log("activePage", activePage, "stepFieldsNames", stepFieldsNames);
 
   const renderForm = index => {
-    const indexedFieldsName = stepFieldsNames(index);
+    // const indexedFieldsName = stepFieldsNames(index);
     // console.log(indexedFieldsName);
     return (
       // <FieldArray name="data">
@@ -25,7 +25,7 @@ const useFormGenerator = ({
         <Component
           index={index}
           activeForm={activeForm}
-          stepFieldsNames={indexedFieldsName}
+          stepFieldsNames={stepFieldsNames}
           deleteForm={deleteForm}
         />
       </Fragment>
