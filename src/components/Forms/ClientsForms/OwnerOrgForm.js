@@ -8,16 +8,19 @@ import { FormFieldsRow } from "components/Common/styled";
 // Шаблон для страницы Операторам - Данные вашего клиента
 
 const OwnerOrgForm = props => {
-  const { activeForm, stepFieldsNames, name } = props;
-
+  const { name, isValidInn } = props;
   return (
     <>
       <TemplateDefaultForm {...props}>
         <FormFieldsRow>
-          <IdentifierField inputAdornment="EXAMPLE" name={name} />
+          <IdentifierField
+            disabled={!isValidInn}
+            inputAdornment="EXAMPLE"
+            name={name}
+          />
         </FormFieldsRow>
         <FormFieldsRow>
-          <EmailField name={name} />
+          <EmailField disabled={!isValidInn} name={name} />
         </FormFieldsRow>
       </TemplateDefaultForm>
     </>

@@ -9,7 +9,7 @@ import TemplateDefaultForm from "components/Forms/TemplateDefaultForm";
 const ContragentsForm = props => (
   <TemplateDefaultForm {...props}>
     <FormFieldsRow>
-      <OperatorsSelectField name={props.name} />
+      <OperatorsSelectField disabled={!props.isValidInn} name={props.name} />
     </FormFieldsRow>
   </TemplateDefaultForm>
 );

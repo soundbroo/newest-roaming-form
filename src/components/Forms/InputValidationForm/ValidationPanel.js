@@ -15,7 +15,7 @@ import { TITLES_FOR_KEYS } from "constants";
 const ValidationPanel = ({ agent }) => (
   <ExpansionPanel>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-      <ExpansionPanelItem>{agent.inn}</ExpansionPanelItem>
+      <ExpansionPanelItem>{agent?.inn}</ExpansionPanelItem>
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
       <ExpansionPanelContent>

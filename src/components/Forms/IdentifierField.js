@@ -8,7 +8,7 @@ import { FIELDS_NAMES } from "constants";
 
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 
-const IdentifierField = ({ inputAdornment, name }) => {
+const IdentifierField = ({ inputAdornment, name, ...rest }) => {
   const adornmentProps = {
     startAdornment: (
       <InputAdornment position="start">{inputAdornment}</InputAdornment>
@@ -22,6 +22,7 @@ const IdentifierField = ({ inputAdornment, name }) => {
       validate={required}
       label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}
+      {...rest}
     />
   );
 };

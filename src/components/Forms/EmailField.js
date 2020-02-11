@@ -8,8 +8,13 @@ import { FIELDS_NAMES } from "constants";
 
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 
-const EmailField = ({ name }) => (
-  <Field name={`${name}.email`} component={TextFieldAdapter} label="E-mail" />
+const EmailField = ({ name, ...rest }) => (
+  <Field
+    name={`${name}.email`}
+    component={TextFieldAdapter}
+    label="E-mail"
+    {...rest}
+  />
 );
 
 export default EmailField;

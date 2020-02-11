@@ -7,12 +7,13 @@ import { FIELDS_NAMES } from "constants";
 
 import { required } from "utils/validate";
 
-const InputField = ({ name, fieldType }) => (
+const InputField = ({ name, fieldType, ...rest }) => (
   <Field
     name={`${name}.${FIELDS_NAMES[fieldType].type}`}
     component={TextFieldAdapter}
     validate={required}
     label={FIELDS_NAMES[fieldType].label}
+    {...rest}
   />
 );
 

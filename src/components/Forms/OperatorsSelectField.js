@@ -5,7 +5,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { OPERATORS, FIELDS_NAMES } from "constants";
 
 const OperatorsSelectFieldAdapter = ({ input, meta, ...rest }) => (
-  <FormControl>
+  <FormControl {...rest}>
     <InputLabel>{FIELDS_NAMES.operator.label}</InputLabel>
     <Select {...input} onChange={value => input.onChange(value)}>
       {OPERATORS.map((operator, index) => (
@@ -17,10 +17,11 @@ const OperatorsSelectFieldAdapter = ({ input, meta, ...rest }) => (
   </FormControl>
 );
 
-const OperatorsSelectField = ({ name }) => (
+const OperatorsSelectField = ({ name, ...rest }) => (
   <Field
     name={`${name}.${FIELDS_NAMES.operator.type}`}
     component={OperatorsSelectFieldAdapter}
+    {...rest}
   />
 );
 

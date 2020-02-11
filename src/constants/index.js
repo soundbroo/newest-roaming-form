@@ -57,10 +57,16 @@ export const FIELDS_NAMES = {
   request_id: {
     type: "request_id",
     label: "Идентификатор заявки в системе роумингового оператора"
+  },
+  email: {
+    type: "email",
+    label: "Email"
   }
 };
 
 export const MAX_NUMBER_OF_FORMS = 99;
+
+export const INN_LENGTH = [10, 12];
 
 export const VALIDATION_FORM_TITLE = {
   noDataToSend: "Нет данных для отправки",
@@ -77,7 +83,9 @@ export const TITLES_FOR_KEYS = {
   id: "Идентификатор",
   lastname: "Фамилия",
   firstname: "Имя",
-  patronymic: "Отчество"
+  patronymic: "Отчество",
+  request_id: "Идентификатор заявки в системе роумингового оператора",
+  email: "Email"
 };
 
 export const OPERATORS = [

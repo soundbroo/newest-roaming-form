@@ -10,13 +10,17 @@ import { FIELDS_NAMES } from "constants";
 // Тут баг, дважды рендерится поле, возможно что-то с ключами
 const ClientForm = props => (
   <>
-    <TemplateOperatorsForm {...props}>
-      <Field
-        name={`${props.name}.${FIELDS_NAMES.request_id.type}`}
-        component={TextFieldAdapter}
-        label={FIELDS_NAMES.request_id.label}
-      />
-    </TemplateOperatorsForm>
+    <TemplateOperatorsForm
+      {...props}
+      inputField={
+        <Field
+          name={`${props.name}.${FIELDS_NAMES.request_id.type}`}
+          component={TextFieldAdapter}
+          label={FIELDS_NAMES.request_id.label}
+          disabled={!props.isValidInn}
+        />
+      }
+    />
   </>
 );
 export default ClientForm;

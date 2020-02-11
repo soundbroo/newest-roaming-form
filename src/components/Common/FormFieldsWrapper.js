@@ -3,11 +3,13 @@ import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import styled from "styled-components";
 
-const FormFieldsWrapper = ({ children, deleteForm }) => (
+const FormFieldsWrapper = ({ children, index, remove }) => (
   <StyledFormFieldsWrapper>
-    <DeleteButton onClick={deleteForm}>
-      <DeleteIcon color="disabled" />
-    </DeleteButton>
+    {index !== 0 && (
+      <DeleteButton onClick={remove}>
+        <DeleteIcon color="disabled" />
+      </DeleteButton>
+    )}
     {children}
   </StyledFormFieldsWrapper>
 );
@@ -19,7 +21,7 @@ export const StyledFormFieldsWrapper = styled(Paper)`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 9px 0;
+  margin: 32px 0 9px 0;
   padding: 9px 0;
 `;
 
