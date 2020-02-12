@@ -37,7 +37,7 @@ const Page = ({
         <>
           <TypeDataTitle>
             {typeDataTitle}
-            <OpenModalButton name="sender_list" />
+            {activePage === 1 && <OpenModalButton name="sender_list" />}
           </TypeDataTitle>
           <FieldArray key="sender" name="sender">
             {({ fields }) =>

@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
-
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+
+import { sendData } from "api";
 
 export default function HorizontalNonLinearStepper({
   steps,
@@ -45,6 +45,7 @@ export default function HorizontalNonLinearStepper({
   // };
 
   const handleNext = () => {
+    if (activeStep === 2) return sendData(values);
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);

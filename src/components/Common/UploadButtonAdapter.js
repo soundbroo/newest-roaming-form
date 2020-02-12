@@ -3,13 +3,6 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
-const setFormData = file => {
-  const formData = new FormData();
-  formData.append("agent_list", file);
-  console.log("FORM_DATA ", formData, "FILE ", file);
-  return formData;
-};
-
 const UploadButtonAdapter = ({
   name,
   title,
@@ -23,7 +16,7 @@ const UploadButtonAdapter = ({
       accept="*"
       id="upload-button"
       type="file"
-      onChange={e => onChange(setFormData(e.target.files[0]))}
+      onChange={e => onChange(e.target.files[0])}
     />
     <label htmlFor="upload-button">
       <Button

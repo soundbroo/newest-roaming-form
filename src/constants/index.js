@@ -93,7 +93,8 @@ export const TITLES_FOR_KEYS = {
   firstname: "Имя",
   patronymic: "Отчество",
   request_id: "Идентификатор заявки в системе роумингового оператора",
-  email: "Email"
+  email: "Email",
+  operator: "Оператор"
 };
 
 export const OPERATORS = [
