@@ -1,9 +1,11 @@
 import React from "react";
+import styled from "styled-components";
 import { FieldArray } from "react-final-form-arrays";
 
 import AddButton from "components/Common/AddButton";
 
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
+import OpenModalButton from "components/Common/UploadModal";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
@@ -12,7 +14,14 @@ import InputValidationForm from "components/Forms/InputValidationForm";
 
 import { disableAllBesidesInn } from "utils/validate";
 
-const Page = ({ activePage, activeForm, activeFormProps, values, push }) => {
+const Page = ({
+  activePage,
+  activeForm,
+  activeFormProps,
+  typeDataTitle,
+  values,
+  push
+}) => {
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
       case 0:
@@ -26,6 +35,10 @@ const Page = ({ activePage, activeForm, activeFormProps, values, push }) => {
     case 0:
       return (
         <>
+          <TypeDataTitle>
+            {typeDataTitle}
+            <OpenModalButton name="sender_list" />
+          </TypeDataTitle>
           <FieldArray key="sender" name="sender">
             {({ fields }) =>
               fields.map((name, index) => (
@@ -61,6 +74,10 @@ const Page = ({ activePage, activeForm, activeFormProps, values, push }) => {
     case 1:
       return (
         <>
+          <TypeDataTitle>
+            {typeDataTitle}
+            <OpenModalButton name="receiver_list" />
+          </TypeDataTitle>
           <FieldArray key="receiver" name="receiver">
             {({ fields }) =>
               fields.map((name, index) => (
@@ -105,3 +122,9 @@ const Page = ({ activePage, activeForm, activeFormProps, values, push }) => {
 };
 
 export default Page;
+
+const TypeDataTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;

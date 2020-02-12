@@ -34,6 +34,7 @@ const Form = ({ activePage }) => {
   const stepTitles = activeFormData.stepTitles;
 
   const pageProps = {
+    typeDataTitle,
     activePage,
     activeForm,
     activeFormProps: {
@@ -84,7 +85,6 @@ const Form = ({ activePage }) => {
                   values={values}
                   emptyFormValues={emptyFormValues}
                 >
-                  <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
                   <form onSubmit={handleSubmit}>
                     <Page {...pageProps} push={push} values={values} />
                   </form>
@@ -124,8 +124,3 @@ const FormWrapper = styled(Paper)`
 `;
 
 const MainTitle = styled.div``;
-const TypeDataTitle = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-`;

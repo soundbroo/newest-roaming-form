@@ -12,12 +12,18 @@ import { INN_LENGTH } from "constants";
 
 // Дефолтный шаблон с полями ИНН, КПП, Название организации/ФИО
 
-const TemplateDefaultForm = ({ children, name, isEntityInn, isValidInn }) => {
+const TemplateDefaultForm = ({
+  children,
+  name,
+  isEntityInn,
+  isOrganizationInn,
+  isValidInn
+}) => {
   return (
     <>
       <FormFieldsRow>
         <InputField name={name} fieldType="inn" />
-        <InputField disabled={!isEntityInn} name={name} fieldType="kpp" />
+        <InputField disabled={!isOrganizationInn} name={name} fieldType="kpp" />
       </FormFieldsRow>
       <FormFieldsRow>
         {!isEntityInn ? (

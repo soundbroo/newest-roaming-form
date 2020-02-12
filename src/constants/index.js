@@ -76,6 +76,14 @@ export const VALIDATION_FORM_TITLE = {
   receiver: "Данные контрагентов"
 };
 
+export const UPLOAD_MODAL_CONTENT = {
+  title: "Загрузить список контрагентов",
+  info:
+    "Вы можете загрузить файл в формате .xls/.xlsx, если он сопоставим с шаблоном",
+  warning:
+    "Обратите внимание, что отправка формы по данным из файла удалит все данные контрагентов, введенные вручную"
+};
+
 export const TITLES_FOR_KEYS = {
   inn: "ИНН",
   kpp: "КПП",
