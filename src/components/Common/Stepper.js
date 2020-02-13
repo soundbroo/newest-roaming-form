@@ -47,7 +47,7 @@ export default function HorizontalNonLinearStepper({
   // };
 
   const handleNext = () => {
-    if (activeStep === 2) return axios.sendData(values);
+    if (activeStep === 2) return axios.send(values);
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -105,9 +105,9 @@ export default function HorizontalNonLinearStepper({
 }
 
 const ButtonWrapper = styled.div`
-  width: 100%;
-  padding: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding: 12px;
 `;
