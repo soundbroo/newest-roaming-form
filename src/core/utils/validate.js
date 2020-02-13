@@ -11,3 +11,9 @@ export const disableAllBesidesInn = ({ name, index, values }) => {
 
   return { isEntityInn, isOrganizationInn, isValidInn };
 };
+
+export const validateInn = value =>
+  INN_LENGTH.includes(value?.length) ? undefined : "Некорректный ИНН";
+
+export const validateEmail = value =>
+  value?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) ? undefined : "Некорректный Email";

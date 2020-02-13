@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { FieldArray } from "react-final-form-arrays";
 
 import AddButton from "components/Common/AddButton";
-
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
+import UploadField from "components/Forms/UploadField";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import InputValidationForm from "components/Forms/InputValidationForm";
+
+import { BUTTON_TITLES } from "constants";
 
 import { disableAllBesidesInn } from "utils/validate";
 
@@ -29,6 +31,16 @@ const Page = ({
       case 1:
         return secondPage;
     }
+  };
+
+  const renderAgreementFiled = () => {
+    if (activePage === 0 && values?.receiver?.find(data => data?.operator))
+      return (
+        <AgreementField>
+          <UploadField name="agreement" title={BUTTON_TITLES.uploadAgreement} />
+        </AgreementField>
+      );
+    return;
   };
 
   switch (activeForm) {
@@ -107,6 +119,7 @@ const Page = ({
               ))
             }
           </FieldArray>
+          {renderAgreementFiled()}
           <AddButton type="receiver" push={push} />
         </>
       );
@@ -127,4 +140,8 @@ const TypeDataTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+`;
+
+const AgreementField = styled.div`
+  margin: 12px 0;
 `;

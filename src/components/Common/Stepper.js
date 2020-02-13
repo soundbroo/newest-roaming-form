@@ -5,7 +5,7 @@ import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
 import Button from "@material-ui/core/Button";
 
-import { sendData } from "api";
+import AxiosService from "api";
 
 export default function HorizontalNonLinearStepper({
   steps,
@@ -18,6 +18,8 @@ export default function HorizontalNonLinearStepper({
   emptyFormValues,
   children
 }) {
+  const axios = new AxiosService();
+
   const [completed, setCompleted] = React.useState({});
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function HorizontalNonLinearStepper({
   // };
 
   const handleNext = () => {
-    if (activeStep === 2) return sendData(values);
+    if (activeStep === 2) return axios.sendData(values);
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);

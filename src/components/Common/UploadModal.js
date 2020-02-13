@@ -5,7 +5,7 @@ import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 import UploadField from "components/Forms/UploadField";
 
-import { UPLOAD_MODAL_CONTENT } from "constants";
+import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 
 const UploadModal = ({ handleChange, name }) => (
   <BackGround onClick={handleChange}>
@@ -24,7 +24,7 @@ const UploadModal = ({ handleChange, name }) => (
         </Link>
       </Button>
       <Warning>{UPLOAD_MODAL_CONTENT.warning}</Warning>
-      <UploadField name={name} />
+      <UploadField name={name} title={BUTTON_TITLES.pickFile} />
     </Wrapper>
   </BackGround>
 );

@@ -127,3 +127,8 @@ export const OPERATORS = [
     label: "Synerdocs – 2IG"
   }
 ];
+
+export const BUTTON_TITLES = {
+  pickFile: "Выбрать файл",
+  uploadAgreement: "Загрузить соглашение о выборе оператора"
+};

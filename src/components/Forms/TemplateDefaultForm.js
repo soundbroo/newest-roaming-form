@@ -6,7 +6,8 @@ import { FormFieldsRow } from "components/Common/styled";
 
 import InputField from "components/Forms/InputField";
 
-import { required } from "utils/validate";
+import { required, validateInn } from "utils/validate";
+import { parseInn } from "utils/parse";
 
 import { INN_LENGTH } from "constants";
 
@@ -22,7 +23,12 @@ const TemplateDefaultForm = ({
   return (
     <>
       <FormFieldsRow>
-        <InputField name={name} fieldType="inn" />
+        <InputField
+          parse={parseInn}
+          name={name}
+          fieldType="inn"
+          validate={validateInn}
+        />
         <InputField disabled={!isOrganizationInn} name={name} fieldType="kpp" />
       </FormFieldsRow>
       <FormFieldsRow>

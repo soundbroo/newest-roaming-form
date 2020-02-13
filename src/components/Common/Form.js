@@ -7,7 +7,7 @@ import arrayMutators from "final-form-arrays";
 import Page from "pages/Page";
 
 import useStepChanger from "hooks/useStepChanger";
-
+import Auth from "components/Common/Auth";
 import Stepper from "components/Common/Stepper";
 
 import { FORM_TITLES } from "constants";
@@ -19,6 +19,10 @@ const onSubmit = async values => {
 };
 
 const Form = ({ activePage }) => {
+  const isAuth = true;
+
+  if (activePage === 1 && isAuth === false) return <Auth />;
+
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
 
