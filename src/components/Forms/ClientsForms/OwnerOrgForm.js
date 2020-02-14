@@ -13,11 +13,7 @@ const OwnerOrgForm = props => {
     <>
       <TemplateDefaultForm {...props}>
         <FormFieldsRow>
-          <IdentifierField
-            disabled={!isValidInn}
-            inputAdornment="EXAMPLE"
-            name={name}
-          />
+          <IdentifierField disabled={!isValidInn} inputAdornment="EXAMPLE" />
         </FormFieldsRow>
         <FormFieldsRow>
           <EmailField disabled={!isValidInn} name={name} />

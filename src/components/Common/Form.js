@@ -19,12 +19,11 @@ const onSubmit = async values => {
 };
 
 const Form = ({ activePage }) => {
-  const isAuth = true;
-
-  if (activePage === 1 && isAuth === false) return <Auth />;
-
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
+  const [isAuth, setAuth] = useState(true);
+
+  console.log("Cookies: ", document.cookie);
 
   useEffect(() => {
     setActiveForm(0);
@@ -54,6 +53,9 @@ const Form = ({ activePage }) => {
 
   const [initialValues, setInitialValues] = useState(emptyFormValues);
 
+  if (activePage === 1 && isAuth === false)
+    return <Auth isAuth={isAuth} setAuth={setAuth} />;
+
   return (
     <>
       <FinalForm
@@ -78,7 +80,6 @@ const Form = ({ activePage }) => {
           return (
             <>
               <FormWrapper>
-                <MainTitle>{mainTitle}</MainTitle>
                 <Stepper
                   steps={stepTitles}
                   activePage={activePage}
@@ -88,6 +89,7 @@ const Form = ({ activePage }) => {
                   setInitialValues={setInitialValues}
                   values={values}
                   emptyFormValues={emptyFormValues}
+                  mainTitle={mainTitle}
                 >
                   <form onSubmit={handleSubmit}>
                     <Page {...pageProps} push={push} values={values} />
@@ -115,16 +117,16 @@ const Form = ({ activePage }) => {
 export default Form;
 
 const FormWrapper = styled(Paper)`
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  max-width: 600px;
+  width: 600px;
+  min-height: 560px;
   padding: 15px;
 
   form {
     width: 100%;
   }
 `;
-
-const MainTitle = styled.div``;

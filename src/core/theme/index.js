@@ -32,6 +32,16 @@ export const muiTheme = createMuiTheme({
       root: {
         width: "100%"
       }
+    },
+    MuiStepper: {
+      root: {
+        padding: "21px 12px"
+      }
+    },
+    MuiStepLabel: {
+      root: {
+        width: 180
+      }
     }
   }
 });

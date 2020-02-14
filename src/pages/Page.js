@@ -43,6 +43,11 @@ const Page = ({
     return;
   };
 
+  const renderAddButton = type => {
+    if (activePage === 0 && activeForm === 0) return;
+    return <AddButton type={type} push={push} />;
+  };
+
   switch (activeForm) {
     case 0:
       return (
@@ -80,7 +85,7 @@ const Page = ({
               ))
             }
           </FieldArray>
-          <AddButton type="sender" push={push} />
+          {renderAddButton("sender")}
         </>
       );
     case 1:
@@ -120,7 +125,7 @@ const Page = ({
             }
           </FieldArray>
           {renderAgreementFiled()}
-          <AddButton type="receiver" push={push} />
+          {renderAddButton("receiver")}
         </>
       );
     case 2:
@@ -139,7 +144,10 @@ export default Page;
 const TypeDataTitle = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 36px;
   width: 100%;
+  font-size: 18px;
 `;
 
 const AgreementField = styled.div`

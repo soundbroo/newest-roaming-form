@@ -7,6 +7,18 @@ import Form from "components/Common/Form";
 const Content = () => {
   const [activePage, setActivePage] = useState(0);
 
+  const renderContent = () => {
+    switch (activePage) {
+      case 0:
+      case 1:
+        return (
+          <Form activePage={activePage} setActivePage={setActivePage}></Form>
+        );
+      case 2:
+        return <div>Тут пока пусто</div>;
+    }
+  };
+
   return (
     <ContentWrapper>
       <Navigation
@@ -14,9 +26,7 @@ const Content = () => {
         activePage={activePage}
         setActivePage={setActivePage}
       />
-      <MainContent>
-        <Form activePage={activePage} setActivePage={setActivePage}></Form>
-      </MainContent>
+      <MainContent>{renderContent()}</MainContent>
     </ContentWrapper>
   );
 };

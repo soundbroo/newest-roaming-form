@@ -16,6 +16,7 @@ export default function HorizontalNonLinearStepper({
   setInitialValues,
   values,
   emptyFormValues,
+  mainTitle,
   children
 }) {
   const axios = new AxiosService();
@@ -74,19 +75,22 @@ export default function HorizontalNonLinearStepper({
 
   return (
     <>
-      <Stepper nonLinear activeStep={activeStep}>
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepButton
-              onClick={handleStep(index)}
-              completed={completed[index]}
-            >
-              {label}
-            </StepButton>
-          </Step>
-        ))}
-      </Stepper>
-      {children}
+      <ContentWrapper>
+        <MainTitle>{mainTitle}</MainTitle>
+        <Stepper nonLinear activeStep={activeStep}>
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepButton
+                onClick={handleStep(index)}
+                completed={completed[index]}
+              >
+                {label}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
+        {children}
+      </ContentWrapper>
       <ButtonWrapper>
         <Button
           variant="outlined"
@@ -104,10 +108,27 @@ export default function HorizontalNonLinearStepper({
   );
 }
 
+const ContentWrapper = styled.div`
+  top: 0;
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const ButtonWrapper = styled.div`
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 12px;
+  padding: 24px 0 6px 0;
+`;
+
+const MainTitle = styled.div`
+  font-size: 20px;
+  text-align: center;
+  margin-top: 12px;
 `;
