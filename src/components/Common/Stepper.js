@@ -32,6 +32,15 @@ export default function HorizontalNonLinearStepper({
     setInitialValues(emptyFormValues);
   }, [activePage]);
 
+  const submit = () => {
+    switch (activePage) {
+      case 0:
+        return axios.abonent(values);
+      case 1:
+        return axios.operator(values);
+    }
+  };
+
   const isLastStep = () => {
     return activeStep === steps.length - 1;
   };
@@ -48,7 +57,7 @@ export default function HorizontalNonLinearStepper({
   // };
 
   const handleNext = () => {
-    if (activeStep === 2) return axios.send(values);
+    if (activeStep === 2) return submit();
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);

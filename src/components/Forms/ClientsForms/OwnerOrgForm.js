@@ -5,6 +5,8 @@ import EmailField from "components/Forms/EmailField";
 import TemplateDefaultForm from "components/Forms/TemplateDefaultForm";
 import { FormFieldsRow } from "components/Common/styled";
 
+import { ASTRAL_ID } from "constants";
+
 // Шаблон для страницы Операторам - Данные вашего клиента
 
 const OwnerOrgForm = props => {
@@ -13,7 +15,11 @@ const OwnerOrgForm = props => {
     <>
       <TemplateDefaultForm {...props}>
         <FormFieldsRow>
-          <IdentifierField disabled={!isValidInn} inputAdornment="EXAMPLE" />
+          <IdentifierField
+            disabled={!isValidInn}
+            name={name}
+            inputAdornment={ASTRAL_ID}
+          />
         </FormFieldsRow>
         <FormFieldsRow>
           <EmailField disabled={!isValidInn} name={name} />

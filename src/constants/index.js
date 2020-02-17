@@ -128,6 +128,8 @@ export const OPERATORS = [
   }
 ];
 
+export const ASTRAL_ID = "2AE";
+
 export const BUTTON_TITLES = {
   pickFile: "Выбрать файл",
   uploadAgreement: "Загрузить соглашение о выборе оператора"

@@ -4,7 +4,7 @@ import { Paper, TextField, Button } from "@material-ui/core";
 
 import AxiosService from "api";
 
-const Auth = ({ isAuth, setAuth }) => {
+const Auth = ({ auth, setAuth }) => {
   const axios = new AxiosService();
 
   const [data, setData] = useState({
@@ -18,10 +18,11 @@ const Auth = ({ isAuth, setAuth }) => {
   };
 
   const handleLogin = async () => {
-    const { status, text } = await axios.login(data);
+    const { status, text } = await axios.auth(data);
 
     if (status === 401) return setData({ ...data, error: text });
-    if (status === 0) return setAuth(!isAuth);
+    if (status === 0)
+      return setAuth({ ...auth, status: !auth.status, operatorId: text });
   };
 
   return (

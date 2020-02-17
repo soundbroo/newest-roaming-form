@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Button from "@material-ui/core/Button";
+import { Button, Chip } from "@material-ui/core";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 import UploadField from "components/Forms/UploadField";
 
 import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 
-const UploadModal = ({ handleChange, name }) => (
+const UploadModal = ({ handleChange, ...rest }) => (
   <BackGround onClick={handleChange}>
     <Wrapper onClick={e => e.stopPropagation()}>
       <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
@@ -24,30 +24,54 @@ const UploadModal = ({ handleChange, name }) => (
         </Link>
       </Button>
       <Warning>{UPLOAD_MODAL_CONTENT.warning}</Warning>
-      <UploadField name={name} title={BUTTON_TITLES.pickFile} />
+      <UploadField
+        closeModal={handleChange}
+        title={BUTTON_TITLES.pickFile}
+        {...rest}
+      />
     </Wrapper>
   </BackGround>
 );
 
-const OpenModalButton = ({ name }) => {
+const OpenModalButton = ({ ...props }) => {
   const [isModal, setIsModal] = useState(false);
+  const [fileName, setFileName] = useState(null);
 
   const handleChange = () => setIsModal(!isModal);
 
   return (
     <>
-      {isModal ? <UploadModal name={name} handleChange={handleChange} /> : null}
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<AttachFileIcon />}
-        onClick={handleChange}
-      >
-        Прикрепить список
-      </Button>
+      {isModal ? (
+        <UploadModal
+          handleChange={handleChange}
+          setFileName={setFileName}
+          {...props}
+        />
+      ) : null}
+      {!fileName ? (
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<AttachFileIcon />}
+          onClick={handleChange}
+        >
+          Прикрепить список
+        </Button>
+      ) : (
+        <SelectedFileButton label={fileName.name} />
+      )}
     </>
   );
 };
+
+const SelectedFileButton = ({ label }) => (
+  <Chip
+    icon={<AttachFileIcon />}
+    label={label}
+    // onClick={handleClick}
+    // onDelete={handleDelete}
+  />
+);
 
 export default OpenModalButton;
 

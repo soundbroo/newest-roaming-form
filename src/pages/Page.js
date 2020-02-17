@@ -11,6 +11,7 @@ import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import InputValidationForm from "components/Forms/InputValidationForm";
+import RequestIdField from "components/Forms/RequestIdField";
 
 import { BUTTON_TITLES } from "constants";
 
@@ -22,8 +23,12 @@ const Page = ({
   activeFormProps,
   typeDataTitle,
   values,
-  push
+  push,
+  setIn,
+  operatorId
 }) => {
+  console.log(setIn);
+
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
       case 0:
@@ -45,17 +50,31 @@ const Page = ({
 
   const renderAddButton = type => {
     if (activePage === 0 && activeForm === 0) return;
-    return <AddButton type={type} push={push} />;
+
+    const disabled = () => {
+      if (type === "sender" && values.receiver.length > 1) return true;
+      if (type === "receiver" && values.sender.length > 1) return true;
+    };
+
+    return <AddButton disabled={disabled(type)} type={type} push={push} />;
   };
 
   switch (activeForm) {
     case 0:
       return (
-        <>
+        <PageWrapper>
           <TypeDataTitle>
             {typeDataTitle}
-            {activePage === 1 && <OpenModalButton name="sender_list" />}
+            {activePage === 1 && (
+              <OpenModalButton
+                key="sender_list"
+                name="sender_list"
+                values={values}
+                setIn={setIn}
+              />
+            )}
           </TypeDataTitle>
+          {activePage === 1 && <RequestIdField />}
           <FieldArray key="sender" name="sender">
             {({ fields }) =>
               fields.map((name, index) => (
@@ -78,6 +97,7 @@ const Page = ({
                       name={name}
                       index={index}
                       values={values}
+                      operatorId={operatorId}
                       {...disableAllBesidesInn({ name, index, values })}
                     />
                   )}
@@ -86,14 +106,19 @@ const Page = ({
             }
           </FieldArray>
           {renderAddButton("sender")}
-        </>
+        </PageWrapper>
       );
     case 1:
       return (
-        <>
+        <PageWrapper>
           <TypeDataTitle>
             {typeDataTitle}
-            <OpenModalButton name="receiver_list" />
+            <OpenModalButton
+              key="receiver_list"
+              name="receiver_list"
+              values={values}
+              setIn={setIn}
+            />
           </TypeDataTitle>
           <FieldArray key="receiver" name="receiver">
             {({ fields }) =>
@@ -126,7 +151,7 @@ const Page = ({
           </FieldArray>
           {renderAgreementFiled()}
           {renderAddButton("receiver")}
-        </>
+        </PageWrapper>
       );
     case 2:
       return (
@@ -141,6 +166,13 @@ const Page = ({
 
 export default Page;
 
+const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
 const TypeDataTitle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -152,4 +184,5 @@ const TypeDataTitle = styled.div`
 
 const AgreementField = styled.div`
   margin: 12px 0;
+  width: 100%;
 `;

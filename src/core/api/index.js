@@ -19,18 +19,37 @@ class AxiosService {
       multipart: {
         headers: {
           "Content-Type": "multipart/form-data"
-        }
+        },
+        withCredentials: true
       }
     };
     this.toJSON = value => {
-      return JSON.stringify(value, 0, 2).replace(/"/g, "");
+      return JSON.stringify(value, 0, 2);
+    };
+    this.toJSONWithoutQuotes = value => {
+      return this.toJSON(value).replace(/"/g, "");
+    };
+
+    this.setFormData = values => {
+      const formData = new FormData();
+      const data = {};
+
+      if (!values?.sender_list) data.sender = values.sender;
+      if (!values?.receiver_list) data.receiver = values.receiver;
+
+      values?.agreement && formData.append("agreement", values.agreement);
+      values?.sender_list && formData.append("sender_list", values.sender_list);
+      values?.receiver_list &&
+        formData.append("receiver_list", values.receiver_list);
+      formData.append("data", this.toJSON(data));
+      return formData;
     };
   }
 
-  login = async data => {
+  auth = async data => {
     const formData = new FormData();
-    formData.append("login", this.toJSON(data.login));
-    formData.append("password", this.toJSON(data.password));
+    formData.append("login", this.toJSONWithoutQuotes(data.login));
+    formData.append("password", this.toJSONWithoutQuotes(data.password));
     try {
       const result = await this.instance.post(
         "/auth",
@@ -48,22 +67,24 @@ class AxiosService {
     }
   };
 
-  send = async values => {
-    const setFormData = values => {
-      const formData = new FormData();
-      const data = {
-        sender: values.sender,
-        receiver: values.receiver
-      };
-      formData.append("receiver_list", values.receiver_list);
-      formData.append("data", this.toJSON(data));
-      return formData;
-    };
-
+  abonent = async values => {
     try {
       const result = await this.instance.post(
         "/abonent",
-        setFormData(values),
+        this.setFormData(values),
+        this.config.multipart
+      );
+      console.log("Result - ", result);
+    } catch (e) {
+      console.log("Error - ", e);
+    }
+  };
+
+  operator = async values => {
+    try {
+      const result = await this.instance.post(
+        "/operator",
+        this.setFormData(values),
         this.config.multipart
       );
       console.log("Result - ", result);

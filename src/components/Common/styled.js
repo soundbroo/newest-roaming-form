@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const FormFieldsRow = styled.div`
   width: 100%;
+  height: 70px;
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 12px;

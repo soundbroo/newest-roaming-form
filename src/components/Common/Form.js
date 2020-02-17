@@ -12,16 +12,17 @@ import Stepper from "components/Common/Stepper";
 
 import { FORM_TITLES } from "constants";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-const onSubmit = async values => {
-  await sleep(300);
-  window.alert(JSON.stringify(values, 0, 2));
+const onSubmit = async submit => {
+  return;
 };
 
 const Form = ({ activePage }) => {
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
-  const [isAuth, setAuth] = useState(true);
+  const [auth, setAuth] = useState({
+    status: !false,
+    operatorId: null
+  });
 
   console.log("Cookies: ", document.cookie);
 
@@ -43,18 +44,21 @@ const Form = ({ activePage }) => {
     activeFormProps: {
       setActiveStep,
       setActiveForm
-    }
+    },
+    operatorId: auth.operatorId
   };
 
   const emptyFormValues = {
     sender: [null],
-    receiver: [null]
+    receiver: [null],
+    sender_list_name: null,
+    receiver_list_name: null
   };
 
   const [initialValues, setInitialValues] = useState(emptyFormValues);
 
-  if (activePage === 1 && isAuth === false)
-    return <Auth isAuth={isAuth} setAuth={setAuth} />;
+  if (activePage === 1 && auth.status === false)
+    return <Auth auth={auth} setAuth={setAuth} />;
 
   return (
     <>
@@ -64,7 +68,7 @@ const Form = ({ activePage }) => {
         mutators={{ ...arrayMutators }}
         render={({
           form: {
-            mutators: { push },
+            mutators: { push, setIn },
             reset
           },
           handleSubmit,
@@ -92,7 +96,12 @@ const Form = ({ activePage }) => {
                   mainTitle={mainTitle}
                 >
                   <form onSubmit={handleSubmit}>
-                    <Page {...pageProps} push={push} values={values} />
+                    <Page
+                      {...pageProps}
+                      push={push}
+                      setIn={setIn}
+                      values={values}
+                    />
                   </form>
                 </Stepper>
               </FormWrapper>
@@ -123,7 +132,7 @@ const FormWrapper = styled(Paper)`
   justify-content: space-between;
   align-items: center;
   width: 600px;
-  min-height: 560px;
+  min-height: 640px;
   padding: 15px;
 
   form {
