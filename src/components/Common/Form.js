@@ -19,6 +19,11 @@ const onSubmit = async submit => {
 const Form = ({ activePage }) => {
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
+  const defaultFiles = {
+    sender_list: null,
+    receiver_list: null
+  };
+  const [files, setFiles] = useState(defaultFiles);
   const [auth, setAuth] = useState({
     status: !false,
     operatorId: null
@@ -28,6 +33,7 @@ const Form = ({ activePage }) => {
 
   useEffect(() => {
     setActiveForm(0);
+    setFiles(defaultFiles);
   }, [activePage]);
 
   const activeFormData = Object.values(FORM_TITLES).find(
@@ -44,6 +50,10 @@ const Form = ({ activePage }) => {
     activeFormProps: {
       setActiveStep,
       setActiveForm
+    },
+    fileProps: {
+      files,
+      setFiles
     },
     operatorId: auth.operatorId
   };
@@ -68,7 +78,7 @@ const Form = ({ activePage }) => {
         mutators={{ ...arrayMutators }}
         render={({
           form: {
-            mutators: { push, setIn },
+            mutators: { push },
             reset
           },
           handleSubmit,
@@ -96,12 +106,7 @@ const Form = ({ activePage }) => {
                   mainTitle={mainTitle}
                 >
                   <form onSubmit={handleSubmit}>
-                    <Page
-                      {...pageProps}
-                      push={push}
-                      setIn={setIn}
-                      values={values}
-                    />
+                    <Page {...pageProps} push={push} values={values} />
                   </form>
                 </Stepper>
               </FormWrapper>

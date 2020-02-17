@@ -33,9 +33,8 @@ const UploadModal = ({ handleChange, ...rest }) => (
   </BackGround>
 );
 
-const OpenModalButton = ({ ...props }) => {
+const OpenModalButton = ({ name, files, ...rest }) => {
   const [isModal, setIsModal] = useState(false);
-  const [fileName, setFileName] = useState(null);
 
   const handleChange = () => setIsModal(!isModal);
 
@@ -43,12 +42,13 @@ const OpenModalButton = ({ ...props }) => {
     <>
       {isModal ? (
         <UploadModal
+          name={name}
           handleChange={handleChange}
-          setFileName={setFileName}
-          {...props}
+          files={files}
+          {...rest}
         />
       ) : null}
-      {!fileName ? (
+      {!files[name] ? (
         <Button
           variant="outlined"
           color="primary"
@@ -58,20 +58,31 @@ const OpenModalButton = ({ ...props }) => {
           Прикрепить список
         </Button>
       ) : (
-        <SelectedFileButton label={fileName.name} />
+        <SelectedFileButton
+          name={name}
+          label={files[name]}
+          files={files}
+          {...rest}
+        />
       )}
     </>
   );
 };
 
-const SelectedFileButton = ({ label }) => (
-  <Chip
-    icon={<AttachFileIcon />}
-    label={label}
-    // onClick={handleClick}
-    // onDelete={handleDelete}
-  />
-);
+const SelectedFileButton = ({ label, name, files, setFiles }) => {
+  const handleDelete = () => {
+    setFiles({ ...files, [name]: null });
+  };
+
+  return (
+    <Chip
+      icon={<AttachFileIcon />}
+      label={label}
+      // onClick={handleClick}
+      onDelete={handleDelete}
+    />
+  );
+};
 
 export default OpenModalButton;
 

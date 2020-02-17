@@ -4,19 +4,15 @@ import Button from "@material-ui/core/Button";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 const UploadButtonAdapter = ({
-  name,
-  setFileName,
-  setIn,
-  values,
+  files,
+  setFiles,
   closeModal,
   title,
   input: { value, onChange, ...input }
 }) => {
   const handleChange = e => {
-    console.log(e.target.files[0]);
     onChange(e.target.files[0]);
-    setFileName(e.target.files[0]);
-    console.log(setIn);
+    setFiles({ ...files, [input.name]: e.target.files[0].name });
     closeModal();
   };
 

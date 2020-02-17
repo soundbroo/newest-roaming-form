@@ -24,11 +24,9 @@ const Page = ({
   typeDataTitle,
   values,
   push,
-  setIn,
-  operatorId
+  operatorId,
+  fileProps
 }) => {
-  console.log(setIn);
-
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
       case 0:
@@ -70,7 +68,7 @@ const Page = ({
                 key="sender_list"
                 name="sender_list"
                 values={values}
-                setIn={setIn}
+                {...fileProps}
               />
             )}
           </TypeDataTitle>
@@ -117,7 +115,7 @@ const Page = ({
               key="receiver_list"
               name="receiver_list"
               values={values}
-              setIn={setIn}
+              {...fileProps}
             />
           </TypeDataTitle>
           <FieldArray key="receiver" name="receiver">
