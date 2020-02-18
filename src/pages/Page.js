@@ -18,6 +18,7 @@ import { BUTTON_TITLES } from "constants";
 import { disableAllBesidesInn } from "utils/validate";
 
 const Page = ({
+  formApi,
   activePage,
   activeForm,
   activeFormProps,
@@ -68,6 +69,7 @@ const Page = ({
                 key="sender_list"
                 name="sender_list"
                 values={values}
+                formApi={formApi}
                 {...fileProps}
               />
             )}
@@ -115,6 +117,7 @@ const Page = ({
               key="receiver_list"
               name="receiver_list"
               values={values}
+              formApi={formApi}
               {...fileProps}
             />
           </TypeDataTitle>

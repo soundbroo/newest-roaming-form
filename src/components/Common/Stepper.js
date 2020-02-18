@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepButton from "@material-ui/core/StepButton";
 import Button from "@material-ui/core/Button";
-
-import AxiosService from "api";
 
 export default function HorizontalNonLinearStepper({
   steps,
@@ -15,13 +13,13 @@ export default function HorizontalNonLinearStepper({
   setActiveStep,
   setInitialValues,
   values,
+  errors,
+  submit,
   emptyFormValues,
   mainTitle,
   children
 }) {
-  const axios = new AxiosService();
-
-  const [completed, setCompleted] = React.useState({});
+  const [completed, setCompleted] = useState({});
 
   useEffect(() => {
     setActiveStep(0);
@@ -31,15 +29,6 @@ export default function HorizontalNonLinearStepper({
   useEffect(() => {
     setInitialValues(emptyFormValues);
   }, [activePage]);
-
-  const submit = () => {
-    switch (activePage) {
-      case 0:
-        return axios.abonent(values);
-      case 1:
-        return axios.operator(values);
-    }
-  };
 
   const isLastStep = () => {
     return activeStep === steps.length - 1;
@@ -57,7 +46,7 @@ export default function HorizontalNonLinearStepper({
   // };
 
   const handleNext = () => {
-    if (activeStep === 2) return submit();
+    if (activeStep === 2) return submit(values);
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -109,8 +98,14 @@ export default function HorizontalNonLinearStepper({
         >
           Назад
         </Button>
-        <Button variant="contained" color="primary" onClick={handleNext}>
-          {activeStep === steps.length - 1 ? "Отправить" : "Далее"}
+        <Button
+          disabled={Object.keys(errors).length > 0}
+          variant="contained"
+          color="primary"
+          type={activeStep === 2 ? "submit" : "button"}
+          onClick={handleNext}
+        >
+          {activeStep === 2 ? "Отправить" : "Далее"}
         </Button>
       </ButtonWrapper>
     </>

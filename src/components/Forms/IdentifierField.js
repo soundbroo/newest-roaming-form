@@ -2,7 +2,8 @@ import React from "react";
 import { Field } from "react-final-form";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-import { required } from "utils/validate";
+import { validateId } from "utils/validate";
+import { parseId } from "utils/parse";
 
 import { FIELDS_NAMES } from "constants";
 
@@ -19,7 +20,8 @@ const IdentifierField = ({ inputAdornment, name, ...rest }) => {
     <Field
       name={`${name}.${FIELDS_NAMES.id.type}`}
       component={TextFieldAdapter}
-      validate={required}
+      parse={parseId}
+      validate={validateId}
       label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}
       {...rest}

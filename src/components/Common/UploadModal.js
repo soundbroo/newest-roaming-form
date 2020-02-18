@@ -69,9 +69,10 @@ const OpenModalButton = ({ name, files, ...rest }) => {
   );
 };
 
-const SelectedFileButton = ({ label, name, files, setFiles }) => {
+const SelectedFileButton = ({ label, name, files, setFiles, formApi }) => {
   const handleDelete = () => {
     setFiles({ ...files, [name]: null });
+    formApi.change(name, undefined);
   };
 
   return (

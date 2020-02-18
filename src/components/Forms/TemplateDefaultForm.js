@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Field } from "react-final-form";
+import React from "react";
 
-import TextFieldAdapter from "components/Common/TextFieldAdapter";
 import { FormFieldsRow } from "components/Common/styled";
 
 import InputField from "components/Forms/InputField";
 
-import { required, validateInn } from "utils/validate";
-import { parseInn } from "utils/parse";
-
-import { INN_LENGTH } from "constants";
+import { required, validateInn, validateKpp } from "utils/validate";
+import { parseInn, parseKpp } from "utils/parse";
 
 // Дефолтный шаблон с полями ИНН, КПП, Название организации/ФИО
 
@@ -29,7 +25,13 @@ const TemplateDefaultForm = ({
           fieldType="inn"
           validate={validateInn}
         />
-        <InputField disabled={!isOrganizationInn} name={name} fieldType="kpp" />
+        <InputField
+          disabled={!isOrganizationInn}
+          parse={parseKpp}
+          name={name}
+          fieldType="kpp"
+          validate={validateKpp}
+        />
       </FormFieldsRow>
       <FormFieldsRow>
         {!isEntityInn ? (

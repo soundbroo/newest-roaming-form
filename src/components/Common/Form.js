@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 import styled from "styled-components";
 import { Form as FinalForm } from "react-final-form";
@@ -12,11 +12,19 @@ import Stepper from "components/Common/Stepper";
 
 import { FORM_TITLES } from "constants";
 
-const onSubmit = async submit => {
-  return;
-};
+import AxiosService from "api";
 
 const Form = ({ activePage }) => {
+  const axios = new AxiosService();
+  const submit = values => {
+    switch (activePage) {
+      case 0:
+        return axios.abonent(values);
+      case 1:
+        return axios.operator(values);
+    }
+  };
+
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
   const defaultFiles = {
@@ -29,7 +37,15 @@ const Form = ({ activePage }) => {
     operatorId: null
   });
 
-  console.log("Cookies: ", document.cookie);
+  const [formApi, setFormApi] = useState({});
+
+  const bindFormApi = formApi => {
+    setFormApi(formApi);
+    const unsubscribe = () => {};
+    return unsubscribe;
+  };
+
+  // console.log("Cookies: ", document.cookie);
 
   useEffect(() => {
     setActiveForm(0);
@@ -60,9 +76,7 @@ const Form = ({ activePage }) => {
 
   const emptyFormValues = {
     sender: [null],
-    receiver: [null],
-    sender_list_name: null,
-    receiver_list_name: null
+    receiver: [null]
   };
 
   const [initialValues, setInitialValues] = useState(emptyFormValues);
@@ -74,7 +88,8 @@ const Form = ({ activePage }) => {
     <>
       <FinalForm
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={submit}
+        decorators={[bindFormApi]}
         mutators={{ ...arrayMutators }}
         render={({
           form: {
@@ -85,7 +100,8 @@ const Form = ({ activePage }) => {
           form,
           submitting,
           pristine,
-          values
+          values,
+          errors
         }) => {
           useEffect(() => {
             reset();
@@ -97,16 +113,24 @@ const Form = ({ activePage }) => {
                 <Stepper
                   steps={stepTitles}
                   activePage={activePage}
+                  activeForm={activeForm}
                   setActiveForm={setActiveForm}
                   activeStep={activeStep}
                   setActiveStep={setActiveStep}
                   setInitialValues={setInitialValues}
                   values={values}
+                  errors={errors}
+                  submit={submit}
                   emptyFormValues={emptyFormValues}
                   mainTitle={mainTitle}
                 >
                   <form onSubmit={handleSubmit}>
-                    <Page {...pageProps} push={push} values={values} />
+                    <Page
+                      {...pageProps}
+                      formApi={formApi}
+                      push={push}
+                      values={values}
+                    />
                   </form>
                 </Stepper>
               </FormWrapper>

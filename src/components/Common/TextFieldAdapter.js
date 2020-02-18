@@ -5,7 +5,7 @@ const TextFieldAdapter = ({ input, meta, ...rest }) => (
   <TextField
     {...input}
     {...rest}
-    error={meta.touched && meta.error}
+    error={Boolean(meta.touched && meta.error)}
     helperText={meta.touched && meta.error}
   />
 );

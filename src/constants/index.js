@@ -68,6 +68,8 @@ export const MAX_NUMBER_OF_FORMS = 99;
 
 export const INN_LENGTH = [10, 12];
 
+export const KPP_LENGTH = 9;
+
 export const VALIDATION_FORM_TITLE = {
   noDataToSend: "Нет данных для отправки",
   noDataDescription: `Отстутствуют или недостаточно данных для отправки на сервер.
