@@ -21,7 +21,9 @@ export const validateEmail = value =>
 export const validateKpp = value =>
   value?.length === KPP_LENGTH ? undefined : "Некорректный КПП";
 
-export const validateId = value =>
-  !/\D/.test(value) && value?.length === 32
-    ? undefined
-    : "Некорректный идентификатор";
+export const validateId = value => {
+  if (value === undefined || value?.match(/\s/)) {
+    return "Некорректный идентификатор";
+  }
+  return undefined;
+};
