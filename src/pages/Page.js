@@ -13,9 +13,13 @@ import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm
 import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Forms/RequestIdField";
 
-import { BUTTON_TITLES } from "constants";
+import {
+  BUTTON_TITLES,
+  OPERATORS_WITH_REQUEST_ID,
+  OPERATORS_WITH_AGREEMENT
+} from "constants";
 
-import { disableAllBesidesInn } from "utils/validate";
+import { required, disableAllBesidesInn } from "utils/validate";
 
 const Page = ({
   formApi,
@@ -38,12 +42,22 @@ const Page = ({
   };
 
   const renderAgreementFiled = () => {
-    if (activePage === 0 && values?.receiver?.find(data => data?.operator))
-      return (
-        <AgreementField>
-          <UploadField name="agreement" title={BUTTON_TITLES.uploadAgreement} />
-        </AgreementField>
-      );
+    if (activePage === 0) {
+      const operator = values?.receiver?.find(data => data?.operator);
+
+      console.log(operator);
+
+      if (OPERATORS_WITH_AGREEMENT.includes(operator?.operator))
+        return (
+          <AgreementField>
+            <UploadField
+              validate={required}
+              name="agreement"
+              title={BUTTON_TITLES.uploadAgreement}
+            />
+          </AgreementField>
+        );
+    }
     return;
   };
 
@@ -56,6 +70,11 @@ const Page = ({
     };
 
     return <AddButton disabled={disabled(type)} type={type} push={push} />;
+  };
+
+  const renderRequestIdField = () => {
+    if (activePage === 1 && OPERATORS_WITH_REQUEST_ID.includes(operatorId))
+      return <RequestIdField />;
   };
 
   switch (activeForm) {
@@ -74,7 +93,7 @@ const Page = ({
               />
             )}
           </TypeDataTitle>
-          {activePage === 1 && <RequestIdField />}
+          {renderRequestIdField()}
           <FieldArray key="sender" name="sender">
             {({ fields }) =>
               fields.map((name, index) => (
@@ -98,6 +117,7 @@ const Page = ({
                       index={index}
                       values={values}
                       operatorId={operatorId}
+                      files={fileProps.files}
                       {...disableAllBesidesInn({ name, index, values })}
                     />
                   )}
@@ -136,6 +156,7 @@ const Page = ({
                       name={name}
                       index={index}
                       values={values}
+                      files={fileProps.files}
                       {...disableAllBesidesInn({ name, index, values })}
                     />,
                     <AOContragentsForm
@@ -143,6 +164,7 @@ const Page = ({
                       name={name}
                       index={index}
                       values={values}
+                      files={fileProps.files}
                       {...disableAllBesidesInn({ name, index, values })}
                     />
                   )}

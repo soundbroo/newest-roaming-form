@@ -130,6 +130,16 @@ export const OPERATORS = [
   }
 ];
 
+// Операторы, которым нужно поле
+// "Идентификатор в системе роумингового оператора"
+// Как у Контура
+
+export const OPERATORS_WITH_REQUEST_ID = ["2BM"];
+
+// Операторы, которым нужно соглашение о выборе оператора
+
+export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE"];
+
 export const ASTRAL_ID = "2AE";
 
 export const BUTTON_TITLES = {

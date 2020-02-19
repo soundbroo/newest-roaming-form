@@ -6,11 +6,14 @@ import TemplateDefaultForm from "components/Forms/TemplateDefaultForm";
 
 // Шаблон для страницы Операторам - Данные вашего клиента
 
-const ContragentsForm = props => (
-  <TemplateDefaultForm {...props}>
-    <FormFieldsRow>
-      <OperatorsSelectField disabled={!props.isValidInn} name={props.name} />
-    </FormFieldsRow>
-  </TemplateDefaultForm>
-);
+const ContragentsForm = props => {
+  const { isValidInn, name } = props;
+  return (
+    <TemplateDefaultForm {...props}>
+      <FormFieldsRow>
+        <OperatorsSelectField disabled={!isValidInn} name={name} />
+      </FormFieldsRow>
+    </TemplateDefaultForm>
+  );
+};
 export default ContragentsForm;

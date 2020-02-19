@@ -4,10 +4,16 @@ import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 
 import { OPERATORS, FIELDS_NAMES } from "constants";
 
+import { required } from "utils/validate";
+
 const OperatorsSelectFieldAdapter = ({ input, meta, ...rest }) => (
   <FormControl {...rest}>
     <InputLabel>{FIELDS_NAMES.operator.label}</InputLabel>
-    <Select {...input} onChange={value => input.onChange(value)}>
+    <Select
+      {...input}
+      error={Boolean(meta.touched && meta.error)}
+      onChange={value => input.onChange(value)}
+    >
       {OPERATORS.map((operator, index) => (
         <MenuItem key={index} value={operator.value}>
           {operator.label}
@@ -21,6 +27,7 @@ const OperatorsSelectField = ({ name, ...rest }) => (
   <Field
     name={`${name}.${FIELDS_NAMES.operator.type}`}
     component={OperatorsSelectFieldAdapter}
+    validate={required}
     {...rest}
   />
 );

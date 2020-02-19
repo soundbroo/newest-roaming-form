@@ -12,14 +12,20 @@ import { parseInn, parseKpp } from "utils/parse";
 const TemplateDefaultForm = ({
   children,
   name,
+  files,
   isEntityInn,
   isOrganizationInn,
   isValidInn
 }) => {
+  const ifFileLoaded = Boolean(files?.[`${name.split("[")[0]}_list`]);
   return (
     <>
+      {ifFileLoaded && (
+        <div>Заполнение формы недоступно при загруженном файле xls/xlsx</div>
+      )}
       <FormFieldsRow>
         <InputField
+          disabled={ifFileLoaded}
           parse={parseInn}
           name={name}
           fieldType="inn"
@@ -40,7 +46,7 @@ const TemplateDefaultForm = ({
           <>
             <InputField name={name} fieldType="lastname" />
             <InputField name={name} fieldType="firstname" />
-            <InputField name={name} fieldType="patronymic" />
+            <InputField name={name} validate={null} fieldType="patronymic" />
           </>
         )}
       </FormFieldsRow>

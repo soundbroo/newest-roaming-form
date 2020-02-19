@@ -33,7 +33,7 @@ const Form = ({ activePage }) => {
   };
   const [files, setFiles] = useState(defaultFiles);
   const [auth, setAuth] = useState({
-    status: !false,
+    status: false,
     operatorId: null
   });
 
