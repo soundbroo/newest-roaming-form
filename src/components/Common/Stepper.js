@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 import StepButton from "@material-ui/core/StepButton";
 import Button from "@material-ui/core/Button";
 
@@ -78,12 +79,12 @@ export default function HorizontalNonLinearStepper({
         <Stepper nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepButton
-                onClick={handleStep(index)}
+              <StepLabel
+                // onClick={handleStep(index)}
                 completed={completed[index]}
               >
                 {label}
-              </StepButton>
+              </StepLabel>
             </Step>
           ))}
         </Stepper>

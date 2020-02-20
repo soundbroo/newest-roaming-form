@@ -12,6 +12,22 @@ export const disableAllBesidesInn = ({ name, index, values }) => {
   return { isEntityInn, isOrganizationInn, isValidInn };
 };
 
+export const validate = {
+  inn: value =>
+    INN_LENGTH.includes(value?.length) ? undefined : "Некорректный ИНН",
+  email: value =>
+    value?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+      ? undefined
+      : "Некорректный Email",
+  kpp: value => (value?.length === KPP_LENGTH ? undefined : "Некорректный КПП"),
+  id: value => {
+    if (value === undefined || value?.match(/\s/)) {
+      return "Некорректный идентификатор";
+    }
+    return undefined;
+  }
+};
+
 export const validateInn = value =>
   INN_LENGTH.includes(value?.length) ? undefined : "Некорректный ИНН";
 

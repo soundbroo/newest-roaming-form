@@ -36,7 +36,6 @@ const Form = ({ activePage }) => {
     status: false,
     operatorId: null
   });
-
   const [formApi, setFormApi] = useState({});
 
   const bindFormApi = formApi => {
@@ -44,8 +43,6 @@ const Form = ({ activePage }) => {
     const unsubscribe = () => {};
     return unsubscribe;
   };
-
-  // console.log("Cookies: ", document.cookie);
 
   useEffect(() => {
     setActiveForm(0);
@@ -90,6 +87,11 @@ const Form = ({ activePage }) => {
         initialValues={initialValues}
         onSubmit={submit}
         decorators={[bindFormApi]}
+        validate={values => {
+          const errors = {};
+          if (values.receiver_list !== null || values.sender_list !== null)
+            return errors;
+        }}
         mutators={{ ...arrayMutators }}
         render={({
           form: {

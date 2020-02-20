@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FieldArray } from "react-final-form-arrays";
 
 import AddButton from "components/Common/AddButton";
+import FilePlaceholder from "components/Common/FilePlaceholder";
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
 import UploadField from "components/Forms/UploadField";
@@ -32,6 +33,8 @@ const Page = ({
   operatorId,
   fileProps
 }) => {
+  const isFileLoaded = name => Boolean(fileProps.files?.[`${name}_list`]);
+
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
       case 0:
@@ -41,11 +44,85 @@ const Page = ({
     }
   };
 
+  const renderSenderFieldArray = () => {
+    if (!isFileLoaded("sender"))
+      return (
+        <FieldArray key="sender" name="sender">
+          {({ fields }) =>
+            fields.map((name, index) => (
+              <FormFieldsWrapper
+                key={name}
+                index={index}
+                remove={() => fields.remove(index)}
+              >
+                {renderForm(
+                  activePage,
+                  <OwnerOrgForm
+                    key={name}
+                    name={name}
+                    index={index}
+                    values={values}
+                    {...disableAllBesidesInn({ name, index, values })}
+                  />,
+                  <ClientForm
+                    key={name}
+                    name={name}
+                    index={index}
+                    values={values}
+                    operatorId={operatorId}
+                    files={fileProps.files}
+                    {...disableAllBesidesInn({ name, index, values })}
+                  />
+                )}
+              </FormFieldsWrapper>
+            ))
+          }
+        </FieldArray>
+      );
+  };
+
+  const renderReceiverFieldArray = () => {
+    if (!isFileLoaded("receiver"))
+      return (
+        <FieldArray key="receiver" name="receiver">
+          {({ fields }) =>
+            fields.map((name, index) => (
+              <FormFieldsWrapper
+                key={name}
+                index={index}
+                remove={() => fields.remove(index)}
+              >
+                {renderForm(
+                  activePage,
+                  <ContragentsForm
+                    key={name}
+                    name={name}
+                    index={index}
+                    values={values}
+                    files={fileProps.files}
+                    isFileLoaded={fileProps.isFileLoaded}
+                    formApi={formApi}
+                    {...disableAllBesidesInn({ name, index, values })}
+                  />,
+                  <AOContragentsForm
+                    key={name}
+                    name={name}
+                    index={index}
+                    values={values}
+                    files={fileProps.files}
+                    {...disableAllBesidesInn({ name, index, values })}
+                  />
+                )}
+              </FormFieldsWrapper>
+            ))
+          }
+        </FieldArray>
+      );
+  };
+
   const renderAgreementFiled = () => {
     if (activePage === 0) {
       const operator = values?.receiver?.find(data => data?.operator);
-
-      console.log(operator);
 
       if (OPERATORS_WITH_AGREEMENT.includes(operator?.operator))
         return (
@@ -62,19 +139,29 @@ const Page = ({
   };
 
   const renderAddButton = type => {
-    if (activePage === 0 && activeForm === 0) return;
+    if (!isFileLoaded(type)) {
+      if (activePage === 0 && activeForm === 0) return;
 
-    const disabled = () => {
-      if (type === "sender" && values.receiver.length > 1) return true;
-      if (type === "receiver" && values.sender.length > 1) return true;
-    };
+      const disabled = () => {
+        if (type === "sender" && values.receiver.length > 1) return true;
+        if (type === "receiver" && values.sender.length > 1) return true;
+      };
 
-    return <AddButton disabled={disabled(type)} type={type} push={push} />;
+      return <AddButton disabled={disabled(type)} type={type} push={push} />;
+    }
   };
 
   const renderRequestIdField = () => {
-    if (activePage === 1 && OPERATORS_WITH_REQUEST_ID.includes(operatorId))
+    if (
+      !isFileLoaded("sender") &&
+      activePage === 1 &&
+      OPERATORS_WITH_REQUEST_ID.includes(operatorId)
+    )
       return <RequestIdField />;
+  };
+
+  const renderFilePlaceholder = name => {
+    if (isFileLoaded(name)) return <FilePlaceholder />;
   };
 
   switch (activeForm) {
@@ -94,37 +181,8 @@ const Page = ({
             )}
           </TypeDataTitle>
           {renderRequestIdField()}
-          <FieldArray key="sender" name="sender">
-            {({ fields }) =>
-              fields.map((name, index) => (
-                <FormFieldsWrapper
-                  key={name}
-                  index={index}
-                  remove={() => fields.remove(index)}
-                >
-                  {renderForm(
-                    activePage,
-                    <OwnerOrgForm
-                      key={name}
-                      name={name}
-                      index={index}
-                      values={values}
-                      {...disableAllBesidesInn({ name, index, values })}
-                    />,
-                    <ClientForm
-                      key={name}
-                      name={name}
-                      index={index}
-                      values={values}
-                      operatorId={operatorId}
-                      files={fileProps.files}
-                      {...disableAllBesidesInn({ name, index, values })}
-                    />
-                  )}
-                </FormFieldsWrapper>
-              ))
-            }
-          </FieldArray>
+          {renderSenderFieldArray()}
+          {renderFilePlaceholder("sender")}
           {renderAddButton("sender")}
         </PageWrapper>
       );
@@ -141,37 +199,8 @@ const Page = ({
               {...fileProps}
             />
           </TypeDataTitle>
-          <FieldArray key="receiver" name="receiver">
-            {({ fields }) =>
-              fields.map((name, index) => (
-                <FormFieldsWrapper
-                  key={name}
-                  index={index}
-                  remove={() => fields.remove(index)}
-                >
-                  {renderForm(
-                    activePage,
-                    <ContragentsForm
-                      key={name}
-                      name={name}
-                      index={index}
-                      values={values}
-                      files={fileProps.files}
-                      {...disableAllBesidesInn({ name, index, values })}
-                    />,
-                    <AOContragentsForm
-                      key={name}
-                      name={name}
-                      index={index}
-                      values={values}
-                      files={fileProps.files}
-                      {...disableAllBesidesInn({ name, index, values })}
-                    />
-                  )}
-                </FormFieldsWrapper>
-              ))
-            }
-          </FieldArray>
+          {renderReceiverFieldArray()}
+          {renderFilePlaceholder("receiver")}
           {renderAgreementFiled()}
           {renderAddButton("receiver")}
         </PageWrapper>
@@ -182,6 +211,7 @@ const Page = ({
           key={3}
           values={values}
           buttonProps={activeFormProps}
+          files={fileProps.files}
         />
       );
   }

@@ -41,6 +41,9 @@ export const muiTheme = createMuiTheme({
     MuiStepLabel: {
       root: {
         width: 180
+      },
+      labelContainer: {
+        textAlign: "center"
       }
     }
   }
