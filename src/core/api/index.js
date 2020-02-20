@@ -92,6 +92,16 @@ class AxiosService {
       console.log("Error - ", e);
     }
   };
+
+  status = async id => {
+    try {
+      const result = await this.instance.get(`/abonent/${id}`);
+      console.log("Result - ", result);
+      return result;
+    } catch (e) {
+      console.log("Error - ", e);
+    }
+  };
 }
 
 export default AxiosService;
