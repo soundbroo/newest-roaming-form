@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FieldArray } from "react-final-form-arrays";
 
 import AddButton from "components/Common/AddButton";
-import FilePlaceholder from "components/Common/FilePlaceholder";
+import FileContent from "components/Common/FileContent";
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
 import UploadField from "components/Forms/UploadField";
@@ -13,6 +13,8 @@ import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Forms/RequestIdField";
+
+import useFileContent from "hooks/useFileContent";
 
 import {
   BUTTON_TITLES,
@@ -34,6 +36,8 @@ const Page = ({
   fileProps
 }) => {
   const isFileLoaded = name => Boolean(fileProps.files?.[`${name}_list`]);
+
+  const [content, setContent] = useFileContent();
 
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
@@ -160,8 +164,8 @@ const Page = ({
       return <RequestIdField />;
   };
 
-  const renderFilePlaceholder = name => {
-    if (isFileLoaded(name)) return <FilePlaceholder />;
+  const renderFileContent = name => {
+    if (isFileLoaded(name)) return <FileContent content={content} />;
   };
 
   switch (activeForm) {
@@ -175,6 +179,7 @@ const Page = ({
                 key="sender_list"
                 name="sender_list"
                 values={values}
+                setContent={setContent}
                 formApi={formApi}
                 {...fileProps}
               />
@@ -182,7 +187,7 @@ const Page = ({
           </TypeDataTitle>
           {renderRequestIdField()}
           {renderSenderFieldArray()}
-          {renderFilePlaceholder("sender")}
+          {renderFileContent("sender")}
           {renderAddButton("sender")}
         </PageWrapper>
       );
@@ -195,12 +200,13 @@ const Page = ({
               key="receiver_list"
               name="receiver_list"
               values={values}
+              setContent={setContent}
               formApi={formApi}
               {...fileProps}
             />
           </TypeDataTitle>
           {renderReceiverFieldArray()}
-          {renderFilePlaceholder("receiver")}
+          {renderFileContent("receiver")}
           {renderAgreementFiled()}
           {renderAddButton("receiver")}
         </PageWrapper>

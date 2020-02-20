@@ -3,9 +3,12 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
+import readXlsxFile from "read-excel-file";
+
 const UploadButtonAdapter = ({
   files,
   setFiles,
+  setContent,
   formApi,
   closeModal,
   title,
@@ -16,6 +19,7 @@ const UploadButtonAdapter = ({
     setFiles({ ...files, [name]: e.target.files[0].name });
     formApi.change(name?.split("_")[0], [null]);
     closeModal();
+    readXlsxFile(e.target.files[0]).then(rows => setContent(rows));
   };
 
   return (
