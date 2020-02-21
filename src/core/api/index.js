@@ -33,11 +33,29 @@ class AxiosService {
     this.setFormData = values => {
       const formData = new FormData();
       const data = {};
+      const prepareData = type => {
+        if (data?.[type]) {
+          data?.[type].map(type => {
+            if (type?.inn?.length === 10) {
+              delete type.firstname;
+              delete type.lastname;
+              delete type.patronymic;
+            } else if (type?.inn?.length === 12) {
+              delete type.kpp;
+              delete type.name;
+            }
+          });
+        }
+      };
 
       if (!values?.sender_list) data.sender = values.sender;
       if (!values?.receiver_list) data.receiver = values.receiver;
 
+      prepareData("sender");
+      prepareData("receiver");
+
       values?.agreement && formData.append("agreement", values.agreement);
+      values?.request_id && formData.append("request_id", values.request_id);
       values?.sender_list && formData.append("sender_list", values.sender_list);
       values?.receiver_list &&
         formData.append("receiver_list", values.receiver_list);

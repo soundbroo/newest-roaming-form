@@ -132,6 +132,7 @@ const Page = ({
         return (
           <AgreementField>
             <UploadField
+              values={values}
               validate={required}
               name="agreement"
               title={BUTTON_TITLES.uploadAgreement}

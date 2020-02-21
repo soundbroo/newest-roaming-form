@@ -29,7 +29,8 @@ const Form = ({ activePage }) => {
   const [activeStep, setActiveStep] = useStepChanger(0);
   const defaultFiles = {
     sender_list: null,
-    receiver_list: null
+    receiver_list: null,
+    agreement: null
   };
   const [files, setFiles] = useState(defaultFiles);
   const [auth, setAuth] = useState({

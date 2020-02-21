@@ -52,7 +52,7 @@ export const FIELDS_NAMES = {
   },
   operator: {
     type: "operator",
-    label: "Выберете оператора"
+    label: "Выберите оператора"
   },
   request_id: {
     type: "request_id",
@@ -85,6 +85,8 @@ export const UPLOAD_MODAL_CONTENT = {
   warning:
     "Обратите внимание, что отправка формы по данным из файла удалит все данные контрагентов, введенные вручную"
 };
+
+export const AGREEMENT_LOADED_TITLE = "Соглашение о выборе оператора загружено";
 
 export const TITLES_FOR_KEYS = {
   inn: "ИНН",

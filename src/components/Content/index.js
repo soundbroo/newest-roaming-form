@@ -19,10 +19,7 @@ const Content = () => {
     if (search.includes("?status")) {
       setActivePage(2);
       const statusId = search.replace(/\?status=/, "");
-      async function fetchData() {
-        return axios.status(statusId);
-      }
-      fetchData().then(res => setQuery(res.data.text));
+      axios.status(statusId).then(res => setQuery(res.data.text));
     }
   }, []);
 

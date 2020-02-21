@@ -35,7 +35,7 @@ const TemplateDefaultForm = ({
           parse={parseKpp}
           name={name}
           fieldType="kpp"
-          validate={validate.kpp}
+          validate={isOrganizationInn && validate.kpp}
         />
       </FormFieldsRow>
       <FormFieldsRow>

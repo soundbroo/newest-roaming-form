@@ -4,10 +4,10 @@ import Paper from "@material-ui/core/Paper";
 
 const FileContent = ({ content }) => (
   <Content>
-    {content?.map(row => (
-      <Row>
-        {row.map(cell => (
-          <Cell>{cell}</Cell>
+    {content?.map((row, index) => (
+      <Row key={index}>
+        {row.map((cell, index) => (
+          <Cell key={index}>{cell}</Cell>
         ))}
       </Row>
     ))}
