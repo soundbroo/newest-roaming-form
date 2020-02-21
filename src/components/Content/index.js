@@ -5,6 +5,9 @@ import RoamingState from "pages/RoamingState";
 
 import Navigation from "components/Navigation";
 import Form from "components/Common/Form";
+import Snackbar from "components/Common/Snackbar";
+
+import useSnackbar from "hooks/useSnackbar";
 
 import AxiosService from "api";
 
@@ -13,6 +16,7 @@ const Content = () => {
 
   const [activePage, setActivePage] = useState(0);
   const [query, setQuery] = useState(null);
+  const { openState, messageState } = useSnackbar();
 
   useEffect(() => {
     const { search } = window.location;
@@ -28,7 +32,12 @@ const Content = () => {
       case 0:
       case 1:
         return (
-          <Form activePage={activePage} setActivePage={setActivePage}></Form>
+          <Form
+            activePage={activePage}
+            setActivePage={setActivePage}
+            openState={openState}
+            messageState={messageState}
+          ></Form>
         );
       case 2:
         return <RoamingState status={query} />;
@@ -43,6 +52,7 @@ const Content = () => {
         setActivePage={setActivePage}
       />
       <MainContent>{renderContent()}</MainContent>
+      <Snackbar message={messageState.message} {...openState} />
     </ContentWrapper>
   );
 };

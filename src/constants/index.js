@@ -142,6 +142,11 @@ export const OPERATORS_WITH_REQUEST_ID = ["2BM"];
 
 export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE"];
 
+export const AVAILABLE_FILE_EXTENSIONS = {
+  agreement: ["pdf", "png", "jpg"],
+  list: ["xlsx", "xls"]
+};
+
 export const ASTRAL_ID = "2AE";
 
 export const BUTTON_TITLES = {

@@ -3,7 +3,7 @@ import { Field } from "react-final-form";
 
 import UploadButtonAdapter from "components/Common/UploadButtonAdapter";
 
-const UploadField = ({ ...props }) => (
+const UploadField = props => (
   <Field component={UploadButtonAdapter} {...props} />
 );
 

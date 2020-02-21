@@ -26,6 +26,8 @@ import { required, disableAllBesidesInn } from "utils/validate";
 
 const Page = ({
   formApi,
+  messageState,
+  openState,
   activePage,
   activeForm,
   activeFormProps,
@@ -134,6 +136,8 @@ const Page = ({
             <UploadField
               values={values}
               validate={required}
+              messageState={messageState}
+              openState={openState}
               name="agreement"
               title={BUTTON_TITLES.uploadAgreement}
             />
@@ -180,6 +184,8 @@ const Page = ({
                 key="sender_list"
                 name="sender_list"
                 values={values}
+                messageState={messageState}
+                openState={openState}
                 setContent={setContent}
                 formApi={formApi}
                 {...fileProps}
@@ -201,6 +207,8 @@ const Page = ({
               key="receiver_list"
               name="receiver_list"
               values={values}
+              messageState={messageState}
+              openState={openState}
               setContent={setContent}
               formApi={formApi}
               {...fileProps}

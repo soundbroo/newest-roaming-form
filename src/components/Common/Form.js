@@ -14,7 +14,7 @@ import { FORM_TITLES } from "constants";
 
 import AxiosService from "api";
 
-const Form = ({ activePage }) => {
+const Form = ({ activePage, messageState, openState }) => {
   const axios = new AxiosService();
   const submit = values => {
     switch (activePage) {
@@ -58,6 +58,8 @@ const Form = ({ activePage }) => {
   const stepTitles = activeFormData.stepTitles;
 
   const pageProps = {
+    messageState,
+    openState,
     typeDataTitle,
     activePage,
     activeForm,

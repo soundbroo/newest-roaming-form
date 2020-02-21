@@ -4,10 +4,12 @@ import Button from "@material-ui/core/Button";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import readXlsxFile from "read-excel-file";
 
-import { AGREEMENT_LOADED_TITLE } from "constants";
+import { AGREEMENT_LOADED_TITLE, AVAILABLE_FILE_EXTENSIONS } from "constants";
 
 const UploadButtonAdapter = ({
   values,
+  messageState: { setMessage },
+  openState: { setOpen },
   files,
   setFiles,
   setContent,
@@ -17,12 +19,26 @@ const UploadButtonAdapter = ({
   input: { value, onChange, name, ...input }
 }) => {
   const handleChange = e => {
-    onChange(e.target.files[0]);
-    if (name !== "agreement") {
+    const fileName = e.target.files[0].name.split(".");
+    const extension = fileName[fileName.length - 1];
+    if (
+      (name === "sender_list" || name === "receiver_list") &&
+      AVAILABLE_FILE_EXTENSIONS.list.includes(extension)
+    ) {
+      onChange(e.target.files[0]);
       setFiles({ ...files, [name]: e.target.files[0].name });
       formApi.change(name?.split("_")[0], [null]);
       closeModal();
       readXlsxFile(e.target.files[0]).then(rows => setContent(rows));
+    } else if (
+      name === "agreement" &&
+      AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)
+    ) {
+      onChange(e.target.files[0]);
+    } else {
+      (name === "sender_list" || name === "receiver_list") && closeModal();
+      setMessage("Отправка файлов данного типа не поддерживается");
+      setOpen(true);
     }
   };
 
