@@ -10,6 +10,10 @@ const SnackBar = ({ message, open, setOpen }) => {
   return (
     <Snackbar
       open={open}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left"
+      }}
       autoHideDuration={6000}
       onClose={() => setOpen(false)}
     >

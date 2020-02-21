@@ -82,7 +82,14 @@ const Form = ({ activePage, messageState, openState }) => {
   const [initialValues, setInitialValues] = useState(emptyFormValues);
 
   if (activePage === 1 && auth.status === false)
-    return <Auth auth={auth} setAuth={setAuth} />;
+    return (
+      <Auth
+        auth={auth}
+        setAuth={setAuth}
+        messageState={messageState}
+        openState={openState}
+      />
+    );
 
   return (
     <>
