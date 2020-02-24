@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
-import readXlsxFile from "read-excel-file";
+
+import readXls from "utils/readXls";
 
 import { AGREEMENT_LOADED_TITLE, AVAILABLE_FILE_EXTENSIONS } from "constants";
 
@@ -19,17 +20,18 @@ const UploadButtonAdapter = ({
   input: { value, onChange, name, ...input }
 }) => {
   const handleChange = e => {
-    const fileName = e.target.files[0].name.split(".");
+    const file = e.target.files[0];
+    const fileName = file.name.split(".");
     const extension = fileName[fileName.length - 1];
     if (
       (name === "sender_list" || name === "receiver_list") &&
       AVAILABLE_FILE_EXTENSIONS.list.includes(extension)
     ) {
-      onChange(e.target.files[0]);
-      setFiles({ ...files, [name]: e.target.files[0].name });
+      onChange(file);
+      setFiles({ ...files, [name]: file.name });
       formApi.change(name?.split("_")[0], [null]);
       closeModal();
-      readXlsxFile(e.target.files[0]).then(rows => setContent(rows));
+      readXls({ file, setContent });
     } else if (
       name === "agreement" &&
       AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)

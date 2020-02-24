@@ -4,26 +4,31 @@ import Paper from "@material-ui/core/Paper";
 
 const FileContent = ({ content }) => (
   <Content>
-    {content?.map((row, index) => (
-      <Row key={index}>
-        {row.map((cell, index) => (
-          <Cell key={index}>{cell}</Cell>
+    {content?.map(el => (
+      <Card>
+        {Object.entries(el).map(([label, value], index) => (
+          <Row key={index}>
+            <Cell>{label}:</Cell>
+            <Cell>{value}</Cell>
+          </Row>
         ))}
-      </Row>
+      </Card>
     ))}
   </Content>
 );
 
 export default FileContent;
 
-const Content = styled(Paper)`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
-  width: 750px;
   height: 360px;
-  padding: 18px;
+  width: 100%;
+  padding: 16px;
   margin: 20px 0 0 0;
   overflow-y: overlay;
+  border-top: thin solid #cecece3b;
+  border-bottom: thin solid #cecece3b;
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -33,24 +38,37 @@ const Content = styled(Paper)`
   }
 `;
 
+const Card = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  padding: 6px 18px;
+  margin: 20px 0 0 0;
+  &:first-child {
+    margin: 0;
+  }
+`;
+
 const Row = styled.div`
   display: flex;
-  height: 58px;
-  border-bottom: 1px solid #38383830;
+  min-height: 36px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: thin solid #cecece3b;
   &:last-child {
-    border-bottom: none;
+    border: none;
   }
 `;
 const Cell = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   color: #777777;
-  width: calc(750px / 7);
-  font-size: 14px;
-  text-align: center;
-  border-right: 1px solid #38383830;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  &:first-child {
+    flex: 70%;
+  }
   &:last-child {
-    border-right: none;
+    flex: 30%;
   }
 `;
