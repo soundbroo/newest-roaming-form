@@ -12,9 +12,13 @@ const Auth = ({
 }) => {
   const axios = new AxiosService();
 
-  const [data, setData] = useState({
+  const defaultData = {
     login: "",
-    password: "",
+    password: ""
+  };
+
+  const [data, setData] = useState({
+    ...defaultData,
     error: null
   });
 
@@ -28,9 +32,18 @@ const Auth = ({
     if (status === 401) {
       setMessage(text);
       setOpen(true);
+      setData({ ...data, ...defaultData });
     }
-    if (status === 0)
-      return setAuth({ ...auth, status: !auth.status, operatorId: text });
+    if (status === 0) {
+      const [id, ...sessionToken] = text.split(" ");
+      localStorage.setItem("operator", id);
+      return setAuth({
+        ...auth,
+        status: !auth.status,
+        operatorId: id,
+        sessionToken: sessionToken.join(" ")
+      });
+    }
   };
 
   return (
@@ -51,7 +64,6 @@ const Auth = ({
         <LoginButton variant="outlined" color="primary" onClick={handleLogin}>
           Войти
         </LoginButton>
-        <Warning>{data.error}</Warning>
       </>
     </Wrapper>
   );
@@ -71,8 +83,4 @@ const Wrapper = styled(Paper)`
 
 const LoginButton = styled(Button)`
   width: 100%;
-`;
-
-const Warning = styled.div`
-  color: #fe4733;
 `;

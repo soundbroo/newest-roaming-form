@@ -30,12 +30,28 @@ class AxiosService {
       return this.toJSON(value).replace(/"/g, "");
     };
 
-    this.setFormData = values => {
+    this.setFormData = ({ values, activePage }) => {
       const formData = new FormData();
-      const data = {};
+      let data = {};
       const prepareData = type => {
         if (data?.[type]) {
           data?.[type].map(type => {
+            // switch (activePage) {
+            //   case 0: {
+            //     return { ...type, id: `2AE${type.id}` };
+            //   }
+            //   case 1: {
+            //     if (type === "sender") {
+            //       const operator = localStorage.getItem("operator");
+            //       console.log({ ...type, id: `${operator}${type.id}` });
+            //       return { ...type, id: `${operator}${type.id}` };
+            //     }
+            //     if (type === "receiver") {
+            //       return { ...type, id: `2AE${type.id}` };
+            //     }
+            //   }
+            // }
+
             if (type?.inn?.length === 10) {
               delete type.firstname;
               delete type.lastname;
@@ -85,11 +101,11 @@ class AxiosService {
     }
   };
 
-  abonent = async values => {
+  abonent = async ({ values, activePage }) => {
     try {
       const result = await this.instance.post(
         "/abonent",
-        this.setFormData(values),
+        this.setFormData({ values, activePage }),
         this.config.multipart
       );
       console.log("Result - ", result);
@@ -98,11 +114,11 @@ class AxiosService {
     }
   };
 
-  operator = async values => {
+  operator = async ({ values, activePage }) => {
     try {
       const result = await this.instance.post(
         "/operator",
-        this.setFormData(values),
+        this.setFormData({ values, activePage }),
         this.config.multipart
       );
       console.log("Result - ", result);
@@ -113,7 +129,7 @@ class AxiosService {
 
   status = async id => {
     try {
-      const result = await this.instance.get(`/abonent/${id}`);
+      const result = await this.instance.get(`/abonent/status/${id}`);
       console.log("Result - ", result);
       return result;
     } catch (e) {

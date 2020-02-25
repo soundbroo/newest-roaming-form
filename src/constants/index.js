@@ -153,3 +153,9 @@ export const BUTTON_TITLES = {
   pickFile: "Выбрать файл",
   uploadAgreement: "Загрузить соглашение о выборе оператора"
 };
+
+export const MESSAGES = {
+  addClient:
+    "Перед добавлением клиента необходимо заполнить все недостающие поля",
+  fileNotSupported: "Отправка файлов данного типа не поддерживается"
+};

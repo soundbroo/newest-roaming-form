@@ -14,32 +14,19 @@ export const disableAllBesidesInn = ({ name, index, values }) => {
 
 export const validate = {
   inn: value =>
-    INN_LENGTH.includes(value?.length) ? undefined : "Некорректный ИНН",
+    INN_LENGTH.includes(value?.trim().length) ? undefined : "Некорректный ИНН",
   email: value =>
-    value?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    value?.match(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    )
       ? undefined
       : "Некорректный Email",
-  kpp: value => (value?.length === KPP_LENGTH ? undefined : "Некорректный КПП"),
+  kpp: value =>
+    value?.trim().length === KPP_LENGTH ? undefined : "Некорректный КПП",
   id: value => {
     if (value === undefined || value?.match(/\s/)) {
       return "Некорректный идентификатор";
     }
     return undefined;
   }
-};
-
-export const validateInn = value =>
-  INN_LENGTH.includes(value?.length) ? undefined : "Некорректный ИНН";
-
-export const validateEmail = value =>
-  value?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) ? undefined : "Некорректный Email";
-
-export const validateKpp = value =>
-  value?.length === KPP_LENGTH ? undefined : "Некорректный КПП";
-
-export const validateId = value => {
-  if (value === undefined || value?.match(/\s/)) {
-    return "Некорректный идентификатор";
-  }
-  return undefined;
 };

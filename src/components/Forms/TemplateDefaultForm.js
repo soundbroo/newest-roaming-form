@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { FormFieldsRow } from "components/Common/styled";
-
 import InputField from "components/Forms/InputField";
 
-import { required, validateInn, validateKpp, validate } from "utils/validate";
-import { parseInn, parseKpp } from "utils/parse";
+import { validate } from "utils/validate";
+import { parseInn, parseKpp, parseName } from "utils/parse";
 
 // Дефолтный шаблон с полями ИНН, КПП, Название организации/ФИО
 
@@ -43,9 +42,14 @@ const TemplateDefaultForm = ({
           <InputField disabled={!isValidInn} name={name} fieldType="name" />
         ) : (
           <>
-            <InputField name={name} fieldType="lastname" />
-            <InputField name={name} fieldType="firstname" />
-            <InputField name={name} validate={null} fieldType="patronymic" />
+            <InputField name={name} fieldType="lastname" parse={parseName} />
+            <InputField name={name} fieldType="firstname" parse={parseName} />
+            <InputField
+              name={name}
+              validate={null}
+              fieldType="patronymic"
+              parse={parseName}
+            />
           </>
         )}
       </FormFieldsRow>

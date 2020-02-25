@@ -2,18 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
-const AddButton = ({ type, push, ...rest }) => (
-  <ButtonWrapper>
-    <Button
-      variant="outlined"
-      color="primary"
-      onClick={() => push(type, undefined)}
-      {...rest}
-    >
-      Добавить клиента
-    </Button>
-  </ButtonWrapper>
-);
+import { MESSAGES } from "constants";
+
+const AddButton = ({ type, push, errors, setOpen, setMessage, ...rest }) => {
+  const handleClick = () => {
+    if (!Object.keys(errors).length) {
+      return push(type, undefined);
+    }
+    setMessage(MESSAGES.addClient);
+    setOpen(true);
+  };
+
+  return (
+    <ButtonWrapper>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleClick}
+        {...rest}
+      >
+        Добавить клиента
+      </Button>
+    </ButtonWrapper>
+  );
+};
 
 export default AddButton;
 

@@ -15,13 +15,28 @@ import { FORM_TITLES } from "constants";
 import AxiosService from "api";
 
 const Form = ({ activePage, messageState, openState }) => {
+  const [auth, setAuth] = useState({
+    status: false,
+    operatorId: localStorage.getItem("operator"),
+    sessionToken: null
+  });
+  useEffect(() => {
+    if (
+      document.cookie.split(" ").find(cookie => cookie.includes("sessionToken"))
+    )
+      setAuth({ ...auth, status: true });
+    if (auth.sessionToken) {
+      document.cookie = auth.sessionToken;
+    }
+  }, [auth.sessionToken]);
+
   const axios = new AxiosService();
   const submit = values => {
     switch (activePage) {
       case 0:
-        return axios.abonent(values);
+        return axios.abonent({ values, activePage });
       case 1:
-        return axios.operator(values);
+        return axios.operator({ values, activePage });
     }
   };
 
@@ -33,10 +48,6 @@ const Form = ({ activePage, messageState, openState }) => {
     agreement: null
   };
   const [files, setFiles] = useState(defaultFiles);
-  const [auth, setAuth] = useState({
-    status: false,
-    operatorId: null
-  });
   const [formApi, setFormApi] = useState({});
 
   const bindFormApi = formApi => {
@@ -142,6 +153,7 @@ const Form = ({ activePage, messageState, openState }) => {
                       formApi={formApi}
                       push={push}
                       values={values}
+                      errors={errors}
                     />
                   </form>
                 </Stepper>

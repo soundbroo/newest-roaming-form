@@ -5,7 +5,11 @@ import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 import readXls from "utils/readXls";
 
-import { AGREEMENT_LOADED_TITLE, AVAILABLE_FILE_EXTENSIONS } from "constants";
+import {
+  AGREEMENT_LOADED_TITLE,
+  AVAILABLE_FILE_EXTENSIONS,
+  MESSAGES
+} from "constants";
 
 const UploadButtonAdapter = ({
   values,
@@ -39,7 +43,7 @@ const UploadButtonAdapter = ({
       onChange(e.target.files[0]);
     } else {
       (name === "sender_list" || name === "receiver_list") && closeModal();
-      setMessage("Отправка файлов данного типа не поддерживается");
+      setMessage(MESSAGES.fileNotSupported);
       setOpen(true);
     }
   };

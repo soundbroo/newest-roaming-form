@@ -1,34 +1,16 @@
 import React from "react";
 import { Field } from "react-final-form";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import MaskedInput from "react-text-mask";
-
-import { validateId } from "utils/validate";
-import { identifierMask } from "utils/mask";
-
-import { FIELDS_NAMES } from "constants";
 
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 
-const TextMaskCustom = props => {
-  const { inputRef, ...rest } = props;
+import { validate } from "utils/validate";
+import { parseId } from "utils/parse";
 
-  return (
-    <MaskedInput
-      {...rest}
-      ref={ref => {
-        inputRef(ref ? ref.inputElement : null);
-      }}
-      mask={identifierMask}
-      placeholderChar={"\u2000"}
-      // showMask
-    />
-  );
-};
+import { FIELDS_NAMES } from "constants";
 
 const IdentifierField = ({ inputAdornment, name, ...rest }) => {
   const adornmentProps = {
-    inputComponent: TextMaskCustom,
     startAdornment: (
       <InputAdornment position="start">{inputAdornment}</InputAdornment>
     )
@@ -38,7 +20,8 @@ const IdentifierField = ({ inputAdornment, name, ...rest }) => {
     <Field
       name={`${name}.${FIELDS_NAMES.id.type}`}
       component={TextFieldAdapter}
-      validate={validateId}
+      validate={validate.id}
+      parse={parseId}
       label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}
       {...rest}

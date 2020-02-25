@@ -33,6 +33,7 @@ const Page = ({
   activeFormProps,
   typeDataTitle,
   values,
+  errors,
   push,
   operatorId,
   fileProps
@@ -156,7 +157,16 @@ const Page = ({
         if (type === "receiver" && values.sender.length > 1) return true;
       };
 
-      return <AddButton disabled={disabled(type)} type={type} push={push} />;
+      return (
+        <AddButton
+          disabled={disabled(type)}
+          type={type}
+          errors={errors}
+          push={push}
+          {...openState}
+          {...messageState}
+        />
+      );
     }
   };
 
