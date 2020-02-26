@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { Content } from "components/Common/styled";
 import NoDataPanel from "components/Forms/InputValidationForm/NoDataPanel";
 import ValidationPanel from "components/Forms/InputValidationForm/ValidationPanel";
 import CheckDataButton from "components/Forms/InputValidationForm/CheckDataButton";
@@ -73,21 +74,18 @@ const InputValidationForm = ({
     return (
       <>
         <span>{VALIDATION_FORM_TITLE[agent]}</span>
-        <ValidationFormWrapper>
-          {data.map((data, index) => (
-            <ValidationPanel
-              key={index}
-              agent={agent}
-              error={error}
-              data={
-                error || !response
-                  ? data
-                  : response?.data?.[agent]?.[index].input
-              }
-              errors={response?.data?.[agent]?.[index].errors}
-            />
-          ))}
-        </ValidationFormWrapper>
+
+        {data.map((data, index) => (
+          <ValidationPanel
+            key={index}
+            agent={agent}
+            error={error}
+            data={
+              error || !response ? data : response?.data?.[agent]?.[index].input
+            }
+            errors={response?.data?.[agent]?.[index].errors}
+          />
+        ))}
       </>
     );
   };
@@ -95,10 +93,10 @@ const InputValidationForm = ({
   const renderForm = () => {
     if (!isSender && !isReceiver) return renderError();
     return (
-      <>
+      <ValidationFormWrapper>
         {isSender && renderSuccess("sender")}
         {isReceiver && renderSuccess("receiver")}
-      </>
+      </ValidationFormWrapper>
     );
   };
 
@@ -107,4 +105,6 @@ const InputValidationForm = ({
 
 export default InputValidationForm;
 
-const ValidationFormWrapper = styled.div``;
+const ValidationFormWrapper = styled(Content)`
+  margin-left: -16px;
+`;

@@ -45,6 +45,11 @@ export const muiTheme = createMuiTheme({
       labelContainer: {
         textAlign: "center"
       }
+    },
+    MuiExpansionPanelSummary: {
+      root: {
+        minHeight: 58
+      }
     }
   }
 });

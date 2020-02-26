@@ -233,15 +233,18 @@ const Page = ({
       );
     case 2:
       return (
-        <InputValidationForm
-          key={3}
-          values={values}
-          buttonProps={activeFormProps}
-          files={fileProps.files}
-          response={response}
-          messageState={messageState}
-          openState={openState}
-        />
+        <>
+          <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
+          <InputValidationForm
+            key={3}
+            values={values}
+            buttonProps={activeFormProps}
+            files={fileProps.files}
+            response={response}
+            messageState={messageState}
+            openState={openState}
+          />
+        </>
       );
   }
 };

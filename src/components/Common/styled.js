@@ -28,3 +28,22 @@ export const Divider = styled.hr`
   height: 1px;
   border: none;
 `;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 360px;
+  width: 100%;
+  padding: 16px;
+  margin: 20px 0 0 0;
+  overflow-y: overlay;
+  border-top: thin solid #cecece3b;
+  border-bottom: thin solid #cecece3b;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+  }
+`;

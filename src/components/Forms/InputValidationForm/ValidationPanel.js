@@ -17,20 +17,20 @@ const ValidationPanel = ({ agent, error, data, errors }) => {
   console.log("CLIENT", data);
 
   const renderTitle = () => (
-    <Item>
+    <>
       <span>
         {data?.name ||
           `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
       </span>
       {!error && errors ? <Error>Исправьте ошибки</Error> : null}
-    </Item>
+    </>
   );
 
   return (
     <ValidationPanelWrapper>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <ExpansionPanelItem>{renderTitle()}</ExpansionPanelItem>
+          <ExpansionPanelTitle>{renderTitle()}</ExpansionPanelTitle>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <ExpansionPanelContent>
@@ -40,11 +40,11 @@ const ValidationPanel = ({ agent, error, data, errors }) => {
                   <>
                     <ExpansionPanelItem key={index}>
                       <ItemWrapper>
+                        <Title>{TITLES_FOR_KEYS[key]}:</Title>{" "}
                         <Item>
-                          <span>{TITLES_FOR_KEYS[key]}:</span>{" "}
                           <span>{value}</span>
+                          <Error>{(!error && errors?.[key]) || null}</Error>
                         </Item>
-                        <Error>{(!error && errors?.[key]) || null}</Error>
                       </ItemWrapper>
                     </ExpansionPanelItem>
                     <Divider />
@@ -61,24 +61,35 @@ const ValidationPanel = ({ agent, error, data, errors }) => {
 
 export default ValidationPanel;
 
-const ValidationPanelWrapper = styled.div`
-  margin: 12px 0 12px 0;
-`;
-
-const ItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-const Item = styled.div`
+const ExpansionPanelTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
 `;
 
+const ValidationPanelWrapper = styled.div`
+  margin: 9px 0;
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
 const Error = styled.div`
-  text-align: right;
-  font-size: 12px;
-  color: red;
+  font-size: 13px;
+  color: #fe4733;
 `;

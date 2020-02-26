@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Paper from "@material-ui/core/Paper";
 
+import { Content } from "components/Common/styled";
+
 const FileContent = ({ content }) => (
   <Content>
     {content?.map((el, index) => (
@@ -18,25 +20,6 @@ const FileContent = ({ content }) => (
 );
 
 export default FileContent;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 360px;
-  width: 100%;
-  padding: 16px;
-  margin: 20px 0 0 0;
-  overflow-y: overlay;
-  border-top: thin solid #cecece3b;
-  border-bottom: thin solid #cecece3b;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #c5c5c5;
-  }
-`;
 
 const Card = styled(Paper)`
   display: flex;
