@@ -4,8 +4,8 @@ import Paper from "@material-ui/core/Paper";
 
 const FileContent = ({ content }) => (
   <Content>
-    {content?.map(el => (
-      <Card>
+    {content?.map((el, index) => (
+      <Card key={index}>
         {Object.entries(el).map(([label, value], index) => (
           <Row key={index}>
             <Cell>{label}:</Cell>

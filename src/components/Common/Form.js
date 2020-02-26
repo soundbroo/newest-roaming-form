@@ -31,12 +31,15 @@ const Form = ({ activePage, messageState, openState }) => {
   }, [auth.sessionToken]);
 
   const axios = new AxiosService();
+
+  const [response, setResponse] = useState(null);
+
   const submit = values => {
     switch (activePage) {
       case 0:
-        return axios.abonent({ values, activePage });
+        return axios.abonent({ values, activePage, setResponse });
       case 1:
-        return axios.operator({ values, activePage });
+        return axios.operator({ values, activePage, setResponse });
     }
   };
 
@@ -59,6 +62,7 @@ const Form = ({ activePage, messageState, openState }) => {
   useEffect(() => {
     setActiveForm(0);
     setFiles(defaultFiles);
+    setResponse(null);
   }, [activePage]);
 
   const activeFormData = Object.values(FORM_TITLES).find(
@@ -82,6 +86,7 @@ const Form = ({ activePage, messageState, openState }) => {
       files,
       setFiles
     },
+    response,
     operatorId: auth.operatorId
   };
 

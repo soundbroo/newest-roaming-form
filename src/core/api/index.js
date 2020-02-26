@@ -32,33 +32,41 @@ class AxiosService {
 
     this.setFormData = ({ values, activePage }) => {
       const formData = new FormData();
-      let data = {};
+      const data = {};
       const prepareData = type => {
-        if (data?.[type]) {
-          data?.[type].map(type => {
-            // switch (activePage) {
-            //   case 0: {
-            //     return { ...type, id: `2AE${type.id}` };
-            //   }
-            //   case 1: {
-            //     if (type === "sender") {
-            //       const operator = localStorage.getItem("operator");
-            //       console.log({ ...type, id: `${operator}${type.id}` });
-            //       return { ...type, id: `${operator}${type.id}` };
-            //     }
-            //     if (type === "receiver") {
-            //       return { ...type, id: `2AE${type.id}` };
-            //     }
-            //   }
-            // }
+        // Удаляем лишние поля
 
-            if (type?.inn?.length === 10) {
-              delete type.firstname;
-              delete type.lastname;
-              delete type.patronymic;
-            } else if (type?.inn?.length === 12) {
-              delete type.kpp;
-              delete type.name;
+        if (data?.[type]) {
+          data?.[type].map(el => {
+            if (el?.inn?.length === 10) {
+              delete el.firstname;
+              delete el.lastname;
+              delete el.patronymic;
+            } else if (el?.inn?.length === 12) {
+              delete el.kpp;
+              delete el.name;
+            }
+          });
+        }
+
+        // Добавляем префиксы операторов
+
+        if (data?.[type]) {
+          data[type] = data?.[type].map(el => {
+            switch (activePage) {
+              case 0: {
+                if (type === "sender") return { ...el, id: `2AE${el.id}` };
+                if (type === "receiver") return { ...el };
+              }
+              case 1: {
+                if (type === "sender") {
+                  const operator = localStorage.getItem("operator");
+                  return { ...el, id: `${operator}${el.id}` };
+                }
+                if (type === "receiver") {
+                  return { ...el, id: `2AE${el.id}` };
+                }
+              }
             }
           });
         }
@@ -101,35 +109,49 @@ class AxiosService {
     }
   };
 
-  abonent = async ({ values, activePage }) => {
+  abonent = async ({ values, activePage, setResponse }) => {
     try {
       const result = await this.instance.post(
         "/abonent",
         this.setFormData({ values, activePage }),
         this.config.multipart
       );
+      setResponse(result);
       console.log("Result - ", result);
     } catch (e) {
       console.log("Error - ", e);
     }
   };
 
-  operator = async ({ values, activePage }) => {
+  operator = async ({ values, activePage, setResponse }) => {
     try {
       const result = await this.instance.post(
         "/operator",
         this.setFormData({ values, activePage }),
         this.config.multipart
       );
+      setResponse(result);
       console.log("Result - ", result);
     } catch (e) {
       console.log("Error - ", e);
     }
   };
 
-  status = async id => {
+  status = async ({ uid, request_id }) => {
     try {
-      const result = await this.instance.get(`/abonent/status/${id}`);
+      const result = await this.instance.get(
+        `/abonent/status/${uid}/${request_id}`
+      );
+      console.log("Result - ", result);
+      return result;
+    } catch (e) {
+      console.log("Error - ", e);
+    }
+  };
+
+  request = async ({ uid, request_id }) => {
+    try {
+      const result = await this.instance.get(`/abonent/${uid}/${request_id}`);
       console.log("Result - ", result);
       return result;
     } catch (e) {

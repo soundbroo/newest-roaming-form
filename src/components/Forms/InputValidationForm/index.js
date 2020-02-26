@@ -10,7 +10,10 @@ import { VALIDATION_FORM_TITLE } from "constants";
 const InputValidationForm = ({
   values,
   buttonProps,
-  files: { sender_list, receiver_list }
+  response,
+  files: { sender_list, receiver_list },
+  messageState: { setMessage },
+  openState: { setOpen }
 }) => {
   const isSender = Boolean(values?.sender[0]) || sender_list;
   const isReceiver = Boolean(values?.receiver[0] || receiver_list);
@@ -44,13 +47,45 @@ const InputValidationForm = ({
       }
     };
     const agentFile = checkAgent(agent);
-    if (agentFile) return <div>Вы загрузили файл {agentFile}</div>;
+    if (agentFile && !response) return <div>Вы загрузили файл {agentFile}</div>;
+
+    const error = response?.data?.text;
+    console.log(error);
+
+    const dataMap = agent => {
+      if (!response) {
+        console.log("!RES");
+        return values[agent];
+      } else if (error === "Список получателей пуст") {
+        console.log("ERROR");
+        setMessage(error);
+        setOpen(true);
+        return values[agent];
+      }
+      console.log("RES");
+      return response?.data?.[agent];
+    };
+
+    const data = dataMap(agent);
+
+    console.log("DATA", data);
+
     return (
       <>
         <span>{VALIDATION_FORM_TITLE[agent]}</span>
         <ValidationFormWrapper>
-          {values[agent].map(agent => (
-            <ValidationPanel agent={agent} />
+          {data.map((data, index) => (
+            <ValidationPanel
+              key={index}
+              agent={agent}
+              error={error}
+              data={
+                error || !response
+                  ? data
+                  : response?.data?.[agent]?.[index].input
+              }
+              errors={response?.data?.[agent]?.[index].errors}
+            />
           ))}
         </ValidationFormWrapper>
       </>

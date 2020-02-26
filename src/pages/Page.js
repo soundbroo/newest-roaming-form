@@ -35,6 +35,7 @@ const Page = ({
   values,
   errors,
   push,
+  response,
   operatorId,
   fileProps
 }) => {
@@ -237,6 +238,9 @@ const Page = ({
           values={values}
           buttonProps={activeFormProps}
           files={fileProps.files}
+          response={response}
+          messageState={messageState}
+          openState={openState}
         />
       );
   }

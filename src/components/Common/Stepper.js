@@ -39,13 +39,6 @@ export default function HorizontalNonLinearStepper({
     return Object.keys(completed).length === steps.length;
   };
 
-  // const handleComplete = () => {
-  //   const newCompleted = completed;
-  //   newCompleted[activeStep] = true;
-  //   setCompleted(newCompleted);
-  //   handleNext();
-  // };
-
   const handleNext = () => {
     if (activeStep === 2) return submit(values);
     const newCompleted = completed;

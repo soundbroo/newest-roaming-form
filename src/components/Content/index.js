@@ -20,10 +20,17 @@ const Content = () => {
 
   useEffect(() => {
     const { search } = window.location;
-    if (search.includes("?status")) {
+    if (search.includes("?uid")) {
       setActivePage(2);
-      const statusId = search.replace(/\?status=/, "");
-      axios.status(statusId).then(res => setQuery(res.data.text));
+      const [user, query] = search.slice(1).split("?");
+      const uid = user.replace(/\uid=/, "");
+      const request_id = query.replace(/\D/g, "");
+      if (query.includes("status")) {
+        axios.status({ uid, request_id }).then(res => setQuery(res.data.text));
+      }
+      if (query.includes("request")) {
+        axios.request({ uid, request_id }).then(res => setQuery(res.data.text));
+      }
     }
   }, []);
 
