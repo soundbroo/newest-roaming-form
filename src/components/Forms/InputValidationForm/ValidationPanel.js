@@ -13,10 +13,23 @@ import {
 
 import { TITLES_FOR_KEYS } from "constants";
 
-const ValidationPanel = ({ agent, notification, data, errors }) => {
-  const agreementError = errors.files.agreement;
-  const fieldsErrors = Object.assign({}, errors);
-  delete fieldsErrors.files;
+const ValidationPanel = ({ agent, notification, data, responseErrors }) => {
+  const prepareErrors = () => {
+    let errors = {};
+    for (let key in responseErrors) {
+      if (key !== "files") {
+        errors[key] = responseErrors[key];
+      } else {
+        for (let key in responseErrors.files) {
+          errors[key] = responseErrors.files[key];
+        }
+      }
+    }
+    return errors;
+  };
+
+  const errors = prepareErrors();
+
   const renderTitle = () => (
     <>
       <span>
@@ -24,8 +37,8 @@ const ValidationPanel = ({ agent, notification, data, errors }) => {
           `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
       </span>
       {!notification &&
-      fieldsErrors &&
-      Object.values(fieldsErrors).some(el => el !== "") ? (
+      errors &&
+      Object.values(errors).some(el => el !== "") ? (
         <Error>Исправьте ошибки</Error>
       ) : null}
     </>
@@ -49,7 +62,7 @@ const ValidationPanel = ({ agent, notification, data, errors }) => {
                         <Item>
                           <span>{value}</span>
                           <Error>
-                            {(!notification && fieldsErrors?.[key]) || null}
+                            {(!notification && errors?.[key]) || null}
                           </Error>
                         </Item>
                       </ItemWrapper>
@@ -62,6 +75,9 @@ const ValidationPanel = ({ agent, notification, data, errors }) => {
           </ExpansionPanelContent>
         </ExpansionPanelDetails>
       </ExpansionPanel>
+      {errors?.agreement ? (
+        <Error>{(!notification && errors?.agreement) || null}</Error>
+      ) : null}
     </ValidationPanelWrapper>
   );
 };

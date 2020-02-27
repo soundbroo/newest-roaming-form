@@ -96,7 +96,7 @@ const InputValidationForm = ({
             agent={agent}
             notification={notification}
             data={!response ? data : response?.data?.[agent]?.[index].input}
-            errors={response?.data?.[agent]?.[index].errors}
+            responseErrors={response?.data?.[agent]?.[index].errors}
           />
         ))}
       </>
