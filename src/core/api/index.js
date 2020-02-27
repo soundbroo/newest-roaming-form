@@ -123,13 +123,16 @@ class AxiosService {
     }
   };
 
-  operator = async ({ values, activePage, setResponse }) => {
+  operator = async ({ values, activePage, setResponse, auth, setAuth }) => {
     try {
       const result = await this.instance.post(
         "/operator",
         this.setFormData({ values, activePage }),
         this.config.multipart
       );
+      if (result.data.status === 401) {
+        return setAuth({ ...auth, refresh: true });
+      }
       setResponse(result);
       console.log("Result - ", result);
     } catch (e) {

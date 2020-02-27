@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { Content } from "components/Common/styled";
+import { Content, Background } from "components/Common/styled";
+import Auth from "components/Common/Auth";
 import NoDataPanel from "components/Forms/InputValidationForm/NoDataPanel";
 import ValidationPanel from "components/Forms/InputValidationForm/ValidationPanel";
 import CheckDataButton from "components/Forms/InputValidationForm/CheckDataButton";
@@ -14,10 +15,15 @@ const InputValidationForm = ({
   response,
   setResponse,
   files: { sender_list, receiver_list },
-  messageState: { setMessage },
-  openState: { setOpen },
-  colorState: { setColor }
+  messageState,
+  openState,
+  colorState: { setColor },
+  auth,
+  setAuth
 }) => {
+  const { setMessage } = messageState;
+  const { setOpen } = openState;
+
   const isSender = Boolean(values?.sender[0]) || sender_list;
   const isReceiver = Boolean(values?.receiver[0] || receiver_list);
   const notification = response?.data?.text;
@@ -88,8 +94,19 @@ const InputValidationForm = ({
 
     return (
       <>
+        {auth.refresh ? (
+          <Background>
+            <ModalWrapper>
+              <Auth
+                auth={auth}
+                setAuth={setAuth}
+                messageState={messageState}
+                openState={openState}
+              />
+            </ModalWrapper>
+          </Background>
+        ) : null}
         <span>{VALIDATION_FORM_TITLE[agent]}</span>
-
         {data.map((data, index) => (
           <ValidationPanel
             key={index}
@@ -120,4 +137,11 @@ export default InputValidationForm;
 
 const ValidationFormWrapper = styled(Content)`
   margin-left: -16px;
+`;
+
+const ModalWrapper = styled.div`
+  position: fixed;
+  left: calc(50% - 240px);
+  top: calc(50% - 160px);
+  z-index: 3;
 `;

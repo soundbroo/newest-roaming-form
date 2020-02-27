@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { Button, Chip } from "@material-ui/core";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
+import { Background } from "components/Common/styled";
 import UploadField from "components/Forms/UploadField";
 
 import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 
 const UploadModal = ({ handleChange, ...rest }) => (
-  <BackGround onClick={handleChange}>
+  <Background onClick={handleChange}>
     <Wrapper onClick={e => e.stopPropagation()}>
       <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
 
@@ -30,7 +31,7 @@ const UploadModal = ({ handleChange, ...rest }) => (
         {...rest}
       />
     </Wrapper>
-  </BackGround>
+  </Background>
 );
 
 const OpenModalButton = ({ name, files, ...rest }) => {
@@ -87,28 +88,18 @@ const SelectedFileButton = ({ label, name, files, setFiles, formApi }) => {
 
 export default OpenModalButton;
 
-const BackGround = styled.div`
-  position: fixed;
-  background: rgba(0, 0, 0, 0.5);
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-`;
-
 const Wrapper = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: #fff;
-  width: 320px;
-  height: 280px;
-  border-radius: 6px;
+  width: 480px;
+  height: 310px;
+  border-radius: 3px;
   padding: 12px;
-  left: calc(50% - 160px);
-  top: calc(50% - 140px);
+  left: calc(50% - 240px);
+  top: calc(50% - 160px);
   z-index: 3;
 `;
 

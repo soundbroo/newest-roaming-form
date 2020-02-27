@@ -17,6 +17,7 @@ import AxiosService from "api";
 const Form = ({ activePage, snackbarProps }) => {
   const [auth, setAuth] = useState({
     status: false,
+    refresh: false,
     operatorId: localStorage.getItem("operator"),
     sessionToken: null
   });
@@ -39,7 +40,13 @@ const Form = ({ activePage, snackbarProps }) => {
       case 0:
         return axios.abonent({ values, activePage, setResponse });
       case 1:
-        return axios.operator({ values, activePage, setResponse });
+        return axios.operator({
+          values,
+          activePage,
+          setResponse,
+          auth,
+          setAuth
+        });
     }
   };
 
@@ -81,6 +88,10 @@ const Form = ({ activePage, snackbarProps }) => {
       setActiveStep,
       setActiveForm
     },
+    authProps: {
+      auth,
+      setAuth
+    },
     fileProps: {
       files,
       setFiles
@@ -98,14 +109,7 @@ const Form = ({ activePage, snackbarProps }) => {
   const [initialValues, setInitialValues] = useState(emptyFormValues);
 
   if (activePage === 1 && auth.status === false)
-    return (
-      <Auth
-        auth={auth}
-        setAuth={setAuth}
-        messageState={messageState}
-        openState={openState}
-      />
-    );
+    return <Auth auth={auth} setAuth={setAuth} {...snackbarProps} />;
 
   return (
     <>

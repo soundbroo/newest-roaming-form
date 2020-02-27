@@ -30,6 +30,7 @@ const Page = ({
   activePage,
   activeForm,
   activeFormProps,
+  authProps,
   typeDataTitle,
   values,
   errors,
@@ -239,6 +240,7 @@ const Page = ({
             response={response}
             setResponse={setResponse}
             {...snackbarProps}
+            {...authProps}
           />
         </>
       );

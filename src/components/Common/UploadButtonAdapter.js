@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
+import { useDropzone } from "react-dropzone";
 
 import readXls from "utils/readXls";
 
@@ -25,8 +25,8 @@ const UploadButtonAdapter = ({
   title,
   input: { value, onChange, name, ...input }
 }) => {
-  const handleChange = e => {
-    const file = e.target.files[0];
+  const handleChange = uploaded => {
+    const file = uploaded[0];
     const fileName = file.name.split(".");
     const extension = fileName[fileName.length - 1];
     if (
@@ -42,7 +42,7 @@ const UploadButtonAdapter = ({
       name === "agreement" &&
       AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)
     ) {
-      onChange(e.target.files[0]);
+      onChange(file);
     } else {
       (name === "sender_list" || name === "receiver_list") && closeModal();
       setMessage(MESSAGES.fileNotSupported);
@@ -50,28 +50,40 @@ const UploadButtonAdapter = ({
     }
   };
 
+  const onDrop = useCallback(acceptedFiles => handleChange(acceptedFiles), []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: ".xls, .xlsx, .pdf, .png"
+  });
+  console.log(getRootProps());
   return (
-    <UploadButton key={name}>
+    <UploadButton
+      key={name}
+      {...getRootProps({
+        onClick: e => e.stopPropagation()
+      })}
+    >
       <input
+        {...getInputProps()}
         name={name}
-        {...input}
         style={{ display: "none" }}
-        accept=".xls, .xlsx, .pdf, .png"
         id="upload-button"
         type="file"
-        onChange={e => handleChange(e)}
       />
       <label htmlFor="upload-button">
-        <Button
-          key={name}
-          variant="outlined"
-          color="primary"
-          component="span"
-          startIcon={<AttachFileIcon />}
-        >
-          {name === "agreement" && values.agreement
-            ? AGREEMENT_LOADED_TITLE
-            : title}
+        <Button key={name} variant="outlined" color="primary" component="span">
+          <LabelWrapper>
+            <div>
+              {!isDragActive
+                ? name === "agreement" && values.agreement
+                  ? AGREEMENT_LOADED_TITLE
+                  : title
+                : "Перетащите файл сюда"}
+            </div>
+            <DragLabel>
+              Перетащите файл сюда или нажмите, чтобы выбрать
+            </DragLabel>
+          </LabelWrapper>
         </Button>
       </label>
     </UploadButton>
@@ -84,4 +96,22 @@ const UploadButton = styled.div`
   & > label > span {
     width: 100%;
   }
+  & > label > span > span:first-child {
+    height: 60px;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #5400a25c;
+    border-radius: 6px;
+  }
+`;
+
+const LabelWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const DragLabel = styled.div`
+  font-size: 10px;
 `;
