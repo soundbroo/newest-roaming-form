@@ -159,3 +159,10 @@ export const MESSAGES = {
     "Перед добавлением клиента необходимо заполнить все недостающие поля",
   fileNotSupported: "Отправка файлов данного типа не поддерживается"
 };
+
+export const statuses = {
+  success: "success",
+  info: "info",
+  warning: "warning",
+  error: "error"
+};

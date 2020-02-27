@@ -50,6 +50,12 @@ export const muiTheme = createMuiTheme({
       root: {
         minHeight: 58
       }
+    },
+    MuiSnackbar: {
+      root: {
+        maxWidth: 530,
+        textAlign: "justify"
+      }
     }
   }
 });

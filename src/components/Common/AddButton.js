@@ -4,7 +4,14 @@ import Button from "@material-ui/core/Button";
 
 import { MESSAGES } from "constants";
 
-const AddButton = ({ type, push, errors, setOpen, setMessage, ...rest }) => {
+const AddButton = ({
+  type,
+  push,
+  errors,
+  messageState: { setMessage },
+  openState: { setOpen },
+  ...rest
+}) => {
   const handleClick = () => {
     if (!Object.keys(errors).length) {
       return push(type, undefined);

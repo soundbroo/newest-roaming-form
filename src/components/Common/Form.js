@@ -14,7 +14,7 @@ import { FORM_TITLES } from "constants";
 
 import AxiosService from "api";
 
-const Form = ({ activePage, messageState, openState }) => {
+const Form = ({ activePage, snackbarProps }) => {
   const [auth, setAuth] = useState({
     status: false,
     operatorId: localStorage.getItem("operator"),
@@ -73,8 +73,7 @@ const Form = ({ activePage, messageState, openState }) => {
   const stepTitles = activeFormData.stepTitles;
 
   const pageProps = {
-    messageState,
-    openState,
+    snackbarProps,
     typeDataTitle,
     activePage,
     activeForm,
@@ -87,6 +86,7 @@ const Form = ({ activePage, messageState, openState }) => {
       setFiles
     },
     response,
+    setResponse,
     operatorId: auth.operatorId
   };
 

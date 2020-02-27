@@ -13,16 +13,21 @@ import {
 
 import { TITLES_FOR_KEYS } from "constants";
 
-const ValidationPanel = ({ agent, error, data, errors }) => {
-  console.log("CLIENT", data);
-
+const ValidationPanel = ({ agent, notification, data, errors }) => {
+  const agreementError = errors.files.agreement;
+  const fieldsErrors = Object.assign({}, errors);
+  delete fieldsErrors.files;
   const renderTitle = () => (
     <>
       <span>
         {data?.name ||
           `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
       </span>
-      {!error && errors ? <Error>Исправьте ошибки</Error> : null}
+      {!notification &&
+      fieldsErrors &&
+      Object.values(fieldsErrors).some(el => el !== "") ? (
+        <Error>Исправьте ошибки</Error>
+      ) : null}
     </>
   );
 
@@ -43,7 +48,9 @@ const ValidationPanel = ({ agent, error, data, errors }) => {
                         <Title>{TITLES_FOR_KEYS[key]}:</Title>{" "}
                         <Item>
                           <span>{value}</span>
-                          <Error>{(!error && errors?.[key]) || null}</Error>
+                          <Error>
+                            {(!notification && fieldsErrors?.[key]) || null}
+                          </Error>
                         </Item>
                       </ItemWrapper>
                     </ExpansionPanelItem>

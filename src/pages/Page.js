@@ -26,8 +26,7 @@ import { required, disableAllBesidesInn } from "utils/validate";
 
 const Page = ({
   formApi,
-  messageState,
-  openState,
+  snackbarProps,
   activePage,
   activeForm,
   activeFormProps,
@@ -36,6 +35,7 @@ const Page = ({
   errors,
   push,
   response,
+  setResponse,
   operatorId,
   fileProps
 }) => {
@@ -138,8 +138,7 @@ const Page = ({
             <UploadField
               values={values}
               validate={required}
-              messageState={messageState}
-              openState={openState}
+              snackbarProps={snackbarProps}
               name="agreement"
               title={BUTTON_TITLES.uploadAgreement}
             />
@@ -164,8 +163,7 @@ const Page = ({
           type={type}
           errors={errors}
           push={push}
-          {...openState}
-          {...messageState}
+          {...snackbarProps}
         />
       );
     }
@@ -195,8 +193,7 @@ const Page = ({
                 key="sender_list"
                 name="sender_list"
                 values={values}
-                messageState={messageState}
-                openState={openState}
+                snackbarProps={snackbarProps}
                 setContent={setContent}
                 formApi={formApi}
                 {...fileProps}
@@ -218,8 +215,7 @@ const Page = ({
               key="receiver_list"
               name="receiver_list"
               values={values}
-              messageState={messageState}
-              openState={openState}
+              snackbarProps={snackbarProps}
               setContent={setContent}
               formApi={formApi}
               {...fileProps}
@@ -241,8 +237,8 @@ const Page = ({
             buttonProps={activeFormProps}
             files={fileProps.files}
             response={response}
-            messageState={messageState}
-            openState={openState}
+            setResponse={setResponse}
+            {...snackbarProps}
           />
         </>
       );

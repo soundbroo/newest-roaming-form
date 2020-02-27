@@ -16,7 +16,13 @@ const Content = () => {
 
   const [activePage, setActivePage] = useState(0);
   const [query, setQuery] = useState(null);
-  const { openState, messageState } = useSnackbar();
+  const { openState, messageState, colorState } = useSnackbar();
+
+  const snackbarProps = {
+    openState,
+    messageState,
+    colorState
+  };
 
   useEffect(() => {
     const { search } = window.location;
@@ -42,8 +48,7 @@ const Content = () => {
           <Form
             activePage={activePage}
             setActivePage={setActivePage}
-            openState={openState}
-            messageState={messageState}
+            snackbarProps={snackbarProps}
           ></Form>
         );
       case 2:
@@ -59,7 +64,11 @@ const Content = () => {
         setActivePage={setActivePage}
       />
       <MainContent>{renderContent()}</MainContent>
-      <Snackbar message={messageState.message} {...openState} />
+      <Snackbar
+        message={messageState.message}
+        color={colorState.color}
+        {...openState}
+      />
     </ContentWrapper>
   );
 };

@@ -13,8 +13,10 @@ import {
 
 const UploadButtonAdapter = ({
   values,
-  messageState: { setMessage },
-  openState: { setOpen },
+  snackbarProps: {
+    messageState: { setMessage },
+    openState: { setOpen }
+  },
   files,
   setFiles,
   setContent,
