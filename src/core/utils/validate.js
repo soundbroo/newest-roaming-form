@@ -24,7 +24,7 @@ export const validate = {
   kpp: value =>
     value?.trim().length === KPP_LENGTH ? undefined : "Некорректный КПП",
   id: value => {
-    if (value === undefined || value.length < 36) {
+    if (value === undefined || value?.length < 36) {
       return "Некорректный идентификатор";
     }
     return undefined;

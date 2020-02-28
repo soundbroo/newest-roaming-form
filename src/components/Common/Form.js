@@ -194,7 +194,7 @@ const FormWrapper = styled(Paper)`
   justify-content: space-between;
   align-items: center;
   width: 600px;
-  min-height: 640px;
+  min-height: 740px;
   padding: 15px;
 
   form {

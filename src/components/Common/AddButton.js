@@ -13,7 +13,11 @@ const AddButton = ({
   ...rest
 }) => {
   const handleClick = () => {
-    if (!Object.keys(errors).length) {
+    const errorKeys = Object.keys(errors);
+    if (
+      !errorKeys.length ||
+      (errorKeys.length === 1 && errorKeys[0] === "agreement")
+    ) {
       return push(type, undefined);
     }
     setMessage(MESSAGES.addClient);

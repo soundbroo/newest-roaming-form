@@ -1,7 +1,8 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import styled from "styled-components";
+
+import { StyledFormFieldsWrapper } from "components/Common/styled";
 
 const FormFieldsWrapper = ({ children, index, remove }) => (
   <StyledFormFieldsWrapper>
@@ -16,16 +17,7 @@ const FormFieldsWrapper = ({ children, index, remove }) => (
 
 export default FormFieldsWrapper;
 
-export const StyledFormFieldsWrapper = styled(Paper)`
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 32px 0 9px 0;
-  padding: 9px 0;
-`;
-
-export const DeleteButton = styled.div`
+const DeleteButton = styled.div`
   position: absolute;
   top: 6px;
   right: 10px;

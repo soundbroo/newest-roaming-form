@@ -18,7 +18,7 @@ const IdentifierField = ({ inputAdornment, name, ...rest }) => {
 
   return (
     <Field
-      name={`${name}.${FIELDS_NAMES.id.type}`}
+      name={name}
       component={TextFieldAdapter}
       validate={validate.id}
       parse={parseId}

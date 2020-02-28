@@ -23,9 +23,11 @@ class AxiosService {
         withCredentials: true
       }
     };
+
     this.toJSON = value => {
       return JSON.stringify(value, 0, 2);
     };
+
     this.toJSONWithoutQuotes = value => {
       return this.toJSON(value).replace(/"/g, "");
     };
@@ -85,6 +87,12 @@ class AxiosService {
         formData.append("receiver_list", values.receiver_list);
       formData.append("data", this.toJSON(data));
       return formData;
+    };
+
+    this.redirectToStatusCheck = (status, setActivePage) => {
+      if (status === 0) {
+        return;
+      }
     };
   }
 

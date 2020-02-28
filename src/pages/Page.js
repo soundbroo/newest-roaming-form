@@ -2,17 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { FieldArray } from "react-final-form-arrays";
 
+import WrappedFieldsRows from "components/Common/WrappedFieldsRows";
 import AddButton from "components/Common/AddButton";
 import FileContent from "components/Common/FileContent";
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
+import { Content } from "components/Common/styled";
 import UploadField from "components/Forms/UploadField";
+import IdentifierField from "components/Forms/IdentifierField";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Forms/RequestIdField";
+
+import { ASTRAL_ID } from "constants";
 
 import useFileContent from "hooks/useFileContent";
 
@@ -149,6 +154,28 @@ const Page = ({
     return;
   };
 
+  const renderIdentifierField = () => {
+    if (activePage === 0 && activeForm === 0) {
+      return <IdentifierField name="sender_id" inputAdornment={ASTRAL_ID} />;
+    }
+
+    if (activePage === 1) {
+      switch (activeForm) {
+        case 0:
+          return (
+            <IdentifierField
+              name="sender_id"
+              inputAdornment={localStorage.getItem("operator") || ASTRAL_ID}
+            />
+          );
+        case 1:
+          return (
+            <IdentifierField name="receiver_id" inputAdornment={ASTRAL_ID} />
+          );
+      }
+    }
+  };
+
   const renderAddButton = type => {
     if (!isFileLoaded(type)) {
       if (activePage === 0 && activeForm === 0) return;
@@ -201,10 +228,14 @@ const Page = ({
               />
             )}
           </TypeDataTitle>
-          {renderRequestIdField()}
-          {renderSenderFieldArray()}
-          {renderFileContent("sender")}
-          {renderAddButton("sender")}
+          <Content>
+            <WrappedFieldsRows
+              components={[renderRequestIdField(), renderIdentifierField()]}
+            />
+            {renderSenderFieldArray()}
+            {renderFileContent("sender")}
+            {renderAddButton("sender")}
+          </Content>
         </PageWrapper>
       );
     case 1:
@@ -222,10 +253,13 @@ const Page = ({
               {...fileProps}
             />
           </TypeDataTitle>
-          {renderReceiverFieldArray()}
-          {renderFileContent("receiver")}
-          {renderAgreementFiled()}
-          {renderAddButton("receiver")}
+          <Content>
+            <WrappedFieldsRows components={[renderIdentifierField()]} />
+            {renderReceiverFieldArray()}
+            {renderFileContent("receiver")}
+            {renderAgreementFiled()}
+            {renderAddButton("receiver")}
+          </Content>
         </PageWrapper>
       );
     case 2:
@@ -255,6 +289,8 @@ const PageWrapper = styled.div`
   align-items: center;
   width: 100%;
 `;
+
+const PageContent = styled.div``;
 
 const TypeDataTitle = styled.div`
   display: flex;
