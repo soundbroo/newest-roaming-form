@@ -38,7 +38,7 @@ export const ExpansionPanelItem = styled.div`
 export const Divider = styled.hr`
   width: 100%;
   background: #eee;
-  height: 1px;
+  height: 2px;
   border: none;
 `;
 

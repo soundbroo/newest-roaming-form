@@ -9,13 +9,13 @@ import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
 import { Content } from "components/Common/styled";
 import UploadField from "components/Forms/UploadField";
-import IdentifierField from "components/Forms/IdentifierField";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Forms/RequestIdField";
+import OperatorSelectField from "components/Forms/OperatorsSelectField";
 
 import { ASTRAL_ID } from "constants";
 
@@ -136,9 +136,9 @@ const Page = ({
 
   const renderAgreementFiled = () => {
     if (activePage === 0) {
-      const operator = values?.receiver?.find(data => data?.operator);
+      const operator = values?.operator_id;
 
-      if (OPERATORS_WITH_AGREEMENT.includes(operator?.operator))
+      if (OPERATORS_WITH_AGREEMENT.includes(operator))
         return (
           <AgreementField>
             <UploadField
@@ -154,25 +154,9 @@ const Page = ({
     return;
   };
 
-  const renderIdentifierField = () => {
-    if (activePage === 0 && activeForm === 0) {
-      return <IdentifierField name="sender_id" inputAdornment={ASTRAL_ID} />;
-    }
-
-    if (activePage === 1) {
-      switch (activeForm) {
-        case 0:
-          return (
-            <IdentifierField
-              name="sender_id"
-              inputAdornment={localStorage.getItem("operator") || ASTRAL_ID}
-            />
-          );
-        case 1:
-          return (
-            <IdentifierField name="receiver_id" inputAdornment={ASTRAL_ID} />
-          );
-      }
+  const renderOperatorSelectField = () => {
+    if (activePage === 0 && activeForm === 1) {
+      return <OperatorSelectField />;
     }
   };
 
@@ -229,9 +213,7 @@ const Page = ({
             )}
           </TypeDataTitle>
           <Content>
-            <WrappedFieldsRows
-              components={[renderRequestIdField(), renderIdentifierField()]}
-            />
+            <WrappedFieldsRows components={[renderRequestIdField()]} />
             {renderSenderFieldArray()}
             {renderFileContent("sender")}
             {renderAddButton("sender")}
@@ -254,7 +236,7 @@ const Page = ({
             />
           </TypeDataTitle>
           <Content>
-            <WrappedFieldsRows components={[renderIdentifierField()]} />
+            <WrappedFieldsRows components={[renderOperatorSelectField()]} />
             {renderReceiverFieldArray()}
             {renderFileContent("receiver")}
             {renderAgreementFiled()}

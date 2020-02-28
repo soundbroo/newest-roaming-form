@@ -6,7 +6,7 @@ import { OPERATORS, FIELDS_NAMES } from "constants";
 
 import { required } from "utils/validate";
 
-const OperatorsSelectFieldAdapter = ({ input, meta, ...rest }) => (
+const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => (
   <FormControl {...rest}>
     <InputLabel>{FIELDS_NAMES.operator.label}</InputLabel>
     <Select
@@ -23,13 +23,13 @@ const OperatorsSelectFieldAdapter = ({ input, meta, ...rest }) => (
   </FormControl>
 );
 
-const OperatorsSelectField = ({ name, ...rest }) => (
+const OperatorSelectField = ({ name, ...rest }) => (
   <Field
-    name={`${name}.${FIELDS_NAMES.operator.type}`}
-    component={OperatorsSelectFieldAdapter}
+    name={FIELDS_NAMES.operator.type}
+    component={OperatorSelectFieldAdapter}
     validate={required}
     {...rest}
   />
 );
 
-export default OperatorsSelectField;
+export default OperatorSelectField;

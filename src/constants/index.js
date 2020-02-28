@@ -51,7 +51,7 @@ export const FIELDS_NAMES = {
     label: "Отчество"
   },
   operator: {
-    type: "operator",
+    type: "operator_id",
     label: "Выберите оператора"
   },
   request_id: {
