@@ -1,4 +1,5 @@
 import axios from "axios";
+import { redirectToStatusCheck } from "utils/redirect";
 
 class AxiosService {
   constructor() {
@@ -76,6 +77,7 @@ class AxiosService {
 
       if (!values?.sender_list) data.sender = values.sender;
       if (!values?.receiver_list) data.receiver = values.receiver;
+      if (values?.operator) data.operator = values.operator;
 
       prepareData("sender");
       prepareData("receiver");
@@ -85,14 +87,9 @@ class AxiosService {
       values?.sender_list && formData.append("sender_list", values.sender_list);
       values?.receiver_list &&
         formData.append("receiver_list", values.receiver_list);
+
       formData.append("data", this.toJSON(data));
       return formData;
-    };
-
-    this.redirectToStatusCheck = (status, setActivePage) => {
-      if (status === 0) {
-        return;
-      }
     };
   }
 
@@ -117,7 +114,7 @@ class AxiosService {
     }
   };
 
-  abonent = async ({ values, activePage, setResponse }) => {
+  abonent = async ({ values, activePage, setActivePage, setResponse }) => {
     try {
       const result = await this.instance.post(
         "/abonent",
@@ -126,12 +123,20 @@ class AxiosService {
       );
       setResponse(result);
       console.log("Result - ", result);
+      redirectToStatusCheck(result, setActivePage);
     } catch (e) {
       console.log("Error - ", e);
     }
   };
 
-  operator = async ({ values, activePage, setResponse, auth, setAuth }) => {
+  operator = async ({
+    values,
+    activePage,
+    setActivePage,
+    setResponse,
+    auth,
+    setAuth
+  }) => {
     try {
       const result = await this.instance.post(
         "/operator",
@@ -148,7 +153,7 @@ class AxiosService {
     }
   };
 
-  status = async ({ uid, request_id }) => {
+  status = async (uid, request_id) => {
     try {
       const result = await this.instance.get(
         `/abonent/status/${uid}/${request_id}`

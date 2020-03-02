@@ -51,7 +51,7 @@ export const FIELDS_NAMES = {
     label: "Отчество"
   },
   operator: {
-    type: "operator_id",
+    type: "operator",
     label: "Выберите оператора"
   },
   request_id: {
@@ -158,7 +158,8 @@ export const BUTTON_TITLES = {
 export const MESSAGES = {
   addClient:
     "Перед добавлением клиента необходимо заполнить все недостающие поля",
-  fileNotSupported: "Отправка файлов данного типа не поддерживается"
+  fileNotSupported: "Отправка файлов данного типа не поддерживается",
+  retrySubmit: "Авторизация успешна, повторите отправку"
 };
 
 export const statuses = {

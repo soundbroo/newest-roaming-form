@@ -14,7 +14,7 @@ import { FORM_TITLES } from "constants";
 
 import AxiosService from "api";
 
-const Form = ({ activePage, snackbarProps }) => {
+const Form = ({ activePage, setActivePage, snackbarProps }) => {
   const [auth, setAuth] = useState({
     status: false,
     refresh: false,
@@ -38,11 +38,17 @@ const Form = ({ activePage, snackbarProps }) => {
   const submit = values => {
     switch (activePage) {
       case 0:
-        return axios.abonent({ values, activePage, setResponse });
+        return axios.abonent({
+          values,
+          activePage,
+          setActivePage,
+          setResponse
+        });
       case 1:
         return axios.operator({
           values,
           activePage,
+          setActivePage,
           setResponse,
           auth,
           setAuth

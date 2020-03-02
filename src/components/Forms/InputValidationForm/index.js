@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { Content, Background } from "components/Common/styled";
+import { Content } from "components/Common/styled";
 import Auth from "components/Common/Auth";
 import NoDataPanel from "components/Forms/InputValidationForm/NoDataPanel";
 import ValidationPanel from "components/Forms/InputValidationForm/ValidationPanel";
 import CheckDataButton from "components/Forms/InputValidationForm/CheckDataButton";
+
+import useModal from "hooks/useModal";
 
 import { VALIDATION_FORM_TITLE, statuses } from "constants";
 
@@ -17,12 +19,13 @@ const InputValidationForm = ({
   files: { sender_list, receiver_list },
   messageState,
   openState,
-  colorState: { setColor },
+  colorState,
   auth,
   setAuth
 }) => {
   const { setMessage } = messageState;
   const { setOpen } = openState;
+  const { setColor } = colorState;
 
   const isSender = Boolean(values?.sender[0]) || sender_list;
   const isReceiver = Boolean(values?.receiver[0] || receiver_list);
@@ -34,12 +37,26 @@ const InputValidationForm = ({
     setColor(color);
   };
 
+  const [Modal, isModal, setIsModal] = useModal({
+    component: Auth,
+    auth,
+    setAuth,
+    messageState,
+    openState,
+    colorState,
+    refresh: auth.refresh
+  });
+
   useEffect(() => {
     if (notification) {
       setSnackbar(notification, true, statuses.success);
       setResponse(null);
     }
   }, [response]);
+
+  useEffect(() => {
+    if (auth.refresh === true) setIsModal(!isModal);
+  }, [auth.refresh]);
 
   const renderError = () => {
     const {
@@ -72,40 +89,29 @@ const InputValidationForm = ({
     const agentFile = checkAgent(agent);
     if (agentFile && !response) return <div>Вы загрузили файл {agentFile}</div>;
 
-    console.log(notification);
-
     const dataMap = agent => {
       if (!response) {
-        console.log("!RES");
         return values[agent];
       } else if (notification === "Список получателей пуст") {
-        console.log("ERROR");
         setMessage(notification);
         setOpen(true);
         return values[agent];
       }
-      console.log("RES");
       return response?.data?.[agent];
     };
 
     const data = dataMap(agent);
 
-    console.log("DATA", data);
+    const renderAuthModal = () => {
+      if (auth.refresh && isModal) {
+        return <Modal />;
+      }
+      return null;
+    };
 
     return (
       <>
-        {auth.refresh ? (
-          <Background>
-            <ModalWrapper>
-              <Auth
-                auth={auth}
-                setAuth={setAuth}
-                messageState={messageState}
-                openState={openState}
-              />
-            </ModalWrapper>
-          </Background>
-        ) : null}
+        {renderAuthModal()}
         <span>{VALIDATION_FORM_TITLE[agent]}</span>
         {data.map((data, index) => (
           <ValidationPanel
@@ -137,11 +143,4 @@ export default InputValidationForm;
 
 const ValidationFormWrapper = styled(Content)`
   margin-left: -16px;
-`;
-
-const ModalWrapper = styled.div`
-  position: fixed;
-  left: calc(50% - 240px);
-  top: calc(50% - 160px);
-  z-index: 3;
 `;

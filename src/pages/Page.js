@@ -17,7 +17,7 @@ import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Forms/RequestIdField";
 import OperatorSelectField from "components/Forms/OperatorsSelectField";
 
-import { ASTRAL_ID } from "constants";
+import { FIELDS_NAMES } from "constants";
 
 import useFileContent from "hooks/useFileContent";
 
@@ -136,7 +136,7 @@ const Page = ({
 
   const renderAgreementFiled = () => {
     if (activePage === 0) {
-      const operator = values?.operator_id;
+      const operator = values?.[FIELDS_NAMES.operator.type];
 
       if (OPERATORS_WITH_AGREEMENT.includes(operator))
         return (

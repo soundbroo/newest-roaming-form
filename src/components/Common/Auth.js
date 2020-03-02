@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Paper, TextField, Button } from "@material-ui/core";
 
+import { MESSAGES, statuses } from "constants";
+
 import AxiosService from "api";
 
 const Auth = ({
   auth,
   setAuth,
   messageState: { setMessage },
-  openState: { setOpen }
+  openState: { setOpen },
+  colorState: { setColor },
+  handleModal,
+  refresh
 }) => {
   const axios = new AxiosService();
 
@@ -37,12 +42,25 @@ const Auth = ({
     if (status === 0) {
       const [id, ...sessionToken] = text.split(" ");
       localStorage.setItem("operator", id);
-      return setAuth({
-        ...auth,
-        status: !auth.status,
-        operatorId: id,
-        sessionToken: sessionToken.join(" ")
-      });
+
+      if (!refresh) {
+        return setAuth({
+          ...auth,
+          status: !auth.status,
+          operatorId: id,
+          sessionToken: sessionToken.join(" ")
+        });
+      } else {
+        setAuth({
+          ...auth,
+          operatorId: id,
+          sessionToken: sessionToken.join(" ")
+        });
+        handleModal();
+        setMessage(MESSAGES.retrySubmit);
+        setColor(statuses.success);
+        setOpen(true);
+      }
     }
   };
 
