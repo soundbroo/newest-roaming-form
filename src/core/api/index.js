@@ -1,5 +1,4 @@
 import axios from "axios";
-import { redirectToStatusCheck } from "utils/redirect";
 
 class AxiosService {
   constructor() {
@@ -123,7 +122,6 @@ class AxiosService {
       );
       setResponse(result);
       console.log("Result - ", result);
-      redirectToStatusCheck(result, setActivePage);
     } catch (e) {
       console.log("Error - ", e);
     }

@@ -12,6 +12,8 @@ import Stepper from "components/Common/Stepper";
 
 import { FORM_TITLES } from "constants";
 
+import { redirectToStatusCheck } from "utils/redirect";
+
 import AxiosService from "api";
 
 const Form = ({ activePage, setActivePage, snackbarProps }) => {
@@ -37,13 +39,16 @@ const Form = ({ activePage, setActivePage, snackbarProps }) => {
 
   const submit = values => {
     switch (activePage) {
-      case 0:
-        return axios.abonent({
-          values,
-          activePage,
-          setActivePage,
-          setResponse
-        });
+      case 0: {
+        return axios
+          .abonent({
+            values,
+            activePage,
+            setActivePage,
+            setResponse
+          })
+          .then(result => redirectToStatusCheck(result, setActivePage));
+      }
       case 1:
         return axios.operator({
           values,
