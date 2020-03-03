@@ -56,6 +56,14 @@ export const muiTheme = createMuiTheme({
         maxWidth: 530,
         textAlign: "justify"
       }
+    },
+    MuiLinearProgress: {
+      root: {
+        // width: 150
+      },
+      colorPrimary: {
+        background: "#4caf50"
+      }
     }
   }
 });

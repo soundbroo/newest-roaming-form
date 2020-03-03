@@ -40,7 +40,7 @@ export default useModal;
 
 const ModalWrapper = styled.div`
   position: fixed;
-  left: calc(50% - 240px);
+  left: calc(50% - 182px);
   top: calc(50% - 160px);
   z-index: 3;
 `;

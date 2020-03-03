@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
+
+import OperatorsState from "components/RoamingState/OperatorsState";
+import RequestStatus from "components/RoamingState/RequestStatus";
+
 import AxiosService from "api";
 
-const RoamingState = ({ status, result }) => {
+const RoamingState = ({ status, response }) => {
   const axios = new AxiosService();
 
-  useEffect(() => {
-    if (result) console.log(result);
-  }, [result]);
+  console.log("ROAMINGSTATE", { status, response });
 
   const [requestStatus, setRequestStatus] = useState(null);
 
-  if (result?.data.status === 0) {
-    const uid = result.data.sender[0].input.id;
-    const request_id = result.data.request_id;
+  if (response?.data.status === 0) {
+    const uid = response.data.sender[0].input.id;
+    const request_id = response.data.request_id;
     axios.status(uid, request_id).then(res => setRequestStatus(res));
-    return <div>{requestStatus || "Тут пока пусто"} </div>;
   }
 
-  return <div>{status || "Тут пока пусто"} </div>;
+  return (
+    <>
+      {(status || requestStatus) && (
+        <RequestStatus status={status} response={requestStatus} />
+      )}
+      <OperatorsState />
+    </>
+  );
 };
 
 export default RoamingState;

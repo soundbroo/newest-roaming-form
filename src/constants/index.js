@@ -168,3 +168,51 @@ export const statuses = {
   warning: "warning",
   error: "error"
 };
+
+export const categories = {
+  all: "Все категории",
+  industrial: "Промышленная эксплуатация",
+  testing: "Тестирование обмена",
+  negotiation: "Проведение переговоров",
+  software: "Доработка ПО, тестирование обмена"
+};
+
+export const rows = [
+  {
+    name: "ДИРЕКТУМ (Synerdocs)",
+    cat: categories.industrial,
+    status: 100
+  },
+  {
+    name: "ИНФОТЕКС Интернет Траст (VipNet ЭДО Документ)",
+    cat: categories.industrial,
+    status: 100
+  },
+  { name: "КОНТУР (Диадок)", cat: categories.industrial, status: 100 },
+  {
+    name: "КОРУС Консалтинг СНГ (СФЕРА)",
+    cat: categories.testing,
+    status: 75
+  },
+  { name: "КРИПТЭКС (Signatura)", cat: categories.negotiation, status: 25 },
+  {
+    name: "МТС (Электронный документооборот)",
+    cat: categories.software,
+    status: 50
+  },
+  { name: "НИИАС (РЖД)", cat: categories.industrial, status: 100 },
+  { name: "СИСЛИНК (DOCLINK)", cat: categories.negotiation, status: 25 },
+  { name: "СТЭК НТЦ (СТЭК-ТРАСТ)", cat: categories.industrial, status: 100 },
+  {
+    name: "ТАКСКОМ (Файлер, 1С-Такском)",
+    cat: categories.industrial,
+    status: 100
+  },
+  { name: "ТАКСНЕТ (Транскрипт)", cat: categories.industrial, status: 100 },
+  { name: "ТЕНЗОР (СБИС, 1С-ЭДО)", cat: categories.industrial, status: 100 },
+  {
+    name: "ЭТП ГПБ (Система ЭДО ЭТП ГПБ, 1С-ЭДО)",
+    cat: categories.industrial,
+    status: 100
+  }
+];

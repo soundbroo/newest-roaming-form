@@ -138,7 +138,7 @@ const Page = ({
     if (activePage === 0) {
       const operator = values?.[FIELDS_NAMES.operator.type];
 
-      if (OPERATORS_WITH_AGREEMENT.includes(operator))
+      if (OPERATORS_WITH_AGREEMENT.includes(operator)) {
         return (
           <AgreementField>
             <UploadField
@@ -150,6 +150,7 @@ const Page = ({
             />
           </AgreementField>
         );
+      } else formApi.change("agreement", undefined);
     }
     return;
   };
@@ -237,9 +238,9 @@ const Page = ({
           </TypeDataTitle>
           <Content>
             <WrappedFieldsRows components={[renderOperatorSelectField()]} />
+            {renderAgreementFiled()}
             {renderReceiverFieldArray()}
             {renderFileContent("receiver")}
-            {renderAgreementFiled()}
             {renderAddButton("receiver")}
           </Content>
         </PageWrapper>

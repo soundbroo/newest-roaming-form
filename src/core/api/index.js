@@ -122,6 +122,7 @@ class AxiosService {
       );
       setResponse(result);
       console.log("Result - ", result);
+      return result;
     } catch (e) {
       console.log("Error - ", e);
     }
@@ -130,7 +131,7 @@ class AxiosService {
   operator = async ({
     values,
     activePage,
-    setActivePage,
+    setRequestStatus,
     setResponse,
     auth,
     setAuth
@@ -145,6 +146,7 @@ class AxiosService {
         return setAuth({ ...auth, refresh: true });
       }
       setResponse(result);
+      if (result.data.status === 0) setRequestStatus(result);
       console.log("Result - ", result);
     } catch (e) {
       console.log("Error - ", e);
@@ -152,6 +154,7 @@ class AxiosService {
   };
 
   status = async (uid, request_id) => {
+    console.log(uid, request_id);
     try {
       const result = await this.instance.get(
         `/abonent/status/${uid}/${request_id}`
@@ -163,7 +166,7 @@ class AxiosService {
     }
   };
 
-  request = async ({ uid, request_id }) => {
+  request = async (uid, request_id) => {
     try {
       const result = await this.instance.get(`/abonent/${uid}/${request_id}`);
       console.log("Result - ", result);

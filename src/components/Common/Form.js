@@ -16,7 +16,15 @@ import { redirectToStatusCheck } from "utils/redirect";
 
 import AxiosService from "api";
 
-const Form = ({ activePage, setActivePage, snackbarProps }) => {
+const Form = ({
+  activePage,
+  setActivePage,
+  snackbarProps,
+  response,
+  setResponse,
+  requestStatus,
+  setRequestStatus
+}) => {
   const [auth, setAuth] = useState({
     status: false,
     refresh: false,
@@ -33,21 +41,23 @@ const Form = ({ activePage, setActivePage, snackbarProps }) => {
     }
   }, [auth.sessionToken]);
 
-  const axios = new AxiosService();
+  useEffect(() => {
+    redirectToStatusCheck(requestStatus, setActivePage);
+  }, [requestStatus]);
 
-  const [response, setResponse] = useState(null);
+  const axios = new AxiosService();
 
   const submit = values => {
     switch (activePage) {
       case 0: {
-        return axios
-          .abonent({
+        {
+          return axios.abonent({
             values,
             activePage,
-            setActivePage,
+            setRequestStatus,
             setResponse
-          })
-          .then(result => redirectToStatusCheck(result, setActivePage));
+          });
+        }
       }
       case 1:
         return axios.operator({

@@ -1,7 +1,6 @@
-import React from "react";
-import RoamingState from "pages/RoamingState";
-
-export const redirectToStatusCheck = (result, setActivePage) => {
-  setActivePage(2);
-  return <RoamingState result={result} />;
+export const redirectToStatusCheck = (response, setActivePage) => {
+  console.log(response);
+  if (response?.data.status === 0) {
+    setActivePage(2);
+  }
 };
