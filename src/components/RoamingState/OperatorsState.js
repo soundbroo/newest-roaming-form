@@ -12,6 +12,7 @@ import {
   TextField,
   MenuItem
 } from "@material-ui/core";
+import FindInPageRoundedIcon from "@material-ui/icons/FindInPageRounded";
 
 import { categories, rows } from "constants";
 
@@ -20,7 +21,9 @@ const Search = ({ search, setSearch }) => {
     setSearch(event.target.value);
   };
   return (
-    <TextField
+    <Input
+      InputLabelProps={{ shrink: true }}
+      size="small"
       label="Поиск по операторам"
       autoFocus
       value={search}
@@ -36,7 +39,8 @@ const Select = ({ category, setCategory }) => {
     setCategory(event.target.value);
   };
   return (
-    <TextField
+    <Input
+      size="small"
       select
       value={category}
       onChange={handleChange}
@@ -47,7 +51,7 @@ const Select = ({ category, setCategory }) => {
           {value}
         </MenuItem>
       ))}
-    </TextField>
+    </Input>
   );
 };
 
@@ -55,44 +59,56 @@ const OperatorsState = () => {
   const [category, setCategory] = useState(categories.all);
   const [search, setSearch] = useState("");
 
+  const filteredRows = rows
+    .filter(row => row.name.toUpperCase().includes(search.toUpperCase()))
+    .filter(row => {
+      if (category === categories.all) {
+        return row;
+      } else return row.cat === category;
+    });
+
+  const renderRows = () => {
+    if (filteredRows.length) {
+      return filteredRows.map(row => (
+        <TableRow key={row.name}>
+          <TableCell component="th" scope="row">
+            {row.name}
+          </TableCell>
+          <TableCell align="left">{row.cat}</TableCell>
+          <TableCell align="right">
+            <LinearProgress
+              variant="determinate"
+              value={row.status}
+              color="primary"
+            />
+          </TableCell>
+        </TableRow>
+      ));
+    }
+    return (
+      <TableRow key="empty">
+        <TableCell colSpan={3}>
+          <Nothing>
+            <FindInPageRoundedIcon />
+            <div>Оператор с таким названием не найден</div>
+          </Nothing>
+        </TableCell>
+      </TableRow>
+    );
+  };
+
   return (
     <Container component={Paper}>
       <Table>
         <TableRow>
-          <TableCell colSpan={2}>
+          <HeadCell colSpan={2}>
             <Search search={search} setSearch={setSearch} />
-          </TableCell>
-          <TableCell colSpan={1} align="left">
+          </HeadCell>
+          <HeadCell colSpan={1} align="left">
             <Select category={category} setCategory={setCategory} />
-          </TableCell>
+          </HeadCell>
         </TableRow>
-        <TableBody>
-          {rows
-            .filter(row =>
-              row.name.toUpperCase().includes(search.toUpperCase())
-            )
-            .filter(row => {
-              if (category === categories.all) {
-                return row;
-              } else return row.cat === category;
-            })
-
-            .map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left">{row.cat}</TableCell>
-                <TableCell align="right">
-                  <LinearProgress
-                    variant="determinate"
-                    value={row.status}
-                    color="secondary"
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
+        <TableBody>{renderRows()}</TableBody>
       </Table>
     </Container>
   );
@@ -105,7 +121,36 @@ const Container = styled(TableContainer)`
   overflow-x: hidden !important;
 `;
 
-const Head = styled.div`
+const Input = styled(TextField)`
+  padding: 0 !important;
+  background: rgba(195, 195, 195, 0.08);
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  label {
+    transform: translate(5px, -6px) scale(0.75) !important;
+  }
+`;
+
+const HeadCell = styled(TableCell)`
+  padding: 6px !important;
+  width: 200px;
+  .MuiSelect-outlined.MuiSelect-outlined {
+    width: 154px;
+  }
+`;
+
+const Nothing = styled.div`
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  svg {
+    font-size: 165px;
+    color: #cecece;
+  }
+  div {
+    color: #828282;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
 `;

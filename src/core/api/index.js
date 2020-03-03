@@ -113,13 +113,14 @@ class AxiosService {
     }
   };
 
-  abonent = async ({ values, activePage, setActivePage, setResponse }) => {
+  abonent = async ({ values, activePage, setRequestStatus, setResponse }) => {
     try {
       const result = await this.instance.post(
         "/abonent",
         this.setFormData({ values, activePage }),
         this.config.multipart
       );
+      setRequestStatus(result);
       setResponse(result);
       console.log("Result - ", result);
       return result;

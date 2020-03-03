@@ -35,7 +35,7 @@ const RequestStatus = ({ status, response }) => {
     }
   }, [status, response]);
 
-  const steps = ["Отправка", "Обработка", "Результат"];
+  const steps = ["Отправка", "Обработка", "Завершение"];
 
   return (
     <Wrapper>
