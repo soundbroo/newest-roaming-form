@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FormFieldsRow } from "components/Common/styled";
-import InputField from "components/Forms/InputField";
+import InputField from "components/Fields/InputField";
 
 import { validate } from "utils/validate";
 import { parseInn, parseKpp, parseName } from "utils/parse";

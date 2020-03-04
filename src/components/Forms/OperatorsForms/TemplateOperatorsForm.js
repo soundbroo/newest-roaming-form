@@ -1,6 +1,6 @@
 import React from "react";
 
-import IdentifierField from "components/Forms/IdentifierField";
+import IdentifierField from "components/Fields/IdentifierField";
 import TemplateDefaultForm from "components/Forms/TemplateDefaultForm";
 import { FormFieldsRow } from "components/Common/styled";
 

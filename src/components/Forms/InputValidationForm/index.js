@@ -17,39 +17,27 @@ const InputValidationForm = ({
   response,
   setResponse,
   files: { sender_list, receiver_list },
-  messageState,
-  openState,
-  colorState,
+  snackbarProps,
   auth,
   setAuth
 }) => {
-  const { setMessage } = messageState;
-  const { setOpen } = openState;
-  const { setColor } = colorState;
+  const { showSnackbar } = snackbarProps;
 
   const isSender = Boolean(values?.sender[0]) || sender_list;
   const isReceiver = Boolean(values?.receiver[0] || receiver_list);
   const notification = response?.data?.text;
 
-  const setSnackbar = (message, boolean, color) => {
-    setMessage(message);
-    setOpen(boolean);
-    setColor(color);
-  };
-
   const [Modal, isModal, setIsModal] = useModal({
     component: Auth,
     auth,
     setAuth,
-    messageState,
-    openState,
-    colorState,
-    refresh: auth.refresh
+    refresh: auth.refresh,
+    snackbarProps
   });
 
   useEffect(() => {
     if (notification) {
-      setSnackbar(notification, true, statuses.success);
+      showSnackbar(notification, statuses.success, true, null);
       setResponse(null);
     }
   }, [response]);
@@ -93,8 +81,7 @@ const InputValidationForm = ({
       if (!response) {
         return values[agent];
       } else if (notification === "Список получателей пуст") {
-        setMessage(notification);
-        setOpen(true);
+        showSnackbar(notification, statuses.error, true, null);
         return values[agent];
       }
       return response?.data?.[agent];

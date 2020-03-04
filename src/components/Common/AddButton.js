@@ -2,16 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
-import { MESSAGES } from "constants";
+import { MESSAGES, statuses } from "constants";
 
-const AddButton = ({
-  type,
-  push,
-  errors,
-  messageState: { setMessage },
-  openState: { setOpen },
-  ...rest
-}) => {
+const AddButton = ({ type, push, errors, showSnackbar, disabled }) => {
   const handleClick = () => {
     const errorKeys = Object.keys(errors);
     if (
@@ -20,8 +13,7 @@ const AddButton = ({
     ) {
       return push(type, undefined);
     }
-    setMessage(MESSAGES.addClient);
-    setOpen(true);
+    showSnackbar(MESSAGES.addClient, statuses.error, true, null);
   };
 
   return (
@@ -30,7 +22,7 @@ const AddButton = ({
         variant="outlined"
         color="primary"
         onClick={handleClick}
-        {...rest}
+        disabled={disabled}
       >
         Добавить контрагента
       </Button>

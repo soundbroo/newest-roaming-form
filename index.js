@@ -1,8 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
-import purple from "@material-ui/core/colors/purple";
 
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import { ThemeProvider } from "styled-components";
 import { muiTheme, styledTheme } from "theme";
 

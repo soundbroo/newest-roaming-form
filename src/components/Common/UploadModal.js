@@ -5,7 +5,7 @@ import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 import { Background, Divider } from "components/Common/styled";
 import DownloadButton from "components/Common/DownloadButton";
-import UploadField from "components/Forms/UploadField";
+import UploadField from "components/Fields/UploadField";
 
 import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 

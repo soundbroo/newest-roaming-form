@@ -10,14 +10,14 @@ import OpenModalButton from "components/Common/UploadModal";
 import SelectedFileChip from "components/Common/SelectedFileChip";
 import Link from "components/Common/Link";
 import { Content } from "components/Common/styled";
-import UploadField from "components/Forms/UploadField";
+import UploadField from "components/Fields/UploadField";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
 import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm";
 import InputValidationForm from "components/Forms/InputValidationForm";
-import RequestIdField from "components/Forms/RequestIdField";
-import OperatorSelectField from "components/Forms/OperatorsSelectField";
+import RequestIdField from "components/Fields/RequestIdField";
+import OperatorSelectField from "components/Fields/OperatorsSelectField";
 
 import { FIELDS_NAMES, LINK_TITLES } from "constants";
 import { AGREEMENT_TEMPLATE } from "constants/links";
@@ -304,7 +304,7 @@ const Page = ({
             files={fileProps.files}
             response={response}
             setResponse={setResponse}
-            {...snackbarProps}
+            snackbarProps={snackbarProps}
             {...authProps}
           />
         </>

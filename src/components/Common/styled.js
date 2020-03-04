@@ -18,7 +18,6 @@ export const FormFieldsRow = styled.div`
   height: 70px;
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 12px;
 `;
 
 export const ExpansionPanelContent = styled.div`

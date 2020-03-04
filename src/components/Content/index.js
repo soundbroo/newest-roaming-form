@@ -7,7 +7,7 @@ import Navigation from "components/Navigation";
 import Form from "components/Common/Form";
 import Snackbar from "components/Common/Snackbar";
 
-import { statuses } from "constants";
+import { TEMP_MESSAGE, statuses } from "constants";
 
 import useSnackbar from "hooks/useSnackbar";
 
@@ -20,13 +20,14 @@ const Content = () => {
   const [query, setQuery] = useState(null);
   const [response, setResponse] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
-  const { openState, messageState, colorState, delayState } = useSnackbar();
+  const [message, color, open, delay, showSnackbar] = useSnackbar();
 
   const snackbarProps = {
-    openState,
-    messageState,
-    colorState,
-    delayState
+    message,
+    color,
+    delay,
+    open,
+    showSnackbar
   };
 
   useEffect(() => {
@@ -47,12 +48,7 @@ const Content = () => {
   }, []);
 
   useEffect(() => {
-    messageState.setMessage(`Уважаемые абоненты!
-    Обращаем Ваше внимание, что срок на настройку роуминга между операторами АО Калуга Астрал и СКБ Контур временно увеличен в связи с техническими работами.
-    Приносим извинения за предоставленные неудобства.`);
-    colorState.setColor(statuses.info);
-    delayState.setDelay(30000);
-    openState.setOpen(true);
+    showSnackbar(TEMP_MESSAGE, statuses.info, true, 30000);
   }, []);
 
   const renderContent = () => {
@@ -84,12 +80,7 @@ const Content = () => {
         setActivePage={setActivePage}
       />
       <MainContent>{renderContent()}</MainContent>
-      <Snackbar
-        message={messageState.message}
-        color={colorState.color}
-        delay={delayState.delay}
-        {...openState}
-      />
+      <Snackbar {...snackbarProps} />
     </ContentWrapper>
   );
 };

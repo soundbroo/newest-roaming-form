@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import { useDropzone } from "react-dropzone";
 
+import { statuses } from "constants";
+
 import readXls from "utils/readXls";
 
 import {
@@ -13,10 +15,7 @@ import {
 
 const UploadButtonAdapter = ({
   values,
-  snackbarProps: {
-    messageState: { setMessage },
-    openState: { setOpen }
-  },
+  snackbarProps: { showSnackbar },
   files,
   setFiles,
   setContent,
@@ -26,15 +25,23 @@ const UploadButtonAdapter = ({
   input: { value, onChange, name, ...input }
 }) => {
   const handleChange = uploaded => {
+    const list = name === "sender_list" || name === "receiver_list";
+    if (!uploaded.length) {
+      list && closeModal();
+      showSnackbar(MESSAGES.fileNotSupported, statuses.error, true, null);
+      return;
+    }
+
     const file = uploaded[0];
     const fileName = file.name.split(".");
     const extension = fileName[fileName.length - 1];
-    if (
-      (name === "sender_list" || name === "receiver_list") &&
-      AVAILABLE_FILE_EXTENSIONS.list.includes(extension)
-    ) {
+    const changeFileState = () => {
       onChange(file);
       setFiles({ ...files, [name]: file.name });
+    };
+
+    if (list && AVAILABLE_FILE_EXTENSIONS.list.includes(extension)) {
+      changeFileState();
       formApi.change(name?.split("_")[0], [null]);
       closeModal();
       readXls({ file, setContent });
@@ -42,12 +49,7 @@ const UploadButtonAdapter = ({
       name === "agreement" &&
       AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)
     ) {
-      onChange(file);
-      setFiles({ ...files, [name]: file.name });
-    } else {
-      (name === "sender_list" || name === "receiver_list") && closeModal();
-      setMessage(MESSAGES.fileNotSupported);
-      setOpen(true);
+      changeFileState();
     }
   };
 
@@ -56,6 +58,7 @@ const UploadButtonAdapter = ({
     onDrop,
     accept: name === "agreement" ? ".pdf, .png" : ".xls, .xlsx"
   });
+
   return (
     <UploadButton
       key={name}

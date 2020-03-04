@@ -31,6 +31,12 @@ export default function HorizontalNonLinearStepper({
     setInitialValues(emptyFormValues);
   }, [activePage]);
 
+  const setStepperState = step => {
+    setActiveStep(step);
+    setActiveForm(step);
+    setInitialValues(values);
+  };
+
   const isLastStep = () => {
     return activeStep === steps.length - 1;
   };
@@ -48,22 +54,14 @@ export default function HorizontalNonLinearStepper({
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
-    setActiveStep(newActiveStep);
-    setActiveForm(newActiveStep);
-    setInitialValues(values);
+    setStepperState(newActiveStep);
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-    setActiveForm(prevActiveStep => prevActiveStep - 1);
-    setInitialValues(values);
+    setStepperState(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleStep = step => () => {
-    setActiveStep(step);
-    setActiveForm(step);
-    setInitialValues(values);
-  };
+  const handleStep = step => () => setStepperState(step);
 
   return (
     <>

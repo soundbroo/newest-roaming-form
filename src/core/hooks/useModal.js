@@ -6,9 +6,7 @@ import { Background } from "components/Common/styled";
 const useModal = ({
   component: Component,
   setAuth,
-  messageState,
-  openState,
-  colorState,
+  snackbarProps,
   refresh
 }) => {
   const [isModal, setIsModal] = useState(false);
@@ -23,11 +21,9 @@ const useModal = ({
         <ModalWrapper onClick={e => e.stopPropagation()}>
           <Component
             setAuth={setAuth}
-            messageState={messageState}
-            openState={openState}
-            colorState={colorState}
             refresh={refresh}
             handleModal={handleModal}
+            {...snackbarProps}
           />
         </ModalWrapper>
       </Background>

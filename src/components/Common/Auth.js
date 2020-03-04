@@ -6,15 +6,7 @@ import { MESSAGES, statuses } from "constants";
 
 import AxiosService from "api";
 
-const Auth = ({
-  auth,
-  setAuth,
-  messageState: { setMessage },
-  openState: { setOpen },
-  colorState: { setColor },
-  handleModal,
-  refresh
-}) => {
+const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
   const axios = new AxiosService();
 
   const defaultData = {
@@ -35,8 +27,7 @@ const Auth = ({
     const { status, text } = await axios.auth(data);
 
     if (status === 401) {
-      setMessage(text);
-      setOpen(true);
+      showSnackbar(text, statuses.error, true, null);
       setData({ ...data, ...defaultData });
     }
     if (status === 0) {
@@ -57,9 +48,7 @@ const Auth = ({
           sessionToken: sessionToken.join(" ")
         });
         handleModal();
-        setMessage(MESSAGES.retrySubmit);
-        setColor(statuses.success);
-        setOpen(true);
+        showSnackbar(MESSAGES.retrySubmit, statuses.success, true, null);
       }
     }
   };
