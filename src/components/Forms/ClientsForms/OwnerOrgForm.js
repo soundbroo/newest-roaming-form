@@ -9,19 +9,15 @@ import { ASTRAL_ID } from "constants";
 // Шаблон для страницы Операторам - Данные вашего клиента
 
 const OwnerOrgForm = props => {
-  const { name, isValidInn } = props;
+  const { name } = props;
   return (
     <>
       <TemplateDefaultForm {...props}>
         <FormFieldsRow>
-          <IdentifierField
-            disabled={!isValidInn}
-            name={name}
-            inputAdornment={ASTRAL_ID}
-          />
+          <IdentifierField name={name} inputAdornment={ASTRAL_ID} />
         </FormFieldsRow>
         <FormFieldsRow>
-          <EmailField disabled={!isValidInn} name={name} />
+          <EmailField name={name} />
         </FormFieldsRow>
       </TemplateDefaultForm>
     </>

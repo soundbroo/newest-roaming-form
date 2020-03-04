@@ -32,7 +32,7 @@ const AddButton = ({
         onClick={handleClick}
         {...rest}
       >
-        Добавить клиента
+        Добавить контрагента
       </Button>
     </ButtonWrapper>
   );

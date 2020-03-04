@@ -4,41 +4,38 @@ import { Button, Chip } from "@material-ui/core";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 import { Background, Divider } from "components/Common/styled";
+import DownloadButton from "components/Common/DownloadButton";
 import UploadField from "components/Forms/UploadField";
 
 import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 
-const UploadModal = ({ handleChange, ...rest }) => (
-  <Background onClick={handleChange}>
-    <Wrapper onClick={e => e.stopPropagation()}>
-      <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
-      <Divider />
-      <Content>
-        <div>{UPLOAD_MODAL_CONTENT.info}</div>
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<AttachFileIcon />}
-          onClick={handleChange}
-        >
-          <Link href="https://astral.ru/roaming/tempalates/abonent-receiver.xlsx">
-            Загрузить шаблон
-          </Link>
-        </Button>
-        <Warning>{UPLOAD_MODAL_CONTENT.warning}</Warning>
-        <UploadField
-          closeModal={handleChange}
-          title={BUTTON_TITLES.pickFile}
-          {...rest}
-        />
-      </Content>
-    </Wrapper>
-  </Background>
-);
+import { ABONENT_LIST, OPERATOR_LIST } from "constants/links";
+
+const UploadModal = ({ handleChange, activePage, ...rest }) => {
+  const templateLink = activePage === 0 ? ABONENT_LIST : OPERATOR_LIST;
+
+  return (
+    <Background onClick={handleChange}>
+      <Wrapper onClick={e => e.stopPropagation()}>
+        <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
+        <Divider />
+        <Content>
+          <div>{UPLOAD_MODAL_CONTENT.info}</div>
+          <DownloadButton handleChange={handleChange} link={templateLink} />
+          <Warning>{UPLOAD_MODAL_CONTENT.warning}</Warning>
+          <UploadField
+            closeModal={handleChange}
+            title={BUTTON_TITLES.pickFile}
+            {...rest}
+          />
+        </Content>
+      </Wrapper>
+    </Background>
+  );
+};
 
 const OpenModalButton = ({ name, files, ...rest }) => {
   const [isModal, setIsModal] = useState(false);
-
   const handleChange = () => setIsModal(!isModal);
 
   return (
@@ -60,31 +57,8 @@ const OpenModalButton = ({ name, files, ...rest }) => {
         >
           Прикрепить список
         </Button>
-      ) : (
-        <SelectedFileButton
-          name={name}
-          label={files[name]}
-          files={files}
-          {...rest}
-        />
-      )}
+      ) : null}
     </>
-  );
-};
-
-const SelectedFileButton = ({ label, name, files, setFiles, formApi }) => {
-  const handleDelete = () => {
-    setFiles({ ...files, [name]: null });
-    formApi.change(name, undefined);
-  };
-
-  return (
-    <Chip
-      icon={<AttachFileIcon />}
-      label={label}
-      // onClick={handleClick}
-      onDelete={handleDelete}
-    />
   );
 };
 
@@ -119,9 +93,4 @@ const Title = styled.div`
 
 const Warning = styled.div`
   color: #fe4733;
-`;
-
-const Link = styled.a`
-  text-decoration: none;
-  color: inherit;
 `;

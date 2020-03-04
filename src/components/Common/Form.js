@@ -41,9 +41,9 @@ const Form = ({
     }
   }, [auth.sessionToken]);
 
-  useEffect(() => {
-    redirectToStatusCheck(requestStatus, setActivePage);
-  }, [requestStatus]);
+  // useEffect(() => {
+  //   redirectToStatusCheck(requestStatus, setActivePage);
+  // }, [requestStatus]);
 
   const axios = new AxiosService();
 
@@ -146,7 +146,7 @@ const Form = ({
         mutators={{ ...arrayMutators }}
         render={({
           form: {
-            mutators: { push },
+            mutators: { push, remove },
             reset
           },
           handleSubmit,
@@ -182,6 +182,7 @@ const Form = ({
                       {...pageProps}
                       formApi={formApi}
                       push={push}
+                      remove={remove}
                       values={values}
                       errors={errors}
                     />

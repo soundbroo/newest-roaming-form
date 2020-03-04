@@ -14,10 +14,19 @@ const TemplateDefaultForm = ({
   files,
   isEntityInn,
   isOrganizationInn,
-  isValidInn,
   formApi
 }) => {
   const isFileLoaded = Boolean(files?.[`${name.split("[")[0]}_list`]);
+
+  if (isEntityInn) {
+    formApi.change(`${name}.kpp`, undefined);
+  }
+
+  if (isOrganizationInn) {
+    formApi.change(`${name}.lastname`, undefined);
+    formApi.change(`${name}.firstname`, undefined);
+    formApi.change(`${name}.patronymic`, undefined);
+  }
 
   return (
     <>
@@ -30,16 +39,16 @@ const TemplateDefaultForm = ({
           validate={validate.inn}
         />
         <InputField
-          disabled={!isOrganizationInn}
+          disabled={isEntityInn}
           parse={parseKpp}
           name={name}
           fieldType="kpp"
-          validate={isOrganizationInn && validate.kpp}
+          validate={!isEntityInn && validate.kpp}
         />
       </FormFieldsRow>
       <FormFieldsRow>
         {!isEntityInn ? (
-          <InputField disabled={!isValidInn} name={name} fieldType="name" />
+          <InputField name={name} fieldType="name" />
         ) : (
           <>
             <InputField name={name} fieldType="lastname" parse={parseName} />

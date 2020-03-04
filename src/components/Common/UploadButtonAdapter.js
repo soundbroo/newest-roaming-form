@@ -43,6 +43,7 @@ const UploadButtonAdapter = ({
       AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)
     ) {
       onChange(file);
+      setFiles({ ...files, [name]: file.name });
     } else {
       (name === "sender_list" || name === "receiver_list") && closeModal();
       setMessage(MESSAGES.fileNotSupported);
@@ -53,9 +54,8 @@ const UploadButtonAdapter = ({
   const onDrop = useCallback(acceptedFiles => handleChange(acceptedFiles), []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: ".xls, .xlsx, .pdf, .png"
+    accept: name === "agreement" ? ".pdf, .png" : ".xls, .xlsx"
   });
-  console.log(getRootProps());
   return (
     <UploadButton
       key={name}
@@ -82,6 +82,7 @@ const UploadButtonAdapter = ({
             </div>
             <DragLabel>
               Перетащите файл сюда или нажмите, чтобы выбрать
+              {name === "agreement" ? " (.pdf, .png)" : " (.xls, .xlsx)"}
             </DragLabel>
           </LabelWrapper>
         </Button>

@@ -12,7 +12,6 @@ const TemplateOperatorsForm = props => (
     <TemplateDefaultForm {...props} />
     <FormFieldsRow>
       <IdentifierField
-        disabled={!props.isValidInn}
         name={props.name}
         inputAdornment={props.operatorId || ASTRAL_ID}
       />

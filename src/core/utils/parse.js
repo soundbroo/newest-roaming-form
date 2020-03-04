@@ -4,7 +4,7 @@ export const parseName = value => value.replace(/[\d]/g, "");
 
 export const parseInn = value => nums(value).substr(0, 12);
 
-export const parseKpp = value => nums(value).substr(0, 9);
+export const parseKpp = value => value.substr(0, 9);
 
 export const parseId = value => {
   if (!value) return value;

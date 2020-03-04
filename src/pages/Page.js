@@ -7,6 +7,8 @@ import AddButton from "components/Common/AddButton";
 import FileContent from "components/Common/FileContent";
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
+import SelectedFileChip from "components/Common/SelectedFileChip";
+import Link from "components/Common/Link";
 import { Content } from "components/Common/styled";
 import UploadField from "components/Forms/UploadField";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
@@ -17,7 +19,8 @@ import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Forms/RequestIdField";
 import OperatorSelectField from "components/Forms/OperatorsSelectField";
 
-import { FIELDS_NAMES } from "constants";
+import { FIELDS_NAMES, LINK_TITLES } from "constants";
+import { AGREEMENT_TEMPLATE } from "constants/links";
 
 import useFileContent from "hooks/useFileContent";
 
@@ -27,7 +30,7 @@ import {
   OPERATORS_WITH_AGREEMENT
 } from "constants";
 
-import { required, disableAllBesidesInn } from "utils/validate";
+import { required, disableRules } from "utils/validate";
 
 const Page = ({
   formApi,
@@ -40,6 +43,7 @@ const Page = ({
   values,
   errors,
   push,
+  remove,
   response,
   setResponse,
   operatorId,
@@ -76,16 +80,20 @@ const Page = ({
                     name={name}
                     index={index}
                     values={values}
-                    {...disableAllBesidesInn({ name, index, values })}
+                    remove={remove}
+                    formApi={formApi}
+                    {...disableRules({ name, index, values })}
                   />,
                   <ClientForm
                     key={name}
                     name={name}
                     index={index}
                     values={values}
+                    remove={remove}
                     operatorId={operatorId}
                     files={fileProps.files}
-                    {...disableAllBesidesInn({ name, index, values })}
+                    formApi={formApi}
+                    {...disableRules({ name, index, values })}
                   />
                 )}
               </FormFieldsWrapper>
@@ -113,18 +121,21 @@ const Page = ({
                     name={name}
                     index={index}
                     values={values}
+                    remove={remove}
                     files={fileProps.files}
                     isFileLoaded={fileProps.isFileLoaded}
                     formApi={formApi}
-                    {...disableAllBesidesInn({ name, index, values })}
+                    {...disableRules({ name, index, values })}
                   />,
                   <AOContragentsForm
                     key={name}
                     name={name}
                     index={index}
                     values={values}
+                    remove={remove}
                     files={fileProps.files}
-                    {...disableAllBesidesInn({ name, index, values })}
+                    formApi={formApi}
+                    {...disableRules({ name, index, values })}
                   />
                 )}
               </FormFieldsWrapper>
@@ -135,18 +146,20 @@ const Page = ({
   };
 
   const renderAgreementFiled = () => {
-    if (activePage === 0) {
+    if (activePage === 0 && !values.agreement) {
       const operator = values?.[FIELDS_NAMES.operator.type];
 
       if (OPERATORS_WITH_AGREEMENT.includes(operator)) {
         return (
           <AgreementField>
+            <Link link={AGREEMENT_TEMPLATE} label={LINK_TITLES.agreement} />
             <UploadField
               values={values}
               validate={required}
               snackbarProps={snackbarProps}
               name="agreement"
               title={BUTTON_TITLES.uploadAgreement}
+              {...fileProps}
             />
           </AgreementField>
         );
@@ -182,6 +195,32 @@ const Page = ({
     }
   };
 
+  const renderFilesButtons = type => {
+    let files = {};
+    for (let key in fileProps.files) {
+      if (key === type) files[key] = fileProps.files[key];
+      if (key === "agreement") files[key] = fileProps.files[key];
+    }
+    return (
+      Object.values(files).some(file => file !== null) &&
+      Object.entries(files).map(([key, value]) => {
+        if (value) {
+          return (
+            <SelectedFileChip
+              key={key}
+              name={key}
+              label={value}
+              files={fileProps.files}
+              setFiles={fileProps.setFiles}
+              formApi={formApi}
+            />
+          );
+        }
+        return null;
+      })
+    );
+  };
+
   const renderRequestIdField = () => {
     if (
       !isFileLoaded("sender") &&
@@ -196,21 +235,25 @@ const Page = ({
   };
 
   switch (activeForm) {
-    case 0:
+    case 0: {
       return (
         <PageWrapper>
           <TypeDataTitle>
             {typeDataTitle}
             {activePage === 1 && (
-              <OpenModalButton
-                key="sender_list"
-                name="sender_list"
-                values={values}
-                snackbarProps={snackbarProps}
-                setContent={setContent}
-                formApi={formApi}
-                {...fileProps}
-              />
+              <FilesButtons>
+                {renderFilesButtons("sender_list")}
+                <OpenModalButton
+                  key="sender_list"
+                  name="sender_list"
+                  activePage={activePage}
+                  values={values}
+                  snackbarProps={snackbarProps}
+                  setContent={setContent}
+                  formApi={formApi}
+                  {...fileProps}
+                />
+              </FilesButtons>
             )}
           </TypeDataTitle>
           <Content>
@@ -221,20 +264,25 @@ const Page = ({
           </Content>
         </PageWrapper>
       );
+    }
     case 1:
       return (
         <PageWrapper>
           <TypeDataTitle>
             {typeDataTitle}
-            <OpenModalButton
-              key="receiver_list"
-              name="receiver_list"
-              values={values}
-              snackbarProps={snackbarProps}
-              setContent={setContent}
-              formApi={formApi}
-              {...fileProps}
-            />
+            <FilesButtons>
+              {renderFilesButtons("receiver_list")}
+              <OpenModalButton
+                key="receiver_list"
+                name="receiver_list"
+                activePage={activePage}
+                values={values}
+                snackbarProps={snackbarProps}
+                setContent={setContent}
+                formApi={formApi}
+                {...fileProps}
+              />
+            </FilesButtons>
           </TypeDataTitle>
           <Content>
             <WrappedFieldsRows components={[renderOperatorSelectField()]} />
@@ -273,8 +321,6 @@ const PageWrapper = styled.div`
   width: 100%;
 `;
 
-const PageContent = styled.div``;
-
 const TypeDataTitle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -288,3 +334,5 @@ const AgreementField = styled.div`
   margin: 12px 0;
   width: 100%;
 `;
+
+const FilesButtons = styled.div``;

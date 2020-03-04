@@ -1,8 +1,10 @@
-import { INN_LENGTH, KPP_LENGTH } from "constants";
+import { INN_LENGTH, KPP_LENGTH, KPP_REGEXP, EMAIL_REGEXP } from "constants";
 
-export const required = value => (value ? undefined : "Обязательное поле");
+const requiredField = "Обязательное поле";
 
-export const disableAllBesidesInn = ({ name, index, values }) => {
+export const required = value => (value ? undefined : requiredField);
+
+export const disableRules = ({ name, index, values }) => {
   const nameLabel = name.slice(0, -3);
   const inn = values?.[nameLabel][index]?.inn;
   const isEntityInn = inn?.length === INN_LENGTH[1];
@@ -12,19 +14,88 @@ export const disableAllBesidesInn = ({ name, index, values }) => {
   return { isEntityInn, isOrganizationInn, isValidInn };
 };
 
+export const correctKpp = value => {
+  if (!value) return requiredField;
+  if (KPP_REGEXP.test(value)) return undefined;
+  return "КПП некорректен";
+};
+
+const correctInn = value => {
+  if (!value) return requiredField;
+
+  const inn = String(value);
+
+  if (inn.length === 10) {
+    const checkSum = (
+      ((2 * inn[0] +
+        4 * inn[1] +
+        10 * inn[2] +
+        3 * inn[3] +
+        5 * inn[4] +
+        9 * inn[5] +
+        4 * inn[6] +
+        6 * inn[7] +
+        8 * inn[8]) %
+        11) %
+      10
+    ).toString();
+
+    if (inn[9] === checkSum) {
+      return undefined;
+    }
+  }
+  if (inn.length === 12) {
+    const checkSum1 = (
+      ((7 * inn[0] +
+        2 * inn[1] +
+        4 * inn[2] +
+        10 * inn[3] +
+        3 * inn[4] +
+        5 * inn[5] +
+        9 * inn[6] +
+        4 * inn[7] +
+        6 * inn[8] +
+        8 * inn[9]) %
+        11) %
+      10
+    ).toString();
+
+    const checkSum2 = (
+      ((3 * inn[0] +
+        7 * inn[1] +
+        2 * inn[2] +
+        4 * inn[3] +
+        10 * inn[4] +
+        3 * inn[5] +
+        5 * inn[6] +
+        9 * inn[7] +
+        4 * inn[8] +
+        6 * inn[9] +
+        8 * inn[10]) %
+        11) %
+      10
+    ).toString();
+
+    if (inn[10] === checkSum1 && inn[11] === checkSum2) {
+      return undefined;
+    }
+  }
+  return "ИНН некорректен";
+};
+
+export const correctEmail = value => {
+  if (!value) return requiredField;
+  if (value === undefined || EMAIL_REGEXP.test(value)) return undefined;
+  return "E-mail некорректен";
+};
+
 export const validate = {
-  inn: value =>
-    INN_LENGTH.includes(value?.trim().length) ? undefined : "Некорректный ИНН",
-  email: value =>
-    value?.match(
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    )
-      ? undefined
-      : "Некорректный Email",
-  kpp: value =>
-    value?.trim().length === KPP_LENGTH ? undefined : "Некорректный КПП",
+  inn: value => correctInn(value),
+  email: value => correctEmail(value),
+  kpp: value => correctKpp(value),
   id: value => {
-    if (value === undefined || value?.length < 36) {
+    if (!value) return requiredField;
+    if (value?.length < 36) {
       return "Некорректный идентификатор";
     }
     return undefined;

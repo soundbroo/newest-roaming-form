@@ -23,6 +23,11 @@ export const muiTheme = createMuiTheme({
         paddingRight: 10
       }
     },
+    MuiButton: {
+      outlined: {
+        padding: "4px 9px"
+      }
+    },
     MuiFormLabel: {
       root: {
         marginLeft: 10
@@ -53,8 +58,7 @@ export const muiTheme = createMuiTheme({
     },
     MuiSnackbar: {
       root: {
-        maxWidth: 530,
-        textAlign: "justify"
+        maxWidth: 600
       }
     },
     MuiLinearProgress: {

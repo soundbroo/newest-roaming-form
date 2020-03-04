@@ -52,7 +52,7 @@ export const FIELDS_NAMES = {
   },
   operator: {
     type: "operator",
-    label: "Выберите оператора"
+    label: "Укажите оператора вашего контрагента"
   },
   request_id: {
     type: "request_id",
@@ -67,8 +67,9 @@ export const FIELDS_NAMES = {
 export const MAX_NUMBER_OF_FORMS = 99;
 
 export const INN_LENGTH = [10, 12];
-
 export const KPP_LENGTH = 9;
+export const KPP_REGEXP = /^([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})([0-9]{2})([0-9A-Z]{2})([0-9]{3})$/;
+export const EMAIL_REGEXP = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,7}$/;
 
 export const VALIDATION_FORM_TITLE = {
   noDataToSend: "Нет данных для отправки",
@@ -104,32 +105,32 @@ export const TITLES_FOR_KEYS = {
 
 export const OPERATORS = [
   {
+    value: "2BN",
+    label: "ООО Линк-Сервис – 2BN"
+  },
+  {
     value: "2JD",
     label: "АО НИИАС – 2JD"
   },
   {
-    value: "2BN",
-    label: "Линк-Сервис – 2BN"
-  },
-  {
     value: "2BM",
-    label: "СКБ Контур.Диадок – 2BM"
+    label: "АО ПФ СКБ Контур – 2BM"
   },
   {
     value: "2AL",
-    label: "Такском – 2AL"
+    label: "ООО Такском – 2AL"
   },
   {
     value: "2AK",
-    label: "ТаксНет – 2AK"
+    label: "ЗАО ТаксНет – 2AK"
   },
   {
     value: "2BE",
-    label: "Тензор СБиС – 2BE"
+    label: "ООО Компания Тензор – 2BE"
   },
   {
     value: "2IG",
-    label: "Synerdocs – 2IG"
+    label: "ООО Директум – 2IG"
   }
 ];
 
@@ -152,7 +153,11 @@ export const ASTRAL_ID = "2AE";
 
 export const BUTTON_TITLES = {
   pickFile: "Выбрать файл",
-  uploadAgreement: "Загрузить соглашение о выборе оператора"
+  uploadAgreement: "Прикрепить соглашение о выборе оператора"
+};
+
+export const LINK_TITLES = {
+  agreement: "Загрузить шаблон соглашения о выборе оператора"
 };
 
 export const MESSAGES = {
