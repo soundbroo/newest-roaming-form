@@ -37,8 +37,12 @@ export const ExpansionPanelItem = styled.div`
 export const Divider = styled.hr`
   width: 100%;
   background: #eee;
-  height: 2px;
+  height: 1px;
+  margin: 0;
   border: none;
+  &:last-child {
+    height: 0;
+  }
 `;
 
 export const Content = styled.div`
@@ -72,7 +76,7 @@ export const Card = styled(Paper)`
 
 export const Row = styled.div`
   display: flex;
-  min-height: 36px;
+  min-height: 21px;
   justify-content: space-between;
   align-items: center;
   border-bottom: thin solid #cecece3b;
@@ -84,7 +88,6 @@ export const Row = styled.div`
 export const Cell = styled.div`
   display: flex;
   align-items: center;
-  color: #777777;
 `;
 
 export const Background = styled.div`

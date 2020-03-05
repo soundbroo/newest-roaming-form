@@ -59,7 +59,7 @@ const ValidationPanel = ({ agent, notification, data, responseErrors }) => {
                     <ExpansionPanelItem key={index}>
                       <ItemWrapper>
                         <Title>{TITLES_FOR_KEYS[key]}:</Title>{" "}
-                        <Item>
+                        <Item error={Boolean(errors?.[key])}>
                           <span>{value}</span>
                           <Error>
                             {(!notification && errors?.[key]) || null}
@@ -110,6 +110,7 @@ const Item = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  ${p => p.error && "font-size: 15px"}
 `;
 
 const Error = styled.div`

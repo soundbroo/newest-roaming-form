@@ -32,4 +32,6 @@ export default Navigation;
 
 const NavigationWrapper = styled.div`
   margin-bottom: 32px;
+  position: sticky;
+  top: 0;
 `;

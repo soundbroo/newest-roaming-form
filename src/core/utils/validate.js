@@ -25,6 +25,10 @@ const correctInn = value => {
 
   const inn = String(value);
 
+  if (inn.length === 10 || inn.length === 12) {
+    if (inn.split("").every(num => num === "0")) return "ИНН некорректен";
+  }
+
   if (inn.length === 10) {
     const checkSum = (
       ((2 * inn[0] +

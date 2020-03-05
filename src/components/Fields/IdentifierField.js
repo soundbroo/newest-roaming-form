@@ -3,16 +3,26 @@ import { Field } from "react-final-form";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
+import EndInputAdornment from "components/Common/EndInputAdornment";
 
 import { validate } from "utils/validate";
 import { parseId } from "utils/parse";
 
-import { FIELDS_NAMES } from "constants";
+import { FIELDS_NAMES, ASTRAL_ID, HELPER_TEXT } from "constants";
 
 const IdentifierField = ({ inputAdornment, name, ...rest }) => {
   const adornmentProps = {
     startAdornment: (
       <InputAdornment position="start">{inputAdornment}</InputAdornment>
+    ),
+    endAdornment: (
+      <EndInputAdornment
+        title={
+          inputAdornment === ASTRAL_ID
+            ? HELPER_TEXT.astralId
+            : HELPER_TEXT.operatorId
+        }
+      />
     )
   };
 

@@ -51,9 +51,9 @@ export const muiTheme = createMuiTheme({
         textAlign: "center"
       }
     },
-    MuiExpansionPanelSummary: {
-      root: {
-        minHeight: 58
+    MuiTooltip: {
+      tooltip: {
+        fontSize: 14
       }
     },
     MuiSnackbar: {
@@ -61,9 +61,9 @@ export const muiTheme = createMuiTheme({
         maxWidth: 600
       }
     },
-    MuiLinearProgress: {
+    MuiExpansionPanelDetails: {
       root: {
-        // width: 150
+        padding: "8px 24px"
       },
       colorPrimary: {
         background: "#4caf50"

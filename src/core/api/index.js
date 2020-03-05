@@ -176,6 +176,18 @@ class AxiosService {
       console.log("Error - ", e);
     }
   };
+
+  autoComplete = async inn => {
+    try {
+      const result = await this.instance.get(
+        `http://roaming.api.staging.keydisk.ru/navigator/${inn}`
+      );
+      console.log("Result - ", result);
+      return result;
+    } catch (e) {
+      console.log("Error - ", e);
+    }
+  };
 }
 
 export default AxiosService;
