@@ -5,6 +5,7 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import InputField from "components/Fields/InputField";
 import {
   ExpansionPanelContent,
   ExpansionPanelItem,
@@ -13,7 +14,14 @@ import {
 
 import { TITLES_FOR_KEYS } from "constants";
 
-const ValidationPanel = ({ agent, notification, data, responseErrors }) => {
+const ValidationPanel = ({
+  agent,
+  agentIndex,
+  isFile,
+  notification,
+  data,
+  responseErrors
+}) => {
   const prepareErrors = () => {
     let errors = {};
     for (let key in responseErrors) {
@@ -31,17 +39,17 @@ const ValidationPanel = ({ agent, notification, data, responseErrors }) => {
   const errors = prepareErrors();
 
   const renderTitle = () => (
-    <>
-      <span>
+    <ItemWrapper>
+      <Title>
         {data?.name ||
           `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
-      </span>
+      </Title>
       {!notification &&
       errors &&
       Object.values(errors).some(el => el !== "") ? (
         <Error>Исправьте ошибки</Error>
       ) : null}
-    </>
+    </ItemWrapper>
   );
 
   return (
@@ -53,23 +61,34 @@ const ValidationPanel = ({ agent, notification, data, responseErrors }) => {
         <ExpansionPanelDetails>
           <ExpansionPanelContent>
             {Object.entries(data).map(([key, value], index) => {
+              console.log(
+                agent,
+                agentIndex,
+                `${agent}[${agentIndex}]`,
+                key,
+                value
+              );
               return (
-                value && (
-                  <>
-                    <ExpansionPanelItem key={index}>
-                      <ItemWrapper>
-                        <Title>{TITLES_FOR_KEYS[key]}:</Title>{" "}
-                        <Item error={Boolean(errors?.[key])}>
-                          <span>{value}</span>
-                          <Error>
-                            {(!notification && errors?.[key]) || null}
-                          </Error>
-                        </Item>
-                      </ItemWrapper>
-                    </ExpansionPanelItem>
-                    <Divider />
-                  </>
-                )
+                <>
+                  <ExpansionPanelItem key={index}>
+                    <ItemWrapper>
+                      <Item isFile={isFile}>
+                        {!isFile ? (
+                          <InputField
+                            name={`${agent}[${agentIndex}]`}
+                            fieldType={[key]}
+                            variant="outlined"
+                            size="small"
+                          />
+                        ) : (
+                          <div>{TITLES_FOR_KEYS[key]}</div>
+                        )}
+                      </Item>
+                      <Error>{(!notification && errors?.[key]) || null}</Error>
+                    </ItemWrapper>
+                  </ExpansionPanelItem>
+                  <Divider />
+                </>
               );
             })}
           </ExpansionPanelContent>
@@ -109,11 +128,15 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
-  ${p => p.error && "font-size: 15px"}
+  align-items: ${p => (p.isFile ? "flex-start" : "flex-end")};
+  flex: 65%;
 `;
 
 const Error = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   font-size: 13px;
   color: #fe4733;
+  flex: 35%;
 `;

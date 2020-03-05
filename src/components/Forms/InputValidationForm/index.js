@@ -16,15 +16,15 @@ const InputValidationForm = ({
   buttonProps,
   response,
   setResponse,
-  files: { sender_list, receiver_list },
+  files,
   snackbarProps,
   auth,
   setAuth
 }) => {
   const { showSnackbar } = snackbarProps;
 
-  const isSender = Boolean(values?.sender[0]) || sender_list;
-  const isReceiver = Boolean(values?.receiver[0] || receiver_list);
+  const isSender = Boolean(values?.sender[0]) || files.sender_list;
+  const isReceiver = Boolean(values?.receiver[0] || files.receiver_list);
   const notification = response?.data?.text;
 
   const [Modal, isModal, setIsModal] = useModal({
@@ -37,7 +37,9 @@ const InputValidationForm = ({
 
   useEffect(() => {
     if (notification) {
-      showSnackbar(notification, statuses.success, true, null);
+      const snackbarColor =
+        response?.data?.status === 0 ? statuses.success : statuses.error;
+      showSnackbar(notification, snackbarColor, true, null);
       setResponse(null);
     }
   }, [response]);
@@ -69,9 +71,9 @@ const InputValidationForm = ({
     const checkAgent = agent => {
       switch (agent) {
         case "sender":
-          return sender_list;
+          return files.sender_list;
         case "receiver":
-          return receiver_list;
+          return files.receiver_list;
       }
     };
     const agentFile = checkAgent(agent);
@@ -96,19 +98,35 @@ const InputValidationForm = ({
       return null;
     };
 
+    console.log("Bool", files[`${agent}_list`]);
+
     return (
       <>
         {renderAuthModal()}
         <span>{VALIDATION_FORM_TITLE[agent]}</span>
-        {data.map((data, index) => (
-          <ValidationPanel
-            key={index}
-            agent={agent}
-            notification={notification}
-            data={!response ? data : response?.data?.[agent]?.[index].input}
-            responseErrors={response?.data?.[agent]?.[index].errors}
-          />
-        ))}
+        {!agentFile
+          ? values[agent].map((data, index) => (
+              <ValidationPanel
+                key={index}
+                agentIndex={index}
+                agent={agent}
+                isFile={agentFile}
+                notification={notification}
+                data={data}
+                responseErrors={response?.data?.[agent]?.[index].errors}
+              />
+            ))
+          : response?.data?.[agent].map((data, index) => (
+              <ValidationPanel
+                key={index}
+                agentIndex={index}
+                agent={agent}
+                isFile={agentFile}
+                notification={notification}
+                data={response?.data?.[agent]?.[index].input}
+                responseErrors={response?.data?.[agent]?.[index].errors}
+              />
+            ))}
       </>
     );
   };

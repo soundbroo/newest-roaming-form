@@ -4,7 +4,7 @@ import { FormFieldsRow } from "components/Common/styled";
 import InputField from "components/Fields/InputField";
 
 import { validate } from "utils/validate";
-import { parseInn, parseKpp, parseName } from "utils/parse";
+import { parse } from "utils/parse";
 
 import AxiosService from "api";
 
@@ -67,14 +67,13 @@ const TemplateDefaultForm = ({
       <FormFieldsRow>
         <InputField
           disabled={isFileLoaded}
-          parse={parseInn}
+          parse={parse.inn}
           name={name}
           fieldType="inn"
-          validate={validate.inn}
         />
         <InputField
           disabled={isEntityInn}
-          parse={parseKpp}
+          parse={parse.kpp}
           name={name}
           fieldType="kpp"
           validate={!isEntityInn && validate.kpp}
@@ -85,14 +84,9 @@ const TemplateDefaultForm = ({
           <InputField name={name} fieldType="name" />
         ) : (
           <>
-            <InputField name={name} fieldType="lastname" parse={parseName} />
-            <InputField name={name} fieldType="firstname" parse={parseName} />
-            <InputField
-              name={name}
-              validate={null}
-              fieldType="patronymic"
-              parse={parseName}
-            />
+            <InputField name={name} fieldType="lastname" />
+            <InputField name={name} fieldType="firstname" />
+            <InputField name={name} validate={null} fieldType="patronymic" />
           </>
         )}
       </FormFieldsRow>

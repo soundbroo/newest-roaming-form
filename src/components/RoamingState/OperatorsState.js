@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import FindInPageRoundedIcon from "@material-ui/icons/FindInPageRounded";
 
-import { categories, rows } from "constants";
+import { CATEGORIES, rows } from "constants";
 
 const Search = ({ search, setSearch }) => {
   const handleSearch = event => {
@@ -46,7 +46,7 @@ const Select = ({ category, setCategory }) => {
       onChange={handleChange}
       variant="outlined"
     >
-      {Object.values(categories).map(value => (
+      {Object.values(CATEGORIES).map(value => (
         <MenuItem key={value} value={value}>
           {value}
         </MenuItem>
@@ -56,13 +56,13 @@ const Select = ({ category, setCategory }) => {
 };
 
 const OperatorsState = () => {
-  const [category, setCategory] = useState(categories.all);
+  const [category, setCategory] = useState(CATEGORIES.all);
   const [search, setSearch] = useState("");
 
   const filteredRows = rows
     .filter(row => row.name.toUpperCase().includes(search.toUpperCase()))
     .filter(row => {
-      if (category === categories.all) {
+      if (category === CATEGORIES.all) {
         return row;
       } else return row.cat === category;
     });

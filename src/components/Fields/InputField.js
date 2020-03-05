@@ -5,17 +5,21 @@ import TextFieldAdapter from "components/Common/TextFieldAdapter";
 
 import { FIELDS_NAMES } from "constants";
 
-import { required } from "utils/validate";
+import { validate, required } from "utils/validate";
+import { parse } from "utils/parse";
 
-const InputField = ({ name, fieldType, ...rest }) => (
-  <Field
-    key={`${name}.${fieldType}`}
-    name={`${name}.${FIELDS_NAMES[fieldType].type}`}
-    component={TextFieldAdapter}
-    validate={required}
-    label={FIELDS_NAMES[fieldType].label}
-    {...rest}
-  />
-);
+const InputField = ({ name, fieldType, ...rest }) => {
+  return (
+    <Field
+      key={`${name}.${fieldType}`}
+      name={`${name}.${FIELDS_NAMES[fieldType].type}`}
+      component={TextFieldAdapter}
+      validate={validate[fieldType] ? validate[fieldType] : required}
+      parse={parse[fieldType]}
+      label={FIELDS_NAMES[fieldType].label}
+      {...rest}
+    />
+  );
+};
 
 export default InputField;

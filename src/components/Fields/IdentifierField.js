@@ -6,7 +6,7 @@ import TextFieldAdapter from "components/Common/TextFieldAdapter";
 import EndInputAdornment from "components/Common/EndInputAdornment";
 
 import { validate } from "utils/validate";
-import { parseId } from "utils/parse";
+import { parse } from "utils/parse";
 
 import { FIELDS_NAMES, ASTRAL_ID, HELPER_TEXT } from "constants";
 
@@ -31,7 +31,7 @@ const IdentifierField = ({ inputAdornment, name, ...rest }) => {
       name={`${name}.${FIELDS_NAMES.id.type}`}
       component={TextFieldAdapter}
       validate={validate.id}
-      parse={parseId}
+      parse={parse.id}
       label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}
       {...rest}

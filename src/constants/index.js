@@ -174,7 +174,7 @@ export const statuses = {
   error: "error"
 };
 
-export const categories = {
+export const CATEGORIES = {
   all: "Все категории",
   industrial: "Промышленная эксплуатация",
   testing: "Тестирование обмена",
@@ -185,39 +185,39 @@ export const categories = {
 export const rows = [
   {
     name: "ДИРЕКТУМ (Synerdocs)",
-    cat: categories.industrial,
+    cat: CATEGORIES.industrial,
     status: 100
   },
   {
     name: "ИНФОТЕКС Интернет Траст (VipNet ЭДО Документ)",
-    cat: categories.industrial,
+    cat: CATEGORIES.industrial,
     status: 100
   },
-  { name: "КОНТУР (Диадок)", cat: categories.industrial, status: 100 },
+  { name: "КОНТУР (Диадок)", cat: CATEGORIES.industrial, status: 100 },
   {
     name: "КОРУС Консалтинг СНГ (СФЕРА)",
-    cat: categories.testing,
+    cat: CATEGORIES.testing,
     status: 75
   },
-  { name: "КРИПТЭКС (Signatura)", cat: categories.negotiation, status: 25 },
+  { name: "КРИПТЭКС (Signatura)", cat: CATEGORIES.negotiation, status: 25 },
   {
     name: "МТС (Электронный документооборот)",
-    cat: categories.software,
+    cat: CATEGORIES.software,
     status: 50
   },
-  { name: "НИИАС (РЖД)", cat: categories.industrial, status: 100 },
-  { name: "СИСЛИНК (DOCLINK)", cat: categories.negotiation, status: 25 },
-  { name: "СТЭК НТЦ (СТЭК-ТРАСТ)", cat: categories.industrial, status: 100 },
+  { name: "НИИАС (РЖД)", cat: CATEGORIES.industrial, status: 100 },
+  { name: "СИСЛИНК (DOCLINK)", cat: CATEGORIES.negotiation, status: 25 },
+  { name: "СТЭК НТЦ (СТЭК-ТРАСТ)", cat: CATEGORIES.industrial, status: 100 },
   {
     name: "ТАКСКОМ (Файлер, 1С-Такском)",
-    cat: categories.industrial,
+    cat: CATEGORIES.industrial,
     status: 100
   },
-  { name: "ТАКСНЕТ (Транскрипт)", cat: categories.industrial, status: 100 },
-  { name: "ТЕНЗОР (СБИС, 1С-ЭДО)", cat: categories.industrial, status: 100 },
+  { name: "ТАКСНЕТ (Транскрипт)", cat: CATEGORIES.industrial, status: 100 },
+  { name: "ТЕНЗОР (СБИС, 1С-ЭДО)", cat: CATEGORIES.industrial, status: 100 },
   {
     name: "ЭТП ГПБ (Система ЭДО ЭТП ГПБ, 1С-ЭДО)",
-    cat: categories.industrial,
+    cat: CATEGORIES.industrial,
     status: 100
   }
 ];

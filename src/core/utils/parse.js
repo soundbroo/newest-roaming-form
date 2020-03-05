@@ -1,10 +1,12 @@
 const nums = value => value.replace(/[^\d]/g, "");
 
-export const parseName = value => value.replace(/[\d]/g, "");
+export const parseDefault = value => value;
 
 export const parseInn = value => nums(value).substr(0, 12);
 
 export const parseKpp = value => value.substr(0, 9);
+
+export const parseFullname = value => value.replace(/[\d]/g, "");
 
 export const parseId = value => {
   if (!value) return value;
@@ -25,4 +27,15 @@ export const parseId = value => {
     16,
     20
   )}-${id.slice(20, 32)}`;
+};
+
+export const parse = {
+  name: value => parseDefault(value),
+  inn: value => parseInn(value),
+  kpp: value => parseKpp(value),
+  id: value => parseId(value),
+  lastname: value => parseFullname(value),
+  firstname: value => parseFullname(value),
+  patronymic: value => parseFullname(value),
+  email: value => parseDefault(value)
 };
