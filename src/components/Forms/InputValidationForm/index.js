@@ -102,8 +102,6 @@ const InputValidationForm = ({
       return null;
     };
 
-    console.log(response?.data);
-
     return (
       <>
         {renderAuthModal()}

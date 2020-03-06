@@ -52,7 +52,6 @@ const Content = () => {
   }, []);
 
   const renderContent = () => {
-    console.log("SWITCH", response);
     switch (activePage) {
       case 0:
       case 1:

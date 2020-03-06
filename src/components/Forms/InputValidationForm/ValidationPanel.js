@@ -61,42 +61,33 @@ const ValidationPanel = ({
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <ExpansionPanelContent>
-            {Object.entries(data).map(([key, value], index) => {
-              console.log(
-                agent,
-                agentIndex,
-                `${agent}[${agentIndex}]`,
-                key,
-                value
-              );
-              return (
-                <>
-                  <ExpansionPanelItem
-                    key={index}
-                    isResponse={isResponse && isFile}
-                  >
-                    <ItemWrapper>
-                      <Item isResponse={isResponse && isFile} isFile={isFile}>
-                        {!isFile ? (
-                          <InputField
-                            name={`${agent}[${agentIndex}]`}
-                            fieldType={[key]}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <div>{TITLES_FOR_KEYS[key]}</div>
-                        )}
-                      </Item>
-                      <Error isResponse={isResponse && isFile}>
-                        {(!notification && errors?.[key]) || null}
-                      </Error>
-                    </ItemWrapper>
-                  </ExpansionPanelItem>
-                  <Divider />
-                </>
-              );
-            })}
+            {Object.entries(data).map(([key, value], index) => (
+              <>
+                <ExpansionPanelItem
+                  key={index}
+                  isResponse={isResponse && isFile}
+                >
+                  <ItemWrapper>
+                    <Item isResponse={isResponse && isFile} isFile={isFile}>
+                      {!isFile ? (
+                        <InputField
+                          name={`${agent}[${agentIndex}]`}
+                          fieldType={[key]}
+                          variant="outlined"
+                          size="small"
+                        />
+                      ) : (
+                        <div>{TITLES_FOR_KEYS[key]}</div>
+                      )}
+                    </Item>
+                    <Error isResponse={isResponse && isFile}>
+                      {(!notification && errors?.[key]) || null}
+                    </Error>
+                  </ItemWrapper>
+                </ExpansionPanelItem>
+                <Divider />
+              </>
+            ))}
           </ExpansionPanelContent>
         </ExpansionPanelDetails>
       </ExpansionPanel>
