@@ -50,13 +50,15 @@ const TemplateDefaultForm = ({
       return changeFullname(fam_fl, nam_fl, otch_fl);
     }
     if (data?.kpp && inn?.length === 10) {
-      return formApi.change(`${name}.kpp`, data.kpp);
+      formApi.change(`${name}.kpp`, data.kpp);
+      formApi.change(`${name}.name`, data.ul_name.namep);
+      return;
     }
   };
 
   const debouncedAutoComplete = () => {
     if (inn?.length === 10 || inn?.length === 12) {
-      setTimeout(() => autoComplete(), 750);
+      setTimeout(() => autoComplete(), 250);
     }
   };
 

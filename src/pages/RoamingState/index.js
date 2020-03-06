@@ -5,23 +5,26 @@ import RequestStatus from "components/RoamingState/RequestStatus";
 
 import AxiosService from "api";
 
-const RoamingState = ({ status, response }) => {
+const RoamingState = ({ status, response, setRequestStatus }) => {
   const axios = new AxiosService();
 
-  console.log("ROAMINGSTATE", { status, response });
+  const [requestData, setRequestData] = useState(null);
 
-  const [requestStatus, setRequestStatus] = useState(null);
-
-  if (response?.data.status === 0) {
-    const uid = response.data.sender[0].input.id;
-    const request_id = response.data.request_id;
-    axios.status(uid, request_id).then(res => setRequestStatus(res));
-  }
+  useEffect(() => {
+    if (response?.data.status === 0) {
+      const uid = response.data.sender[0].input.id;
+      const request_id = response.data.request_id;
+      axios.status(uid, request_id).then(res => {
+        setRequestData(res);
+        setRequestStatus(null);
+      });
+    }
+  }, [response]);
 
   return (
     <>
-      {(status || requestStatus) && (
-        <RequestStatus status={status} response={requestStatus} />
+      {(status || requestData) && (
+        <RequestStatus status={status} response={requestData?.data?.text} />
       )}
       <OperatorsState />
     </>

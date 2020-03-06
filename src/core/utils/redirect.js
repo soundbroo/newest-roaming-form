@@ -1,6 +1,6 @@
 export const redirectToStatusCheck = (response, setActivePage) => {
-  console.log(response);
   if (response?.data.status === 0) {
-    setActivePage(2);
+    setTimeout(() => setActivePage(2), 1500);
   }
+  return;
 };

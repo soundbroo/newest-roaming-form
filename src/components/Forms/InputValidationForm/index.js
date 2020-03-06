@@ -26,6 +26,7 @@ const InputValidationForm = ({
   const isSender = Boolean(values?.sender[0]) || files.sender_list;
   const isReceiver = Boolean(values?.receiver[0] || files.receiver_list);
   const notification = response?.data?.text;
+  const emptyList = notification === "Список получателей пуст";
 
   const [Modal, isModal, setIsModal] = useModal({
     component: Auth,
@@ -77,7 +78,10 @@ const InputValidationForm = ({
       }
     };
     const agentFile = checkAgent(agent);
-    if (agentFile && !response) return <div>Вы загрузили файл {agentFile}</div>;
+    const YouAreUpload = ({ agentFile }) => (
+      <div>Вы загрузили файл {agentFile}</div>
+    );
+    if (agentFile && !response) return <YouAreUpload agentFile={agentFile} />;
 
     const dataMap = agent => {
       if (!response) {
@@ -98,35 +102,40 @@ const InputValidationForm = ({
       return null;
     };
 
-    console.log("Bool", files[`${agent}_list`]);
+    console.log(response?.data);
 
     return (
       <>
         {renderAuthModal()}
         <span>{VALIDATION_FORM_TITLE[agent]}</span>
-        {!agentFile
-          ? values[agent].map((data, index) => (
-              <ValidationPanel
-                key={index}
-                agentIndex={index}
-                agent={agent}
-                isFile={agentFile}
-                notification={notification}
-                data={data}
-                responseErrors={response?.data?.[agent]?.[index].errors}
-              />
-            ))
-          : response?.data?.[agent].map((data, index) => (
-              <ValidationPanel
-                key={index}
-                agentIndex={index}
-                agent={agent}
-                isFile={agentFile}
-                notification={notification}
-                data={response?.data?.[agent]?.[index].input}
-                responseErrors={response?.data?.[agent]?.[index].errors}
-              />
-            ))}
+        {!agentFile ? (
+          values[agent].map((data, index) => (
+            <ValidationPanel
+              key={index}
+              agentIndex={index}
+              agent={agent}
+              isFile={agentFile}
+              notification={notification}
+              data={data}
+              responseErrors={response?.data?.[agent]?.[index].errors}
+            />
+          ))
+        ) : !emptyList ? (
+          response?.data?.[agent].map((data, index) => (
+            <ValidationPanel
+              key={index}
+              agentIndex={index}
+              agent={agent}
+              isResponse={!!response}
+              isFile={agentFile}
+              notification={notification}
+              data={response?.data?.[agent]?.[index].input}
+              responseErrors={response?.data?.[agent]?.[index].errors}
+            />
+          ))
+        ) : (
+          <YouAreUpload agentFile={agentFile} />
+        )}
       </>
     );
   };

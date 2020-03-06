@@ -20,6 +20,7 @@ const ValidationPanel = ({
   isFile,
   notification,
   data,
+  isResponse,
   responseErrors
 }) => {
   const prepareErrors = () => {
@@ -39,7 +40,7 @@ const ValidationPanel = ({
   const errors = prepareErrors();
 
   const renderTitle = () => (
-    <ItemWrapper>
+    <TitleWrapper>
       <Title>
         {data?.name ||
           `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
@@ -47,9 +48,9 @@ const ValidationPanel = ({
       {!notification &&
       errors &&
       Object.values(errors).some(el => el !== "") ? (
-        <Error>Исправьте ошибки</Error>
+        <TitleError>Исправьте ошибки</TitleError>
       ) : null}
-    </ItemWrapper>
+    </TitleWrapper>
   );
 
   return (
@@ -70,9 +71,12 @@ const ValidationPanel = ({
               );
               return (
                 <>
-                  <ExpansionPanelItem key={index}>
+                  <ExpansionPanelItem
+                    key={index}
+                    isResponse={isResponse && isFile}
+                  >
                     <ItemWrapper>
-                      <Item isFile={isFile}>
+                      <Item isResponse={isResponse && isFile} isFile={isFile}>
                         {!isFile ? (
                           <InputField
                             name={`${agent}[${agentIndex}]`}
@@ -84,7 +88,9 @@ const ValidationPanel = ({
                           <div>{TITLES_FOR_KEYS[key]}</div>
                         )}
                       </Item>
-                      <Error>{(!notification && errors?.[key]) || null}</Error>
+                      <Error isResponse={isResponse && isFile}>
+                        {(!notification && errors?.[key]) || null}
+                      </Error>
                     </ItemWrapper>
                   </ExpansionPanelItem>
                   <Divider />
@@ -107,6 +113,7 @@ const ExpansionPanelTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 38px;
 `;
 
 const ValidationPanelWrapper = styled.div`
@@ -117,11 +124,27 @@ const ItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 75px;
+  position: relative;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
 `;
 
 const Title = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const TitleError = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #fe4733;
 `;
 
 const Item = styled.div`
@@ -130,6 +153,9 @@ const Item = styled.div`
   justify-content: center;
   align-items: ${p => (p.isFile ? "flex-start" : "flex-end")};
   flex: 65%;
+  ${p => !p.isResponse && "position: absolute"};
+  top: 10px;
+  width: 334px;
 `;
 
 const Error = styled.div`
@@ -139,4 +165,8 @@ const Error = styled.div`
   font-size: 13px;
   color: #fe4733;
   flex: 35%;
+  ${p => !p.isResponse && "position: absolute"};
+  max-width: 200px;
+  right: 0px;
+  top: 10px;
 `;

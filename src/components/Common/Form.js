@@ -41,9 +41,9 @@ const Form = ({
     }
   }, [auth.sessionToken]);
 
-  // useEffect(() => {
-  //   redirectToStatusCheck(requestStatus, setActivePage);
-  // }, [requestStatus]);
+  useEffect(() => {
+    requestStatus && redirectToStatusCheck(requestStatus, setActivePage);
+  }, [requestStatus]);
 
   const axios = new AxiosService();
 

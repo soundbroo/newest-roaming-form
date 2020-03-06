@@ -68,7 +68,13 @@ const Content = () => {
           />
         );
       case 2:
-        return <RoamingState status={query} response={requestStatus} />;
+        return (
+          <RoamingState
+            status={query}
+            response={requestStatus}
+            setRequestStatus={setRequestStatus}
+          />
+        );
     }
   };
 

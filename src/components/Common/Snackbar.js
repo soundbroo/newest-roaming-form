@@ -14,7 +14,7 @@ const SnackBar = ({ message, open, color, delay, showSnackbar }) => {
       open={open}
       anchorOrigin={{
         vertical: "bottom",
-        horizontal: "left"
+        horizontal: "right"
       }}
       autoHideDuration={delay || 10000}
       onClose={handleClose}
