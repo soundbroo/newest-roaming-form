@@ -1,5 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Form as FinalForm } from "react-final-form";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 import { Content } from "components/Common/styled";
 import Auth from "components/Common/Auth";
@@ -9,6 +12,8 @@ import CheckDataButton from "components/Forms/InputValidationForm/CheckDataButto
 
 import useModal from "hooks/useModal";
 
+import saveXls from "utils/saveXls";
+
 import { VALIDATION_FORM_TITLE, statuses } from "constants";
 
 const InputValidationForm = ({
@@ -16,10 +21,16 @@ const InputValidationForm = ({
   buttonProps,
   response,
   setResponse,
-  files,
+  setValidationErrors,
+  fileProps: { files, filesToReload, setFilesToReload },
   snackbarProps,
   auth,
-  setAuth
+  setAuth,
+  setXlsSaver,
+  content,
+  fileSaverSwitcher,
+  setFileSaverSwitcher,
+  formApi
 }) => {
   const { showSnackbar } = snackbarProps;
 
@@ -68,6 +79,10 @@ const InputValidationForm = ({
     );
   };
 
+  const [initialValues, setInitialValues] = useState([]);
+
+  const handleSwitch = () => setFileSaverSwitcher(!fileSaverSwitcher);
+
   const renderSuccess = agent => {
     const checkAgent = agent => {
       switch (agent) {
@@ -77,23 +92,13 @@ const InputValidationForm = ({
           return files.receiver_list;
       }
     };
+    const agentFileName = `${agent}_list`;
     const agentFile = checkAgent(agent);
     const YouAreUpload = ({ agentFile }) => (
       <div>Вы загрузили файл {agentFile}</div>
     );
+
     if (agentFile && !response) return <YouAreUpload agentFile={agentFile} />;
-
-    const dataMap = agent => {
-      if (!response) {
-        return values[agent];
-      } else if (notification === "Список получателей пуст") {
-        showSnackbar(notification, statuses.error, true, null);
-        return values[agent];
-      }
-      return response?.data?.[agent];
-    };
-
-    const data = dataMap(agent);
 
     const renderAuthModal = () => {
       if (auth.refresh && isModal) {
@@ -119,18 +124,93 @@ const InputValidationForm = ({
             />
           ))
         ) : !emptyList ? (
-          response?.data?.[agent].map((data, index) => (
-            <ValidationPanel
-              key={index}
-              agentIndex={index}
-              agent={agent}
-              isResponse={!!response}
-              isFile={agentFile}
-              notification={notification}
-              data={response?.data?.[agent]?.[index].input}
-              responseErrors={response?.data?.[agent]?.[index].errors}
+          <>
+            <FinalForm
+              onSubmit={() => {}}
+              initialValues={{
+                list: initialValues
+              }}
+              render={({ handleSubmit, values, errors }) => {
+                const handleSaveXls = () =>
+                  saveXls(
+                    filesToReload,
+                    setFilesToReload,
+                    agentFileName,
+                    content.header,
+                    values.list,
+                    fileSaverSwitcher
+                  );
+
+                const initialValues = values => {
+                  const data = !values ? response?.data?.[agent] : values?.list;
+                  let initial = [];
+                  data.forEach((value, index) => {
+                    initial[index] = value.input;
+                  });
+                  setInitialValues(initial);
+                };
+
+                useEffect(() => {
+                  initialValues();
+                }, [response]);
+
+                useEffect(() => {
+                  setValidationErrors(errors?.list);
+                }, [errors]);
+
+                useEffect(() => {
+                  if (!errors?.list?.length) {
+                    const save = handleSaveXls();
+                    if (save) setXlsSaver(() => () => save());
+                  }
+                }, [errors, values]);
+
+                return (
+                  <>
+                    <form onSubmit={handleSubmit}>
+                      <ControlLabel
+                        control={
+                          <Switch
+                            checked={fileSaverSwitcher}
+                            onChange={handleSwitch}
+                            value={fileSaverSwitcher}
+                            color="primary"
+                          />
+                        }
+                        label="Скачать измененный excel-файл в случае удачной отправки"
+                      />
+                      {values.list.map((data, index) => (
+                        <ValidationPanel
+                          key={index}
+                          name="list"
+                          agentIndex={index}
+                          agent={agent}
+                          isResponse={!!response}
+                          isFile={agentFile}
+                          notification={notification}
+                          data={response?.data?.[agent]?.[index].input}
+                          responseText={response?.data?.[agent]?.[index].text}
+                          responseErrors={
+                            response?.data?.[agent]?.[index].errors
+                          }
+                        />
+                      ))}
+                    </form>
+                    {/* <b
+                      style={{
+                        position: "fixed",
+                        top: 200,
+                        right: 10,
+                        fontSize: 12
+                      }}
+                    >
+                      <pre>{JSON.stringify(values, 0, 2)}</pre>
+                    </b> */}
+                  </>
+                );
+              }}
             />
-          ))
+          </>
         ) : (
           <YouAreUpload agentFile={agentFile} />
         )}
@@ -155,4 +235,11 @@ export default InputValidationForm;
 
 const ValidationFormWrapper = styled(Content)`
   margin-left: -16px;
+`;
+
+const ControlLabel = styled(FormControlLabel)`
+  color: #9243c1;
+  span {
+    font-size: 14px;
+  }
 `;

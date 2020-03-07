@@ -13,9 +13,12 @@ export default function HorizontalNonLinearStepper({
   activeStep,
   setActiveStep,
   setInitialValues,
+  response,
   values,
   errors,
+  validationErrors,
   submit,
+  xlsSaver,
   emptyFormValues,
   mainTitle,
   children
@@ -23,13 +26,13 @@ export default function HorizontalNonLinearStepper({
   const [completed, setCompleted] = useState({});
 
   useEffect(() => {
+    setInitialValues(emptyFormValues);
+  }, [activePage]);
+
+  useEffect(() => {
     setActiveStep(0);
     setCompleted({});
   }, [steps, activePage]);
-
-  useEffect(() => {
-    setInitialValues(emptyFormValues);
-  }, [activePage]);
 
   const setStepperState = step => {
     setActiveStep(step);
@@ -46,7 +49,13 @@ export default function HorizontalNonLinearStepper({
   };
 
   const handleNext = () => {
-    if (activeStep === 2) return submit(values);
+    if (activeStep === 2) {
+      if (xlsSaver) {
+        xlsSaver();
+        return submit(values);
+      }
+      return submit(values);
+    }
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -91,7 +100,9 @@ export default function HorizontalNonLinearStepper({
           Назад
         </Button>
         <Button
-          disabled={Object.keys(errors).length > 0}
+          disabled={
+            validationErrors?.length > 0 || Object.keys(errors).length > 0
+          }
           variant="contained"
           color="primary"
           type={activeStep === 2 ? "submit" : "button"}

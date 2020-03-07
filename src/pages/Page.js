@@ -42,14 +42,18 @@ const Page = ({
   typeDataTitle,
   values,
   errors,
+  setValidationErrors,
   push,
   remove,
   response,
   setResponse,
+  setXlsSaver,
   operatorId,
-  fileProps
+  fileProps,
+  fileSaverSwitcher,
+  setFileSaverSwitcher
 }) => {
-  const isFileLoaded = name => Boolean(fileProps.files?.[`${name}_list`]);
+  const isFileLoaded = name => Boolean(fileProps.files?.[name]);
 
   const [content, setContent] = useFileContent();
 
@@ -63,7 +67,7 @@ const Page = ({
   };
 
   const renderSenderFieldArray = () => {
-    if (!isFileLoaded("sender"))
+    if (!isFileLoaded("sender_list"))
       return (
         <FieldArray key="sender" name="sender">
           {({ fields }) =>
@@ -104,7 +108,7 @@ const Page = ({
   };
 
   const renderReceiverFieldArray = () => {
-    if (!isFileLoaded("receiver"))
+    if (!isFileLoaded("receiver_list"))
       return (
         <FieldArray key="receiver" name="receiver">
           {({ fields }) =>
@@ -175,7 +179,7 @@ const Page = ({
   };
 
   const renderAddButton = type => {
-    if (!isFileLoaded(type)) {
+    if (!isFileLoaded(`${type}_list`)) {
       if (activePage === 0 && activeForm === 0) return;
 
       const disabled = () => {
@@ -210,9 +214,10 @@ const Page = ({
               key={key}
               name={key}
               label={value}
-              files={fileProps.files}
-              setFiles={fileProps.setFiles}
               formApi={formApi}
+              setResponse={setResponse}
+              setValidationErrors={setValidationErrors}
+              {...fileProps}
             />
           );
         }
@@ -223,7 +228,7 @@ const Page = ({
 
   const renderRequestIdField = () => {
     if (
-      !isFileLoaded("sender") &&
+      !isFileLoaded("sender_list") &&
       activePage === 1 &&
       OPERATORS_WITH_REQUEST_ID.includes(operatorId)
     )
@@ -231,7 +236,10 @@ const Page = ({
   };
 
   const renderFileContent = name => {
-    if (isFileLoaded(name)) return <FileContent content={content} />;
+    if (isFileLoaded(name))
+      return (
+        <FileContent key={name} name={name} content={content.data[name]} />
+      );
   };
 
   switch (activeForm) {
@@ -249,6 +257,7 @@ const Page = ({
                   activePage={activePage}
                   values={values}
                   snackbarProps={snackbarProps}
+                  content={content}
                   setContent={setContent}
                   formApi={formApi}
                   {...fileProps}
@@ -259,7 +268,7 @@ const Page = ({
           <Content>
             <WrappedFieldsRows components={[renderRequestIdField()]} />
             {renderSenderFieldArray()}
-            {renderFileContent("sender")}
+            {renderFileContent("sender_list")}
             {renderAddButton("sender")}
           </Content>
         </PageWrapper>
@@ -278,6 +287,7 @@ const Page = ({
                 activePage={activePage}
                 values={values}
                 snackbarProps={snackbarProps}
+                content={content}
                 setContent={setContent}
                 formApi={formApi}
                 {...fileProps}
@@ -288,7 +298,7 @@ const Page = ({
             <WrappedFieldsRows components={[renderOperatorSelectField()]} />
             {renderAgreementFiled()}
             {renderReceiverFieldArray()}
-            {renderFileContent("receiver")}
+            {renderFileContent("receiver_list")}
             {renderAddButton("receiver")}
           </Content>
         </PageWrapper>
@@ -301,10 +311,16 @@ const Page = ({
             key={3}
             values={values}
             buttonProps={activeFormProps}
-            files={fileProps.files}
+            fileProps={fileProps}
             response={response}
             setResponse={setResponse}
+            setValidationErrors={setValidationErrors}
             snackbarProps={snackbarProps}
+            formApi={formApi}
+            content={content}
+            setXlsSaver={setXlsSaver}
+            fileSaverSwitcher={fileSaverSwitcher}
+            setFileSaverSwitcher={setFileSaverSwitcher}
             {...authProps}
           />
         </>

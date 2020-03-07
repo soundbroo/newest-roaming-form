@@ -64,9 +64,6 @@ export const muiTheme = createMuiTheme({
     MuiExpansionPanelDetails: {
       root: {
         padding: "8px 24px"
-      },
-      colorPrimary: {
-        background: "#4caf50"
       }
     }
   }

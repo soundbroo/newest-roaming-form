@@ -36,7 +36,8 @@ export default useModal;
 
 const ModalWrapper = styled.div`
   position: fixed;
-  left: calc(50% - 182px);
-  top: calc(50% - 160px);
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
   z-index: 3;
 `;

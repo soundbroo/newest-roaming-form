@@ -47,6 +47,15 @@ const Form = ({
 
   const axios = new AxiosService();
 
+  const defaultFilesToReload = {
+    sender_list: null,
+    receiver_list: null
+  };
+  const [xlsSaver, setXlsSaver] = useState(null);
+  const [filesToReload, setFilesToReload] = useState(defaultFilesToReload);
+  const [fileSaverSwitcher, setFileSaverSwitcher] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
+
   const submit = values => {
     switch (activePage) {
       case 0: {
@@ -55,7 +64,8 @@ const Form = ({
             values,
             activePage,
             setRequestStatus,
-            setResponse
+            setResponse,
+            filesToReload
           });
         }
       }
@@ -65,6 +75,7 @@ const Form = ({
           activePage,
           setActivePage,
           setResponse,
+          filesToReload,
           auth,
           setAuth
         });
@@ -91,7 +102,15 @@ const Form = ({
     setActiveForm(0);
     setFiles(defaultFiles);
     setResponse(null);
+    setFilesToReload(defaultFilesToReload);
+    setValidationErrors({});
+    setFileSaverSwitcher(false);
   }, [activePage]);
+
+  useEffect(() => {
+    setValidationErrors({});
+    setFileSaverSwitcher(false);
+  }, [activeForm]);
 
   const activeFormData = Object.values(FORM_TITLES).find(
     form => form.id === activePage
@@ -115,10 +134,16 @@ const Form = ({
     },
     fileProps: {
       files,
-      setFiles
+      setFiles,
+      filesToReload,
+      setFilesToReload
     },
     response,
     setResponse,
+    setValidationErrors,
+    setXlsSaver,
+    fileSaverSwitcher,
+    setFileSaverSwitcher,
     operatorId: auth.operatorId
   };
 
@@ -171,11 +196,15 @@ const Form = ({
                   activeStep={activeStep}
                   setActiveStep={setActiveStep}
                   setInitialValues={setInitialValues}
+                  response={response}
                   values={values}
                   errors={errors}
+                  validationErrors={validationErrors}
                   submit={submit}
                   emptyFormValues={emptyFormValues}
                   mainTitle={mainTitle}
+                  xlsSaver={xlsSaver}
+                  filesToReload={filesToReload}
                 >
                   <form onSubmit={handleSubmit}>
                     <Page
@@ -192,7 +221,7 @@ const Form = ({
               {/* <b
                 style={{
                   position: "fixed",
-                  right: 200,
+                  top: 200,
                   right: 10,
                   fontSize: 14
                 }}

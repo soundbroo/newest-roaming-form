@@ -18,6 +18,7 @@ const UploadButtonAdapter = ({
   snackbarProps: { showSnackbar },
   files,
   setFiles,
+  content,
   setContent,
   formApi,
   closeModal,
@@ -44,7 +45,7 @@ const UploadButtonAdapter = ({
       changeFileState();
       formApi.change(name?.split("_")[0], [null]);
       closeModal();
-      readXls({ file, setContent });
+      readXls({ file, name, content, setContent });
     } else if (
       name === "agreement" &&
       AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)

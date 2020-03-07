@@ -17,10 +17,12 @@ import { TITLES_FOR_KEYS } from "constants";
 const ValidationPanel = ({
   agent,
   agentIndex,
+  name,
   isFile,
   notification,
   data,
   isResponse,
+  responseText,
   responseErrors
 }) => {
   const prepareErrors = () => {
@@ -48,7 +50,7 @@ const ValidationPanel = ({
       {!notification &&
       errors &&
       Object.values(errors).some(el => el !== "") ? (
-        <TitleError>Исправьте ошибки</TitleError>
+        <TitleError>{responseText || "Исправьте ошибки"}</TitleError>
       ) : null}
     </TitleWrapper>
   );
@@ -61,33 +63,33 @@ const ValidationPanel = ({
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <ExpansionPanelContent>
-            {Object.entries(data).map(([key, value], index) => (
-              <>
-                <ExpansionPanelItem
-                  key={index}
-                  isResponse={isResponse && isFile}
-                >
-                  <ItemWrapper>
-                    <Item isResponse={isResponse && isFile} isFile={isFile}>
-                      {!isFile ? (
-                        <InputField
-                          name={`${agent}[${agentIndex}]`}
-                          fieldType={[key]}
-                          variant="outlined"
-                          size="small"
-                        />
-                      ) : (
-                        <div>{TITLES_FOR_KEYS[key]}</div>
-                      )}
-                    </Item>
-                    <Error isResponse={isResponse && isFile}>
-                      {(!notification && errors?.[key]) || null}
-                    </Error>
-                  </ItemWrapper>
-                </ExpansionPanelItem>
-                <Divider />
-              </>
-            ))}
+            {Object.entries(data).map(
+              ([key, value], index) =>
+                (value || errors?.[key]) && (
+                  <>
+                    <ExpansionPanelItem key={index}>
+                      <ItemWrapper>
+                        <Item isFile={isFile}>
+                          <InputField
+                            name={
+                              isResponse && isFile
+                                ? `${name}[${agentIndex}]`
+                                : `${agent}[${agentIndex}]`
+                            }
+                            fieldType={[key]}
+                            variant="outlined"
+                            size="small"
+                          />
+                        </Item>
+                        <Error>
+                          {(!notification && errors?.[key]) || null}
+                        </Error>
+                      </ItemWrapper>
+                    </ExpansionPanelItem>
+                    <Divider />
+                  </>
+                )
+            )}
           </ExpansionPanelContent>
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -134,8 +136,19 @@ const Title = styled.div`
 const TitleError = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   font-size: 13px;
   color: #fe4733;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 280px;
+  text-align: right;
+`;
+
+const Errors = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Item = styled.div`
@@ -151,13 +164,13 @@ const Item = styled.div`
 
 const Error = styled.div`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   font-size: 13px;
   color: #fe4733;
   flex: 35%;
   ${p => !p.isResponse && "position: absolute"};
-  max-width: 200px;
+  height: 40px;
+  width: 200px;
   right: 0px;
   top: 10px;
 `;

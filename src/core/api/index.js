@@ -32,7 +32,7 @@ class AxiosService {
       return this.toJSON(value).replace(/"/g, "");
     };
 
-    this.setFormData = ({ values, activePage }) => {
+    this.setFormData = ({ values, activePage, filesToReload }) => {
       const formData = new FormData();
       const data = {};
       const prepareData = type => {
@@ -83,11 +83,23 @@ class AxiosService {
 
       values?.agreement && formData.append("agreement", values.agreement);
       values?.request_id && formData.append("request_id", values.request_id);
-      values?.sender_list && formData.append("sender_list", values.sender_list);
-      values?.receiver_list &&
+
+      if (filesToReload.sender_list !== null) {
+        formData.append("sender_list", filesToReload.sender_list);
+      } else if (values?.sender_list) {
+        formData.append("sender_list", values.sender_list);
+      }
+
+      if (filesToReload.receiver_list !== null) {
+        console.log("filesToReload");
+        formData.append("receiver_list", filesToReload?.receiver_list);
+      } else if (values?.receiver_list) {
+        console.log("values?.receiver_list");
         formData.append("receiver_list", values.receiver_list);
+      }
 
       formData.append("data", this.toJSON(data));
+
       return formData;
     };
   }
@@ -113,11 +125,17 @@ class AxiosService {
     }
   };
 
-  abonent = async ({ values, activePage, setRequestStatus, setResponse }) => {
+  abonent = async ({
+    values,
+    activePage,
+    setRequestStatus,
+    setResponse,
+    filesToReload
+  }) => {
     try {
       const result = await this.instance.post(
         "/abonent",
-        this.setFormData({ values, activePage }),
+        this.setFormData({ values, activePage, filesToReload }),
         this.config.multipart
       );
       setRequestStatus(result);
@@ -134,13 +152,14 @@ class AxiosService {
     activePage,
     setRequestStatus,
     setResponse,
+    filesToReload,
     auth,
     setAuth
   }) => {
     try {
       const result = await this.instance.post(
         "/operator",
-        this.setFormData({ values, activePage }),
+        this.setFormData({ values, activePage, filesToReload }),
         this.config.multipart
       );
       if (result.data.status === 401) {

@@ -72,8 +72,9 @@ const Wrapper = styled.div`
   width: 512px;
   height: 340px;
   border-radius: 3px;
-  left: calc(50% - 256px);
-  top: calc(50% - 170px);
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
   z-index: 3;
 `;
 
