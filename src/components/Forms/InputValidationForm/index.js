@@ -18,6 +18,7 @@ import { VALIDATION_FORM_TITLE, statuses } from "constants";
 
 const InputValidationForm = ({
   values,
+  activePage,
   buttonProps,
   response,
   setResponse,
@@ -120,6 +121,7 @@ const InputValidationForm = ({
               isFile={agentFile}
               notification={notification}
               data={data}
+              responseText={response?.data?.[agent]?.[index].text}
               responseErrors={response?.data?.[agent]?.[index].errors}
             />
           ))
@@ -135,6 +137,7 @@ const InputValidationForm = ({
                   saveXls(
                     filesToReload,
                     setFilesToReload,
+                    activePage,
                     agentFileName,
                     content.header,
                     values.list,

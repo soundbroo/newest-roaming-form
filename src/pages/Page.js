@@ -309,6 +309,7 @@ const Page = ({
           <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
           <InputValidationForm
             key={3}
+            activePage={activePage}
             values={values}
             buttonProps={activeFormProps}
             fileProps={fileProps}

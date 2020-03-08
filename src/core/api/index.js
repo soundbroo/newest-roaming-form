@@ -166,7 +166,8 @@ class AxiosService {
         return setAuth({ ...auth, refresh: true });
       }
       setResponse(result);
-      if (result.data.status === 0) setRequestStatus(result);
+      if (result.data.status === 0 && result.data.text !== "")
+        setRequestStatus(result);
       console.log("Result - ", result);
     } catch (e) {
       console.log("Error - ", e);

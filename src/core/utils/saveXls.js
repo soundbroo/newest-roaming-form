@@ -4,6 +4,7 @@ import saveAs from "file-saver";
 const saveXls = (
   filesToReload,
   setFilesToReload,
+  activePage,
   agentFileName,
   header,
   values,
@@ -13,17 +14,32 @@ const saveXls = (
   wb.SheetNames.push("list");
   let data = [];
 
-  values.forEach((value, index) => {
-    data[index] = [
-      value.name,
-      value.inn,
-      value.kpp,
-      value.lastname,
-      value.firstname,
-      value.patronymic
-    ];
-    // Добавить id
-  });
+  switch (activePage) {
+    case 0:
+      values.forEach((value, index) => {
+        data[index] = [
+          value.name,
+          value.inn,
+          value.kpp,
+          value.lastname,
+          value.firstname,
+          value.patronymic
+        ];
+      });
+    case 1:
+      values.forEach((value, index) => {
+        data[index] = [
+          value.name,
+          value.inn,
+          value.kpp,
+          value.id,
+          value.lastname,
+          value.firstname,
+          value.patronymic
+        ];
+      });
+  }
+
   data.unshift(header);
   console.log(data);
   const ws_data = data;

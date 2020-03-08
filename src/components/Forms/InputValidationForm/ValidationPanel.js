@@ -51,7 +51,9 @@ const ValidationPanel = ({
       errors &&
       Object.values(errors).some(el => el !== "") ? (
         <TitleError>{responseText || "Исправьте ошибки"}</TitleError>
-      ) : null}
+      ) : (
+        <TitleError>{responseText || null}</TitleError>
+      )}
     </TitleWrapper>
   );
 
