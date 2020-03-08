@@ -3,7 +3,9 @@ import styled from "styled-components";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
+  Card,
+  CardContent
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -122,9 +124,15 @@ const ValidationPanel = ({
                             size="small"
                           />
                         </Item>
-                        <Error>
-                          {(!notification && errors?.[key]) || null}
-                        </Error>
+                        {!notification && errors?.[key] && (
+                          <Error>
+                            <Card>
+                              <CardContent>
+                                {(!notification && errors?.[key]) || null}
+                              </CardContent>
+                            </Card>
+                          </Error>
+                        )}
                       </ItemWrapper>
                     </ExpansionPanelItem>
                     <Divider />
@@ -195,21 +203,29 @@ const Item = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: ${p => (p.isFile ? "flex-start" : "flex-end")};
-  flex: 65%;
-  ${p => !p.isResponse && "position: absolute"};
+  position: absolute;
   top: 10px;
   width: 334px;
 `;
 
 const Error = styled.div`
-  display: flex;
-  align-items: center;
   font-size: 13px;
-  color: ${p => p.theme.palette.error};
-  flex: 35%;
-  ${p => !p.isResponse && "position: absolute"};
+  position: absolute;
   height: 40px;
   width: 200px;
   right: 0px;
   top: 10px;
+  div {
+    width: inherit;
+    background: ${p => p.theme.palette.errorLight};
+    color: #fff;
+    div {
+      min-height: 31px;
+      max-height: 48px;
+      padding: 4px;
+      &:last-child {
+        padding: 4px;
+      }
+    }
+  }
 `;

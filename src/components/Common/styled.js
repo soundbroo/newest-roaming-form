@@ -31,7 +31,7 @@ export const ExpansionPanelItem = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: center;
-  height: ${p => (p.isResponse ? "50px" : "72px")};
+  height: 72px;
 `;
 
 export const Divider = styled.hr`

@@ -84,6 +84,7 @@ export const styledTheme = {
     grey: "#cecece",
     darkGrey: "#828282",
     error: "#ff6e5f",
+    errorLight: "#ffa299",
     success: "#44d678"
   }
 };
