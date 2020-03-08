@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import {
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
+} from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 import InputField from "components/Fields/InputField";
+import ErrorTooltipIcon from "components/Common/ErrorTooltipIcon";
 import {
   ExpansionPanelContent,
   ExpansionPanelItem,
@@ -41,21 +45,56 @@ const ValidationPanel = ({
 
   const errors = prepareErrors();
 
-  const renderTitle = () => (
-    <TitleWrapper>
+  const renderTitle = () => {
+    const renderTitleName = () => (
       <Title>
         {data?.name ||
           `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
       </Title>
-      {!notification &&
-      errors &&
-      Object.values(errors).some(el => el !== "") ? (
-        <TitleError>{responseText || "Исправьте ошибки"}</TitleError>
-      ) : (
-        <TitleError>{responseText || null}</TitleError>
-      )}
-    </TitleWrapper>
-  );
+    );
+
+    const renderTitleError = () => {
+      if (
+        !notification &&
+        errors &&
+        Object.values(errors).some(el => el !== "")
+      ) {
+        if (responseText) {
+          return (
+            <TitleError>
+              <ErrorTooltipIcon responseText={responseText} />
+            </TitleError>
+          );
+        }
+        return (
+          <TitleError>
+            <ErrorTooltipIcon invisible={true} />
+          </TitleError>
+        );
+      }
+      if (responseText) {
+        return (
+          <TitleError>
+            <ErrorTooltipIcon responseText={responseText} />
+          </TitleError>
+        );
+      }
+      if (isResponse) {
+        return (
+          <TitleError>
+            <CheckIcon color="primary" />
+          </TitleError>
+        );
+      }
+    };
+
+    return (
+      <TitleWrapper>
+        {renderTitleName()}
+        {renderTitleError()}
+      </TitleWrapper>
+    );
+  };
 
   return (
     <ValidationPanelWrapper>
@@ -140,17 +179,15 @@ const TitleError = styled.div`
   align-items: center;
   justify-content: flex-end;
   font-size: 13px;
-  color: #fe4733;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 280px;
+  color: ${p => p.theme.palette.error};
+  max-width: 280px;
+  min-width: fit-content;
+  padding-right: 2px;
   text-align: right;
 `;
 
-const Errors = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+const CheckIcon = styled(CheckCircleIcon)`
+  color: ${p => `${p.theme.palette.success} !important`};
 `;
 
 const Item = styled.div`
@@ -168,7 +205,7 @@ const Error = styled.div`
   display: flex;
   align-items: center;
   font-size: 13px;
-  color: #fe4733;
+  color: ${p => p.theme.palette.error};
   flex: 35%;
   ${p => !p.isResponse && "position: absolute"};
   height: 40px;

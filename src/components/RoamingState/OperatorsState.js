@@ -146,10 +146,10 @@ const Nothing = styled.div`
   align-items: center;
   svg {
     font-size: 165px;
-    color: #cecece;
+    color: ${p => p.theme.palette.grey};
   }
   div {
-    color: #828282;
+    color: ${p => p.theme.palette.darkGrey};
     font-weight: 600;
     letter-spacing: 0.05em;
   }

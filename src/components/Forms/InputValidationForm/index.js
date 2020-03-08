@@ -241,7 +241,7 @@ const ValidationFormWrapper = styled(Content)`
 `;
 
 const ControlLabel = styled(FormControlLabel)`
-  color: #9243c1;
+  color: ${p => p.theme.palette.primaryLight};
   span {
     font-size: 14px;
   }

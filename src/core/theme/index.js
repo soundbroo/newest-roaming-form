@@ -11,7 +11,7 @@ export const muiTheme = createMuiTheme({
     },
     secondary: {
       light: "#ff7961",
-      main: "#f44336",
+      main: "#f48fb1",
       dark: "#ba000d"
     }
   },
@@ -65,8 +65,25 @@ export const muiTheme = createMuiTheme({
       root: {
         padding: "8px 24px"
       }
+    },
+    MuiBadge: {
+      dot: {
+        width: 12,
+        height: 12,
+        borderRadius: 50,
+        left: 9
+      }
     }
   }
 });
 
-export const styledTheme = {};
+export const styledTheme = {
+  palette: {
+    primary: "#6a1b9a",
+    primaryLight: "#9243c1",
+    grey: "#cecece",
+    darkGrey: "#828282",
+    error: "#ff6e5f",
+    success: "#44d678"
+  }
+};

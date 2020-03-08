@@ -93,5 +93,5 @@ const Title = styled.div`
 `;
 
 const Warning = styled.div`
-  color: #fe4733;
+  color: ${p => p.theme.palette.error};
 `;

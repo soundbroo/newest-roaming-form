@@ -15,7 +15,7 @@ const LinkWrapper = styled.div`
 
 const Href = styled.a`
   text-decoration: none;
-  color: #6a1b9a;
+  color: ${p => p.theme.palette.primary};
   font-size: 15px;
   margin-left: 4px;
 `;
