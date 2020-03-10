@@ -14,31 +14,17 @@ const saveXls = (
   wb.SheetNames.push("list");
   let data = [];
 
-  switch (activePage) {
-    case 0:
-      values.forEach((value, index) => {
-        data[index] = [
-          value.name,
-          value.inn,
-          value.kpp,
-          value.lastname,
-          value.firstname,
-          value.patronymic
-        ];
-      });
-    case 1:
-      values.forEach((value, index) => {
-        data[index] = [
-          value.name,
-          value.inn,
-          value.kpp,
-          value.id,
-          value.lastname,
-          value.firstname,
-          value.patronymic
-        ];
-      });
-  }
+  values.forEach((value, index) => {
+    data[index] = [
+      value.name,
+      value.inn,
+      value.kpp,
+      value.id,
+      value.lastname,
+      value.firstname,
+      value.patronymic
+    ];
+  });
 
   data.unshift(header);
   console.log(data);

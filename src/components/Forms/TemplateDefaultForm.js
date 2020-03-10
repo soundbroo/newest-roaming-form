@@ -58,7 +58,7 @@ const TemplateDefaultForm = ({
 
   const debouncedAutoComplete = () => {
     if (inn?.length === 10 || inn?.length === 12) {
-      setTimeout(() => autoComplete(), 250);
+      setTimeout(() => autoComplete(), 0);
     }
   };
 

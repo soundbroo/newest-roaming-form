@@ -9,30 +9,26 @@ import UploadField from "components/Fields/UploadField";
 
 import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 
-import { ABONENT_LIST, OPERATOR_LIST } from "constants/links";
+import { RECEIVER_LIST } from "constants/links";
 
-const UploadModal = ({ handleChange, activePage, ...rest }) => {
-  const templateLink = activePage === 0 ? ABONENT_LIST : OPERATOR_LIST;
-
-  return (
-    <Background onClick={handleChange}>
-      <Wrapper onClick={e => e.stopPropagation()}>
-        <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
-        <Divider />
-        <Content>
-          <div>{UPLOAD_MODAL_CONTENT.info}</div>
-          <DownloadButton handleChange={handleChange} link={templateLink} />
-          <Warning>{UPLOAD_MODAL_CONTENT.warning}</Warning>
-          <UploadField
-            closeModal={handleChange}
-            title={BUTTON_TITLES.pickFile}
-            {...rest}
-          />
-        </Content>
-      </Wrapper>
-    </Background>
-  );
-};
+const UploadModal = ({ handleChange, activePage, ...rest }) => (
+  <Background onClick={handleChange}>
+    <Wrapper onClick={e => e.stopPropagation()}>
+      <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
+      <Divider />
+      <Content>
+        <div>{UPLOAD_MODAL_CONTENT.info}</div>
+        <DownloadButton handleChange={handleChange} link={RECEIVER_LIST} />
+        <Warning>{UPLOAD_MODAL_CONTENT.warning}</Warning>
+        <UploadField
+          closeModal={handleChange}
+          title={BUTTON_TITLES.pickFile}
+          {...rest}
+        />
+      </Content>
+    </Wrapper>
+  </Background>
+);
 
 const OpenModalButton = ({ name, files, ...rest }) => {
   const [isModal, setIsModal] = useState(false);

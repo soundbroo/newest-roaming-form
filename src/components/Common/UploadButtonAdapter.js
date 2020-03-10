@@ -57,7 +57,7 @@ const UploadButtonAdapter = ({
   const onDrop = useCallback(acceptedFiles => handleChange(acceptedFiles), []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: name === "agreement" ? ".pdf, .png" : ".xls, .xlsx"
+    accept: name === "agreement" ? ".pdf, .png" : ".xlsx"
   });
 
   return (
@@ -86,7 +86,7 @@ const UploadButtonAdapter = ({
             </div>
             <DragLabel>
               Перетащите файл сюда или нажмите, чтобы выбрать
-              {name === "agreement" ? " (.pdf, .png)" : " (.xls, .xlsx)"}
+              {name === "agreement" ? " (.pdf, .png)" : " (.xlsx)"}
             </DragLabel>
           </LabelWrapper>
         </Button>

@@ -76,7 +76,7 @@ const OperatorsState = () => {
           </TableCell>
           <TableCell align="left">{row.cat}</TableCell>
           <TableCell align="right">
-            <LinearProgress
+            <Progress
               variant="determinate"
               value={row.status}
               color="primary"
@@ -153,4 +153,11 @@ const Nothing = styled.div`
     font-weight: 600;
     letter-spacing: 0.05em;
   }
+`;
+
+const Progress = styled(LinearProgress)`
+  /* background:  !important; */
+  /* div { */
+  /* background: ; */
+  /* } */
 `;

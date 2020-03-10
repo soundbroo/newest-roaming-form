@@ -81,11 +81,11 @@ export default Auth;
 const Wrapper = styled(Paper)`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 32px;
+  padding: 32px 32px;
   width: 300px;
-  min-height: 320px;
+  min-height: 230px;
 `;
 
 const LoginButton = styled(Button)`

@@ -4,10 +4,12 @@ class AxiosService {
   constructor() {
     const apiUrl = "http://roaming.api.staging.keydisk.ru/";
 
+    const productionUrl = "https://roaming.edo.keydisk.ru/";
+
     const localServer = "http://localhost:5000/";
 
     this.instance = axios.create({
-      baseURL: apiUrl
+      baseURL: productionUrl
     });
     this.config = {
       json: {
@@ -199,9 +201,7 @@ class AxiosService {
 
   autoComplete = async inn => {
     try {
-      const result = await this.instance.get(
-        `http://roaming.api.staging.keydisk.ru/navigator/${inn}`
-      );
+      const result = await this.instance.get(`/navigator/${inn}`);
       console.log("Result - ", result);
       return result;
     } catch (e) {

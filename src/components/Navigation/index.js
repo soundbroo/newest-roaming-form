@@ -34,4 +34,5 @@ const NavigationWrapper = styled.div`
   margin-bottom: 32px;
   position: sticky;
   top: 0;
+  z-index: 5;
 `;
