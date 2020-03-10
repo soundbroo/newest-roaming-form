@@ -10,7 +10,8 @@ import {
   Paper,
   LinearProgress,
   TextField,
-  MenuItem
+  MenuItem,
+  Tooltip
 } from "@material-ui/core";
 import FindInPageRoundedIcon from "@material-ui/icons/FindInPageRounded";
 
@@ -75,13 +76,15 @@ const OperatorsState = () => {
             {row.name}
           </TableCell>
           <TableCell align="left">{row.cat}</TableCell>
-          <TableCell align="right">
-            <Progress
-              variant="determinate"
-              value={row.status}
-              color="primary"
-            />
-          </TableCell>
+          <Tooltip title={`${row.status}%`} placement="left">
+            <TableCell align="right">
+              <Progress
+                variant="determinate"
+                value={row.status}
+                color="primary"
+              />
+            </TableCell>
+          </Tooltip>
         </TableRow>
       ));
     }
@@ -156,8 +159,31 @@ const Nothing = styled.div`
 `;
 
 const Progress = styled(LinearProgress)`
-  /* background:  !important; */
-  /* div { */
-  /* background: ; */
-  /* } */
+  background: ${p => {
+    switch (p.value) {
+      case 100:
+        return "#4caf50";
+      case 75:
+        return "#dcedc8";
+      case 50:
+        return "#fff9c4";
+      case 25:
+        return "#ffe0b2";
+    }
+  }} !important;
+
+  div {
+    background: ${p => {
+      switch (p.value) {
+        case 100:
+          return "#4caf50";
+        case 75:
+          return "#8bc34a";
+        case 50:
+          return "#ffeb3b";
+        case 25:
+          return "#ff9800";
+      }
+    }} !important;
+  }
 `;
