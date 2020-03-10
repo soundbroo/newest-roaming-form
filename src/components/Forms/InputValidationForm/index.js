@@ -108,6 +108,8 @@ const InputValidationForm = ({
       return null;
     };
 
+    const validationData = response?.data?.[agent];
+
     return (
       <>
         {renderAuthModal()}
@@ -121,8 +123,9 @@ const InputValidationForm = ({
               isFile={agentFile}
               notification={notification}
               data={data}
-              responseText={response?.data?.[agent]?.[index].text}
-              responseErrors={response?.data?.[agent]?.[index].errors}
+              processed={validationData?.[index].processed}
+              responseText={validationData?.[index].text}
+              responseErrors={validationData?.[index].errors}
             />
           ))
         ) : !emptyList ? (
@@ -191,11 +194,10 @@ const InputValidationForm = ({
                           isResponse={!!response}
                           isFile={agentFile}
                           notification={notification}
-                          data={response?.data?.[agent]?.[index].input}
-                          responseText={response?.data?.[agent]?.[index].text}
-                          responseErrors={
-                            response?.data?.[agent]?.[index].errors
-                          }
+                          data={validationData?.[index].input}
+                          processed={validationData?.[index].processed}
+                          responseText={validationData?.[index].text}
+                          responseErrors={validationData?.[index].errors}
                         />
                       ))}
                     </form>

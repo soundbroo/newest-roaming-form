@@ -28,6 +28,7 @@ const ValidationPanel = ({
   notification,
   data,
   isResponse,
+  processed,
   responseText,
   responseErrors
 }) => {
@@ -81,7 +82,7 @@ const ValidationPanel = ({
           </TitleError>
         );
       }
-      if (isResponse) {
+      if (processed) {
         return (
           <TitleError>
             <CheckIcon color="primary" />
@@ -114,6 +115,7 @@ const ValidationPanel = ({
                       <ItemWrapper>
                         <Item isFile={isFile}>
                           <InputField
+                            disabled={!responseText && processed}
                             name={
                               isResponse && isFile
                                 ? `${name}[${agentIndex}]`
