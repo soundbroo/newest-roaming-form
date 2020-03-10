@@ -1,15 +1,10 @@
 import axios from "axios";
+import { setBaseUrl } from "utils/setBaseUrl";
 
 class AxiosService {
   constructor() {
-    const apiUrl = "http://roaming.api.staging.keydisk.ru/";
-
-    const productionUrl = "https://roaming.edo.keydisk.ru/";
-
-    const localServer = "http://localhost:5000/";
-
     this.instance = axios.create({
-      baseURL: productionUrl
+      baseURL: setBaseUrl()
     });
     this.config = {
       json: {
