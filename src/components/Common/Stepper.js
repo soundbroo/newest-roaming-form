@@ -50,8 +50,7 @@ export default function HorizontalNonLinearStepper({
 
   const handleNext = () => {
     if (activeStep === 2) {
-      handleSubmit();
-      return submit(values);
+      return handleSubmit(values);
     }
     const newCompleted = completed;
     newCompleted[activeStep] = true;

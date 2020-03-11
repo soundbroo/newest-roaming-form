@@ -165,7 +165,7 @@ const InputValidationForm = ({
                 }, [errors]);
 
                 useEffect(() => {
-                  if (!errors?.list?.length && !pristine) {
+                  if (!errors?.list?.length) {
                     return handleSaveXls();
                   } else return;
                 }, [errors, values, submitting]);
