@@ -52,9 +52,10 @@ export const Content = styled.div`
   width: 100%;
   padding: 16px;
   margin: 20px 0 0 0;
-  overflow-y: overlay;
+  overflow-y: auto;
   border-top: thin solid #cecece3b;
   border-bottom: thin solid #cecece3b;
+  scrollbar-width: thin;
   &::-webkit-scrollbar {
     width: 6px;
   }

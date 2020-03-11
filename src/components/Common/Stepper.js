@@ -18,7 +18,7 @@ export default function HorizontalNonLinearStepper({
   errors,
   validationErrors,
   submit,
-  xlsSaver,
+  handleSubmit,
   emptyFormValues,
   mainTitle,
   children
@@ -50,10 +50,7 @@ export default function HorizontalNonLinearStepper({
 
   const handleNext = () => {
     if (activeStep === 2) {
-      if (xlsSaver) {
-        xlsSaver();
-        return submit(values);
-      }
+      handleSubmit();
       return submit(values);
     }
     const newCompleted = completed;

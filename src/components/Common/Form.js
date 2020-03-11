@@ -51,7 +51,6 @@ const Form = ({
     sender_list: null,
     receiver_list: null
   };
-  const [xlsSaver, setXlsSaver] = useState(null);
   const [filesToReload, setFilesToReload] = useState(defaultFilesToReload);
   const [fileSaverSwitcher, setFileSaverSwitcher] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
@@ -142,7 +141,6 @@ const Form = ({
     response,
     setResponse,
     setValidationErrors,
-    setXlsSaver,
     fileSaverSwitcher,
     setFileSaverSwitcher,
     operatorId: auth.operatorId
@@ -178,7 +176,6 @@ const Form = ({
           handleSubmit,
           form,
           submitting,
-          pristine,
           values,
           errors
         }) => {
@@ -202,10 +199,11 @@ const Form = ({
                   errors={errors}
                   validationErrors={validationErrors}
                   submit={submit}
+                  handleSubmit={handleSubmit}
                   emptyFormValues={emptyFormValues}
                   mainTitle={mainTitle}
-                  xlsSaver={xlsSaver}
                   filesToReload={filesToReload}
+                  submitting={submitting}
                 >
                   <form onSubmit={handleSubmit}>
                     <Page
@@ -215,6 +213,7 @@ const Form = ({
                       remove={remove}
                       values={values}
                       errors={errors}
+                      submitting={submitting}
                     />
                   </form>
                 </Stepper>

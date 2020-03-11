@@ -27,10 +27,10 @@ const InputValidationForm = ({
   snackbarProps,
   auth,
   setAuth,
-  setXlsSaver,
   content,
   fileSaverSwitcher,
   setFileSaverSwitcher,
+  submitting,
   formApi
 }) => {
   const { showSnackbar } = snackbarProps;
@@ -122,7 +122,7 @@ const InputValidationForm = ({
               agent={agent}
               isFile={agentFile}
               notification={notification}
-              data={data}
+              data={validationData?.[index].input || data}
               processed={validationData?.[index].processed}
               responseText={validationData?.[index].text}
               responseErrors={validationData?.[index].errors}
@@ -135,16 +135,16 @@ const InputValidationForm = ({
               initialValues={{
                 list: initialValues
               }}
-              render={({ handleSubmit, values, errors }) => {
+              render={({ handleSubmit, values, errors, pristine }) => {
                 const handleSaveXls = () =>
                   saveXls(
                     filesToReload,
                     setFilesToReload,
-                    activePage,
                     agentFileName,
                     content.header,
                     values.list,
-                    fileSaverSwitcher
+                    fileSaverSwitcher,
+                    submitting
                   );
 
                 const initialValues = values => {
@@ -165,11 +165,10 @@ const InputValidationForm = ({
                 }, [errors]);
 
                 useEffect(() => {
-                  if (!errors?.list?.length) {
-                    const save = handleSaveXls();
-                    if (save) setXlsSaver(() => () => save());
-                  }
-                }, [errors, values]);
+                  if (!errors?.list?.length && !pristine) {
+                    return handleSaveXls();
+                  } else return;
+                }, [errors, values, submitting]);
 
                 return (
                   <>

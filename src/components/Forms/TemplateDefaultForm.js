@@ -17,7 +17,8 @@ const TemplateDefaultForm = ({
   isEntityInn,
   isOrganizationInn,
   formApi,
-  values
+  values,
+  activePage
 }) => {
   const axios = new AxiosService();
   const isFileLoaded = Boolean(files?.[`${name.split("[")[0]}_list`]);
@@ -38,7 +39,7 @@ const TemplateDefaultForm = ({
 
   const [type, number] = name.split("[");
   const index = number.replace("]", "");
-  const inn = values?.[type]?.[index]?.inn;
+  let inn = values?.[type]?.[index]?.inn;
 
   const autoComplete = async () => {
     const result = await axios.autoComplete(inn);
@@ -62,7 +63,13 @@ const TemplateDefaultForm = ({
     }
   };
 
-  useEffect(() => debouncedAutoComplete(), [inn]);
+  useEffect(() => {
+    inn = null;
+  }, [activePage]);
+
+  useEffect(() => {
+    debouncedAutoComplete();
+  }, [inn]);
 
   return (
     <>

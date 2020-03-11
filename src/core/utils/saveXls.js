@@ -4,11 +4,11 @@ import saveAs from "file-saver";
 const saveXls = (
   filesToReload,
   setFilesToReload,
-  activePage,
   agentFileName,
   header,
   values,
-  fileSaverSwitcher
+  fileSaverSwitcher,
+  submitting
 ) => {
   const wb = XLSX.utils.book_new();
   wb.SheetNames.push("list");
@@ -45,15 +45,12 @@ const saveXls = (
   console.log(agentFileName);
   console.log(blobFile);
   setFilesToReload({ ...filesToReload, [agentFileName]: blobFile });
-  let save = null;
-  if (fileSaverSwitcher) {
-    save = () =>
-      saveAs(
-        new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
-        "test.xlsx"
-      );
+  if (fileSaverSwitcher && submitting) {
+    saveAs(
+      new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+      "test.xlsx"
+    );
   }
-  return save;
 };
 
 export default saveXls;

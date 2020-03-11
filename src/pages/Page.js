@@ -47,11 +47,11 @@ const Page = ({
   remove,
   response,
   setResponse,
-  setXlsSaver,
   operatorId,
   fileProps,
   fileSaverSwitcher,
-  setFileSaverSwitcher
+  setFileSaverSwitcher,
+  submitting
 }) => {
   const isFileLoaded = name => Boolean(fileProps.files?.[name]);
 
@@ -319,9 +319,9 @@ const Page = ({
             snackbarProps={snackbarProps}
             formApi={formApi}
             content={content}
-            setXlsSaver={setXlsSaver}
             fileSaverSwitcher={fileSaverSwitcher}
             setFileSaverSwitcher={setFileSaverSwitcher}
+            submitting={submitting}
             {...authProps}
           />
         </>
