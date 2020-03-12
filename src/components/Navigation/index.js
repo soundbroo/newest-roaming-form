@@ -11,7 +11,7 @@ const Navigation = ({ activePage, setActivePage }) => {
   return (
     <NavigationWrapper>
       <Paper>
-        <Tabs
+        <NavTabs
           value={activePage}
           onChange={handleChange}
           indicatorColor="primary"
@@ -19,10 +19,10 @@ const Navigation = ({ activePage, setActivePage }) => {
           variant="fullWidth"
           centered
         >
-          <Tab label="Клиентам" icon={<Person />} />
-          <Tab label="Операторам" icon={<Business />} />
-          <Tab label="Состояние роуминга" icon={<SignalCellularAlt />} />
-        </Tabs>
+          <NavTab label="Клиентам" icon={<Person />} />
+          <NavTab label="Операторам" icon={<Business />} />
+          <NavTab label="Состояние роуминга" icon={<SignalCellularAlt />} />
+        </NavTabs>
       </Paper>
     </NavigationWrapper>
   );
@@ -31,8 +31,28 @@ const Navigation = ({ activePage, setActivePage }) => {
 export default Navigation;
 
 const NavigationWrapper = styled.div`
-  margin-bottom: 32px;
   position: sticky;
+  margin-bottom: 32px;
   top: 0;
   z-index: 5;
+  @media (max-width: 660px) {
+    margin-bottom: 0;
+  }
+`;
+
+const NavTabs = styled(Tabs)`
+  @media (max-width: 660px) {
+    height: 60px;
+  }
+`;
+
+const NavTab = styled(Tab)`
+  @media (max-width: 660px) {
+    span {
+      font-size: 0;
+    }
+    svg {
+      font-size: 36px;
+    }
+  }
 `;

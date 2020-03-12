@@ -72,6 +72,10 @@ const Wrapper = styled.div`
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   z-index: 3;
+
+  @media (max-width: 660px) {
+    width: 100%;
+  }
 `;
 
 const Content = styled.div`

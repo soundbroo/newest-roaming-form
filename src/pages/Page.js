@@ -247,7 +247,7 @@ const Page = ({
       return (
         <PageWrapper>
           <TypeDataTitle>
-            {typeDataTitle}
+            <Title>{typeDataTitle}</Title>
             {activePage === 1 && (
               <FilesButtons>
                 {renderFilesButtons("sender_list")}
@@ -278,7 +278,7 @@ const Page = ({
       return (
         <PageWrapper>
           <TypeDataTitle>
-            {typeDataTitle}
+            <Title>{typeDataTitle}</Title>
             <FilesButtons>
               {renderFilesButtons("receiver_list")}
               <OpenModalButton
@@ -342,14 +342,36 @@ const TypeDataTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 36px;
   width: 100%;
   font-size: 18px;
+  @media (min-width: 660px) {
+    height: 36px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  @media (max-width: 660px) {
+    flex-direction: column;
+  }
+`;
+
+const Title = styled.div`
+  @media (max-width: 660px) {
+    align-self: flex-start;
+    margin-bottom: 6px;
+  }
 `;
 
 const AgreementField = styled.div`
   margin: 12px 0;
   width: 100%;
+  @media (max-width: 660px) {
+    align-self: flex-end;
+    margin: 0;
+  }
 `;
 
-const FilesButtons = styled.div``;
+const FilesButtons = styled.div`
+  @media (max-width: 660px) {
+    align-self: flex-end;
+  }
+`;

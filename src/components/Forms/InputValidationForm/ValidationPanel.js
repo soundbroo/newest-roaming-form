@@ -208,6 +208,10 @@ const Item = styled.div`
   position: absolute;
   top: 10px;
   width: 334px;
+
+  @media (max-width: 660px) {
+    width: calc(100% + 20px);
+  }
 `;
 
 const Error = styled.div`
@@ -217,6 +221,12 @@ const Error = styled.div`
   width: 200px;
   right: 0px;
   top: 10px;
+
+  @media (max-width: 660px) {
+    right: -10px;
+    top: 38px;
+  }
+
   div {
     width: inherit;
     background: ${p => p.theme.palette.errorLight};

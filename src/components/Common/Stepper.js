@@ -72,18 +72,18 @@ export default function HorizontalNonLinearStepper({
     <>
       <ContentWrapper>
         <MainTitle>{mainTitle}</MainTitle>
-        <Stepper nonLinear activeStep={activeStep}>
+        <StepperPanel nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepLabel
+              <Label
                 // onClick={handleStep(index)}
                 completed={completed[index]}
               >
                 {label}
-              </StepLabel>
+              </Label>
             </Step>
           ))}
-        </Stepper>
+        </StepperPanel>
         {children}
       </ContentWrapper>
       <ButtonWrapper>
@@ -128,10 +128,35 @@ const ButtonWrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 24px 0 6px 0;
+
+  @media (max-width: 660px) {
+    padding: 12px 0 0 0;
+  }
 `;
 
 const MainTitle = styled.div`
   font-size: 20px;
   text-align: center;
   margin-top: 12px;
+`;
+
+const Label = styled(StepLabel)`
+  @media (max-width: 660px) {
+    flex-direction: column;
+    &:last-child {
+      span {
+        font-size: 0;
+      }
+    }
+    svg {
+      font-size: 32px;
+    }
+  }
+`;
+
+const StepperPanel = styled(Stepper)`
+  @media (max-width: 660px) {
+    padding: 9px 12px;
+    width: 100%;
+  }
 `;

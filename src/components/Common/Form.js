@@ -244,9 +244,11 @@ const FormWrapper = styled(Paper)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 600px;
-  min-height: 740px;
   padding: 15px;
+
+  @media (min-width: 660px) {
+    min-height: 740px;
+  }
 
   form {
     width: 100%;

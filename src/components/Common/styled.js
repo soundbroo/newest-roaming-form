@@ -48,14 +48,23 @@ export const Divider = styled.hr`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  height: 460px;
   width: 100%;
-  padding: 16px;
   margin: 20px 0 0 0;
   overflow-y: auto;
   border-top: thin solid #cecece3b;
   border-bottom: thin solid #cecece3b;
   scrollbar-width: thin;
+
+  @media (min-width: 660px) {
+    height: 460px;
+    padding: 16px;
+  }
+
+  @media (max-width: 660px) {
+    margin: 6px 0 0 0;
+    padding: 1px;
+  }
+
   &::-webkit-scrollbar {
     width: 6px;
   }

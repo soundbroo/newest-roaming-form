@@ -43,9 +43,14 @@ export const muiTheme = createMuiTheme({
         padding: "21px 12px"
       }
     },
+    MuiStep: {
+      root: {
+        height: "inherit"
+      }
+    },
     MuiStepLabel: {
       root: {
-        width: 180
+        maxWidth: 180
       },
       labelContainer: {
         textAlign: "center"
@@ -58,7 +63,8 @@ export const muiTheme = createMuiTheme({
     },
     MuiSnackbar: {
       root: {
-        maxWidth: 600
+        maxWidth: 600,
+        left: "none"
       }
     },
     MuiExpansionPanelDetails: {

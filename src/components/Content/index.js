@@ -79,11 +79,7 @@ const Content = () => {
 
   return (
     <ContentWrapper>
-      <Navigation
-        style={{ width: 100 }}
-        activePage={activePage}
-        setActivePage={setActivePage}
-      />
+      <Navigation activePage={activePage} setActivePage={setActivePage} />
       <MainContent>{renderContent()}</MainContent>
       <Snackbar {...snackbarProps} />
     </ContentWrapper>

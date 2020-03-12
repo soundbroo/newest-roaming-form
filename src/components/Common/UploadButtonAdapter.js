@@ -119,4 +119,5 @@ const LabelWrapper = styled.div`
 
 const DragLabel = styled.div`
   font-size: 10px;
+  text-align: center;
 `;

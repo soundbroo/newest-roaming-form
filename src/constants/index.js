@@ -146,14 +146,14 @@ export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE"];
 
 export const AVAILABLE_FILE_EXTENSIONS = {
   agreement: ["pdf", "png", "jpg"],
-  list: ["xlsx", "xls"]
+  list: ["xlsx"]
 };
 
 export const ASTRAL_ID = "2AE";
 
 export const BUTTON_TITLES = {
   pickFile: "Выбрать файл",
-  uploadAgreement: "Прикрепить соглашение о выборе оператора"
+  uploadAgreement: "Соглашение о выборе оператора"
 };
 
 export const LINK_TITLES = {
