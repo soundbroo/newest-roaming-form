@@ -64,6 +64,10 @@ const Content = styled(StepContent)`
 `;
 
 const Wrapper = styled(Paper)`
-  width: 1000px;
+  max-width: 1000px;
+  width: 100%;
   margin-bottom: 40px;
+  @media (max-width: 660px) {
+    margin-bottom: 9px;
+  }
 `;

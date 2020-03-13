@@ -306,7 +306,9 @@ const Page = ({
     case 2:
       return (
         <>
-          <TypeDataTitle>{typeDataTitle}</TypeDataTitle>
+          <TypeDataTitle>
+            <Title>{typeDataTitle}</Title>
+          </TypeDataTitle>
           <InputValidationForm
             key={3}
             activePage={activePage}

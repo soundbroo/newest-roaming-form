@@ -53,6 +53,7 @@ const NavTab = styled(Tab)`
     }
     svg {
       font-size: 36px;
+      margin-bottom: 16px !important;
     }
   }
 `;

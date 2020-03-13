@@ -51,13 +51,13 @@ export const Content = styled.div`
   width: 100%;
   margin: 20px 0 0 0;
   overflow-y: auto;
-  border-top: thin solid #cecece3b;
-  border-bottom: thin solid #cecece3b;
   scrollbar-width: thin;
 
   @media (min-width: 660px) {
     height: 460px;
     padding: 16px;
+    border-top: thin solid #cecece3b;
+    border-bottom: thin solid #cecece3b;
   }
 
   @media (max-width: 660px) {

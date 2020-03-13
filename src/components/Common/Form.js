@@ -248,6 +248,11 @@ const FormWrapper = styled(Paper)`
 
   @media (min-width: 660px) {
     min-height: 740px;
+    width: 600px;
+  }
+
+  @media (max-width: 660px) {
+    min-height: calc(100vh - 90px);
   }
 
   form {

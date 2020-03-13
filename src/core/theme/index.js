@@ -30,7 +30,11 @@ export const muiTheme = createMuiTheme({
     },
     MuiFormLabel: {
       root: {
-        marginLeft: 10
+        marginLeft: 10,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        width: "90%",
+        whiteSpace: "nowrap"
       }
     },
     MuiExpansionPanel: {
@@ -54,6 +58,9 @@ export const muiTheme = createMuiTheme({
       },
       labelContainer: {
         textAlign: "center"
+      },
+      iconContainer: {
+        paddingRight: 0
       }
     },
     MuiTooltip: {
@@ -64,7 +71,8 @@ export const muiTheme = createMuiTheme({
     MuiSnackbar: {
       root: {
         maxWidth: 600,
-        left: "none"
+        left: "none",
+        marginLeft: 8
       }
     },
     MuiExpansionPanelDetails: {

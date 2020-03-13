@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   Table,
   TableBody,
@@ -72,30 +72,32 @@ const OperatorsState = () => {
     if (filteredRows.length) {
       return filteredRows.map(row => (
         <TableRow key={row.name}>
-          <TableCell component="th" scope="row">
+          <LabelCell component="th" scope="row">
             {row.name}
-          </TableCell>
-          <TableCell align="left">{row.cat}</TableCell>
+          </LabelCell>
+          <Cell category align="left">
+            {row.cat}
+          </Cell>
           <Tooltip title={`${row.status}%`} placement="left">
-            <TableCell align="right">
+            <Cell align="right">
               <Progress
                 variant="determinate"
                 value={row.status}
                 color="primary"
               />
-            </TableCell>
+            </Cell>
           </Tooltip>
         </TableRow>
       ));
     }
     return (
       <TableRow key="empty">
-        <TableCell colSpan={3}>
+        <Cell colSpan={3}>
           <Nothing>
             <FindInPageRoundedIcon />
             <div>Оператор с таким названием не найден</div>
           </Nothing>
-        </TableCell>
+        </Cell>
       </TableRow>
     );
   };
@@ -107,9 +109,9 @@ const OperatorsState = () => {
           <HeadCell colSpan={2}>
             <Search search={search} setSearch={setSearch} />
           </HeadCell>
-          <HeadCell colSpan={1} align="left">
+          <SelectCell colSpan={1} align="left">
             <Select category={category} setCategory={setCategory} />
-          </HeadCell>
+          </SelectCell>
         </TableRow>
         <TableBody>{renderRows()}</TableBody>
       </Table>
@@ -120,8 +122,23 @@ const OperatorsState = () => {
 export default OperatorsState;
 
 const Container = styled(TableContainer)`
-  width: 1000px !important;
+  max-width: 1000px !important;
+  width: 100%;
   overflow-x: hidden !important;
+  @media (max-width: 660px) {
+    margin-top: 9px;
+  }
+`;
+
+const Cell = styled(TableCell)`
+  @media (max-width: 660px) {
+    ${p =>
+      p.category &&
+      css`
+        font-size: 0 !important;
+        padding: 0 !important;
+      `}
+  }
 `;
 
 const Input = styled(TextField)`
@@ -137,8 +154,26 @@ const Input = styled(TextField)`
 const HeadCell = styled(TableCell)`
   padding: 6px !important;
   width: 200px;
-  .MuiSelect-outlined.MuiSelect-outlined {
-    width: 154px;
+`;
+
+const SelectCell = styled(HeadCell)`
+  @media (max-width: 660px) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: inherit;
+    div {
+      width: 118px;
+    }
+  }
+`;
+
+const LabelCell = styled(Cell)`
+  @media (max-width: 660px) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 120px;
   }
 `;
 
