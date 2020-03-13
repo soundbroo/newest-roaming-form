@@ -97,7 +97,8 @@ export default function HorizontalNonLinearStepper({
         </Button>
         <Button
           disabled={
-            validationErrors?.length > 0 || Object.keys(errors).length > 0
+            validationErrors?.length > 0 ||
+            (errors && Object.keys(errors).length > 0)
           }
           variant="contained"
           color="primary"

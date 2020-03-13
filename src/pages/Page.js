@@ -67,50 +67,55 @@ const Page = ({
   };
 
   const renderSenderFieldArray = () => {
-    if (!isFileLoaded("sender_list"))
+    if (!isFileLoaded("sender_list")) {
       return (
-        <FieldArray key="sender" name="sender">
+        <FieldArray subscription={{}} key="sender" name="sender">
           {({ fields }) =>
-            fields.map((name, index) => (
-              <FormFieldsWrapper
-                key={name}
-                index={index}
-                remove={() => fields.remove(index)}
-              >
-                {renderForm(
-                  activePage,
-                  <OwnerOrgForm
-                    key={name}
-                    name={name}
-                    index={index}
-                    values={values}
-                    remove={remove}
-                    formApi={formApi}
-                    {...disableRules({ name, index, values })}
-                  />,
-                  <ClientForm
-                    key={name}
-                    name={name}
-                    index={index}
-                    values={values}
-                    remove={remove}
-                    operatorId={operatorId}
-                    files={fileProps.files}
-                    formApi={formApi}
-                    {...disableRules({ name, index, values })}
-                  />
-                )}
-              </FormFieldsWrapper>
-            ))
+            fields.map((name, index) => {
+              console.log("FIELDSARRAY1");
+              return (
+                <FormFieldsWrapper
+                  key={name}
+                  index={index}
+                  remove={() => fields.remove(index)}
+                >
+                  {renderForm(
+                    activePage,
+                    <OwnerOrgForm
+                      key={name}
+                      name={name}
+                      index={index}
+                      values={values}
+                      remove={remove}
+                      formApi={formApi}
+                      {...disableRules({ name, index, values })}
+                    />,
+                    <ClientForm
+                      key={name}
+                      name={name}
+                      index={index}
+                      values={values}
+                      remove={remove}
+                      operatorId={operatorId}
+                      files={fileProps.files}
+                      formApi={formApi}
+                      {...disableRules({ name, index, values })}
+                    />
+                  )}
+                </FormFieldsWrapper>
+              );
+            })
           }
         </FieldArray>
       );
+    }
   };
 
   const renderReceiverFieldArray = () => {
-    if (!isFileLoaded("receiver_list"))
+    if (!isFileLoaded("receiver_list")) {
+      console.log("FIELDSARRAY2");
       return (
-        <FieldArray key="receiver" name="receiver">
+        <FieldArray subscription={{}} key="receiver" name="receiver">
           {({ fields }) =>
             fields.map((name, index) => (
               <FormFieldsWrapper
@@ -147,10 +152,11 @@ const Page = ({
           }
         </FieldArray>
       );
+    }
   };
 
   const renderAgreementFiled = () => {
-    if (activePage === 0 && !values.agreement) {
+    if (activePage === 0 && !values?.agreement) {
       const operator = values?.[FIELDS_NAMES.operator.type];
 
       if (OPERATORS_WITH_AGREEMENT.includes(operator)) {
@@ -183,8 +189,8 @@ const Page = ({
       if (activePage === 0 && activeForm === 0) return;
 
       const disabled = () => {
-        if (type === "sender" && values.receiver.length > 1) return true;
-        if (type === "receiver" && values.sender.length > 1) return true;
+        if (type === "sender" && values?.receiver.length > 1) return true;
+        if (type === "receiver" && values?.sender.length > 1) return true;
       };
 
       return (

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import RoamingState from "pages/RoamingState";
 
 import Navigation from "components/Navigation";
-import Form from "components/Common/Form";
+import FormComponent from "components/Common/FormComponent";
 import Snackbar from "components/Common/Snackbar";
 
 import { TEMP_MESSAGE, statuses } from "constants";
@@ -56,7 +56,7 @@ const Content = () => {
       case 0:
       case 1:
         return (
-          <Form
+          <FormComponent
             activePage={activePage}
             setActivePage={setActivePage}
             snackbarProps={snackbarProps}

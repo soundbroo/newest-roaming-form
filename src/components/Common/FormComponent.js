@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 import styled from "styled-components";
-import { Form as FinalForm } from "react-final-form";
+import { Form, FormSpy } from "react-final-form";
 import arrayMutators from "final-form-arrays";
+
+import RenderCounter from "utils/renderCounter";
 
 import Page from "pages/Page";
 
@@ -16,7 +18,7 @@ import { redirectToStatusCheck } from "utils/redirect";
 
 import AxiosService from "api";
 
-const Form = ({
+const FormComponent = ({
   activePage,
   setActivePage,
   snackbarProps,
@@ -31,6 +33,7 @@ const Form = ({
     operatorId: localStorage.getItem("operator"),
     sessionToken: null
   });
+
   useEffect(() => {
     if (
       document.cookie.split(" ").find(cookie => cookie.includes("sessionToken"))
@@ -153,14 +156,25 @@ const Form = ({
 
   const [initialValues, setInitialValues] = useState(emptyFormValues);
 
+  // const emptyFormState = {
+  //   values: emptyFormValues,
+  //   errors: {}
+  // };
+
+  const [formValues, setFormValues] = useState(emptyFormValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [test, setTest] = useState();
   if (activePage === 1 && auth.status === false)
     return <Auth auth={auth} setAuth={setAuth} {...snackbarProps} />;
 
   return (
     <>
-      <FinalForm
+      <Form
         initialValues={initialValues}
         onSubmit={submit}
+        subscription={{
+          submitting: true
+        }}
         decorators={[bindFormApi]}
         validate={values => {
           const errors = {};
@@ -195,8 +209,8 @@ const Form = ({
                   setActiveStep={setActiveStep}
                   setInitialValues={setInitialValues}
                   response={response}
-                  values={values}
-                  errors={errors}
+                  values={formValues}
+                  errors={formErrors}
                   validationErrors={validationErrors}
                   submit={submit}
                   handleSubmit={handleSubmit}
@@ -211,14 +225,26 @@ const Form = ({
                       formApi={formApi}
                       push={push}
                       remove={remove}
-                      values={values}
-                      errors={errors}
+                      values={formValues}
+                      errors={formErrors}
                       submitting={submitting}
                     />
                   </form>
                 </Stepper>
               </FormWrapper>
-              {/* <b
+
+              <b
+                style={{
+                  position: "fixed",
+                  top: 200,
+                  left: 10,
+                  fontSize: 14
+                }}
+              >
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
+              </b>
+
+              <b
                 style={{
                   position: "fixed",
                   top: 200,
@@ -226,8 +252,20 @@ const Form = ({
                   fontSize: 14
                 }}
               >
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </b> */}
+                <FormSpy subscription={{ values: true, errors: true }}>
+                  {({ values, errors }) => {
+                    console.log(values);
+                    // setTest({});
+                    setFormValues(values);
+                    return (
+                      <>
+                        <pre>{JSON.stringify(values, 0, 2)}</pre>
+                        <RenderCounter />
+                      </>
+                    );
+                  }}
+                </FormSpy>
+              </b>
             </>
           );
         }}
@@ -236,7 +274,7 @@ const Form = ({
   );
 };
 
-export default Form;
+export default FormComponent;
 
 const FormWrapper = styled(Paper)`
   position: relative;

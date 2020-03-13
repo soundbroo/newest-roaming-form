@@ -5,6 +5,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { OPERATORS, FIELDS_NAMES } from "constants";
 
 import { required } from "utils/validate";
+import RenderCounter from "utils/renderCounter";
 
 const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => (
   <FormControl {...rest}>
@@ -20,6 +21,7 @@ const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => (
         </MenuItem>
       ))}
     </Select>
+    <RenderCounter />
   </FormControl>
 );
 

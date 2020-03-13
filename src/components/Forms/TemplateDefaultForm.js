@@ -71,6 +71,8 @@ const TemplateDefaultForm = ({
     debouncedAutoComplete();
   }, [inn]);
 
+  console.log("RENDER");
+
   return (
     <>
       <FormFieldsRow>

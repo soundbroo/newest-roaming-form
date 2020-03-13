@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import { useDropzone } from "react-dropzone";
 
+import RenderCounter from "utils/renderCounter";
+
 import { statuses } from "constants";
 
 import readXls from "utils/readXls";
@@ -90,6 +92,7 @@ const UploadButtonAdapter = ({
             </DragLabel>
           </LabelWrapper>
         </Button>
+        <RenderCounter />
       </label>
     </UploadButton>
   );
