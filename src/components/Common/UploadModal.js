@@ -82,14 +82,14 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  flex: 1;
   padding: 9px 24px 24px 24px;
   font-size: 16px;
 `;
 
 const Title = styled.div`
   font-size: 20px;
-  padding: 12px 0 0 24px;
+  padding: 12px 0 9px 24px;
 `;
 
 const Warning = styled.div`

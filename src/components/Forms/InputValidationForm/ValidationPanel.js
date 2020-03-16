@@ -103,9 +103,9 @@ const ValidationPanel = ({
     <ValidationPanelWrapper>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <ExpansionPanelTitle>{renderTitle()}</ExpansionPanelTitle>
+          <PanelTitle>{renderTitle()}</PanelTitle>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <PanelDetails>
           <ExpansionPanelContent>
             {Object.entries(data).map(
               ([key, value], index) =>
@@ -142,7 +142,7 @@ const ValidationPanel = ({
                 )
             )}
           </ExpansionPanelContent>
-        </ExpansionPanelDetails>
+        </PanelDetails>
       </ExpansionPanel>
       {errors?.agreement ? (
         <Error>{(!notification && errors?.agreement) || null}</Error>
@@ -153,11 +153,17 @@ const ValidationPanel = ({
 
 export default ValidationPanel;
 
-const ExpansionPanelTitle = styled.div`
+const PanelTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   height: 38px;
+`;
+
+const PanelDetails = styled(ExpansionPanelDetails)`
+  @media (max-width: 660px) {
+    padding: 8px 12px !important;
+  }
 `;
 
 const ValidationPanelWrapper = styled.div`
@@ -209,7 +215,13 @@ const Item = styled.div`
   width: 334px;
 
   @media (max-width: 660px) {
-    width: calc(100% + 20px);
+    width: 100%;
+    div {
+      padding: 0;
+      label {
+        margin-left: 0;
+      }
+    }
   }
 `;
 
@@ -220,6 +232,7 @@ const Error = styled.div`
   width: 200px;
   right: 0px;
   top: 10px;
+  z-index: 1;
 
   @media (max-width: 660px) {
     right: -10px;

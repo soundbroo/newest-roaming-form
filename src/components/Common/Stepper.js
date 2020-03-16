@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  CircularProgress
+} from "@material-ui/core";
 import StepButton from "@material-ui/core/StepButton";
-import Button from "@material-ui/core/Button";
 
-export default function HorizontalNonLinearStepper({
+const StepperComponent = ({
   steps,
   activePage,
   setActiveForm,
   activeStep,
   setActiveStep,
   setInitialValues,
-  response,
   values,
   errors,
   validationErrors,
-  submit,
   handleSubmit,
   emptyFormValues,
   mainTitle,
+  submitting,
   children
-}) {
+}) => {
   const [completed, setCompleted] = useState({});
 
   useEffect(() => {
@@ -66,8 +68,6 @@ export default function HorizontalNonLinearStepper({
     setStepperState(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleStep = step => () => setStepperState(step);
-
   return (
     <>
       <ContentWrapper>
@@ -95,21 +95,26 @@ export default function HorizontalNonLinearStepper({
         >
           Назад
         </Button>
-        <Button
-          disabled={
-            validationErrors?.length > 0 || Object.keys(errors).length > 0
-          }
-          variant="contained"
-          color="primary"
-          type={activeStep === 2 ? "submit" : "button"}
-          onClick={handleNext}
-        >
-          {activeStep === 2 ? "Отправить" : "Далее"}
-        </Button>
+        <SubmitButton>
+          {submitting && <CircularProgress size={25} />}
+          <Button
+            disabled={
+              validationErrors?.length > 0 || Object.keys(errors).length > 0
+            }
+            variant="contained"
+            color="primary"
+            type={activeStep === 2 ? "submit" : "button"}
+            onClick={handleNext}
+          >
+            {activeStep === 2 ? "Отправить" : "Далее"}
+          </Button>
+        </SubmitButton>
       </ButtonWrapper>
     </>
   );
-}
+};
+
+export default StepperComponent;
 
 const ContentWrapper = styled.div`
   top: 0;
@@ -131,6 +136,14 @@ const ButtonWrapper = styled.div`
 
   @media (max-width: 660px) {
     padding: 12px 0 0 0;
+  }
+`;
+
+const SubmitButton = styled.div`
+  display: flex;
+  align-items: center;
+  div {
+    margin-right: 9px;
   }
 `;
 
