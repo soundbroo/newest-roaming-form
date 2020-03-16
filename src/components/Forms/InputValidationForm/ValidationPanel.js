@@ -176,7 +176,6 @@ const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 40px;
 `;
 
 const Title = styled.div`

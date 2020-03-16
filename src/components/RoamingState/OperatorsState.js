@@ -162,9 +162,7 @@ const SelectCell = styled(HeadCell)`
     text-overflow: ellipsis;
     white-space: nowrap;
     width: inherit;
-    div {
-      width: 118px;
-    }
+    max-width: 140px;
   }
 `;
 
