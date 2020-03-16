@@ -6,22 +6,30 @@ import { OPERATORS, FIELDS_NAMES } from "constants";
 
 import { required } from "utils/validate";
 
-const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => (
-  <FormControl {...rest}>
-    <InputLabel>{FIELDS_NAMES.operator.label}</InputLabel>
-    <Select
-      {...input}
-      error={Boolean(meta.touched && meta.error)}
-      onChange={value => input.onChange(value)}
-    >
-      {OPERATORS.map((operator, index) => (
-        <MenuItem key={index} value={operator.value}>
-          {operator.label}
-        </MenuItem>
-      ))}
-    </Select>
-  </FormControl>
-);
+import AxiosService from "api";
+
+const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => {
+  const axios = new AxiosService();
+  const fetchOperators = () => {
+    return axios.operators_list().then(res => res);
+  };
+  return (
+    <FormControl {...rest}>
+      <InputLabel>{FIELDS_NAMES.operator.label}</InputLabel>
+      <Select
+        {...input}
+        error={Boolean(meta.touched && meta.error)}
+        onChange={value => input.onChange(value)}
+      >
+        {OPERATORS.map((operator, index) => (
+          <MenuItem key={index} value={operator.value}>
+            {operator.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
 
 const OperatorSelectField = ({ name, ...rest }) => (
   <Field

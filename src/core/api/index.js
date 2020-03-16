@@ -194,6 +194,16 @@ class AxiosService {
     }
   };
 
+  operators_list = async () => {
+    try {
+      const result = await this.instance.get(`/operator_list`);
+      console.log("Result - ", result);
+      return result;
+    } catch (e) {
+      console.log("Error - ", e);
+    }
+  };
+
   autoComplete = async inn => {
     try {
       const result = await this.instance.get(`/navigator/${inn}`);
