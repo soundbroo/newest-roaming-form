@@ -7,7 +7,6 @@ import {
   Card,
   CardContent
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 import InputField from "components/Fields/InputField";
@@ -15,10 +14,9 @@ import ErrorTooltipIcon from "components/Common/ErrorTooltipIcon";
 import {
   ExpansionPanelContent,
   ExpansionPanelItem,
-  Divider
+  Divider,
+  TitleError
 } from "components/Common/styled";
-
-import { TITLES_FOR_KEYS } from "constants";
 
 const ValidationPanel = ({
   agent,
@@ -63,29 +61,20 @@ const ValidationPanel = ({
         Object.values(errors).some(el => el !== "")
       ) {
         if (responseText) {
-          return (
-            <TitleError>
-              <ErrorTooltipIcon responseText={responseText} />
-            </TitleError>
-          );
+          return <ErrorTooltipIcon responseText={responseText} />;
         }
-        return (
-          <TitleError>
-            <ErrorTooltipIcon invisible={true} />
-          </TitleError>
-        );
+        if (errors.operator) {
+          return <ErrorTooltipIcon responseText={errors.operator} />;
+        }
+        return <ErrorTooltipIcon invisible={true} />;
       }
       if (responseText) {
-        return (
-          <TitleError>
-            <ErrorTooltipIcon responseText={responseText} />
-          </TitleError>
-        );
+        return <ErrorTooltipIcon responseText={responseText} />;
       }
       if (processed) {
         return (
           <TitleError>
-            <CheckIcon color="primary" />
+            <CheckIcon />
           </TitleError>
         );
       }
@@ -102,7 +91,7 @@ const ValidationPanel = ({
   return (
     <ValidationPanelWrapper>
       <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <ExpansionPanelSummary>
           <PanelTitle>{renderTitle()}</PanelTitle>
         </ExpansionPanelSummary>
         <PanelDetails>
@@ -157,7 +146,6 @@ const PanelTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 38px;
 `;
 
 const PanelDetails = styled(ExpansionPanelDetails)`
@@ -181,25 +169,11 @@ const ItemWrapper = styled.div`
 const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 `;
 
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const TitleError = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 13px;
-  color: ${p => p.theme.palette.error};
-  max-width: 280px;
-  min-width: fit-content;
-  padding-right: 2px;
-  text-align: right;
-`;
+const Title = styled.div``;
 
 const CheckIcon = styled(CheckCircleIcon)`
   color: ${p => `${p.theme.palette.success} !important`};

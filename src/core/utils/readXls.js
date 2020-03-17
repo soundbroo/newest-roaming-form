@@ -1,6 +1,9 @@
 import XLSX from "xlsx";
+import { MAX_NUMBER_OF_FORMS } from "constants";
 
-const readXls = ({ file, name, content, setContent }) => {
+import { MESSAGES, statuses } from "constants";
+
+const readXls = ({ file, name, content, setContent, showSnackbar, setXls }) => {
   const reader = new FileReader();
 
   reader.onload = e => {
@@ -23,11 +26,16 @@ const readXls = ({ file, name, content, setContent }) => {
       return header;
     };
 
-    setContent({
-      ...content,
-      data: { ...content.data, [name]: data },
-      header: dataHeader()
-    });
+    if (data.length >= MAX_NUMBER_OF_FORMS) {
+      showSnackbar(MESSAGES.extendedFormNumbers, statuses.error, true, null);
+    } else {
+      setContent({
+        ...content,
+        data: { ...content.data, [name]: data },
+        header: dataHeader()
+      });
+      setXls();
+    }
   };
 
   reader.readAsBinaryString(file);

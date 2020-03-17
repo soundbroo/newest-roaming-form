@@ -88,10 +88,8 @@ class AxiosService {
       }
 
       if (filesToReload.receiver_list !== null) {
-        console.log("filesToReload");
         formData.append("receiver_list", filesToReload?.receiver_list);
       } else if (values?.receiver_list) {
-        console.log("values?.receiver_list");
         formData.append("receiver_list", values.receiver_list);
       }
 
@@ -172,7 +170,6 @@ class AxiosService {
   };
 
   status = async (uid, request_id) => {
-    console.log(uid, request_id);
     try {
       const result = await this.instance.get(
         `/abonent/status/${uid}/${request_id}`

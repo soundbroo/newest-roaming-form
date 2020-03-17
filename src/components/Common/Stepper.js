@@ -4,10 +4,11 @@ import {
   Stepper,
   Step,
   StepLabel,
+  StepButton,
   Button,
   CircularProgress
 } from "@material-ui/core";
-import StepButton from "@material-ui/core/StepButton";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const StepperComponent = ({
   steps,
@@ -23,9 +24,21 @@ const StepperComponent = ({
   emptyFormValues,
   mainTitle,
   submitting,
+  response,
+  setResponse,
+  setNewPage,
+  formApi,
   children
 }) => {
-  const [completed, setCompleted] = useState({});
+  const defaultCompleteState = { 0: false, 1: false, 2: false };
+  const [completed, setCompleted] = useState(defaultCompleteState);
+
+  const restartForm = () => {
+    setNewPage();
+    setInitialValues(emptyFormValues);
+    setActiveStep(0);
+    setCompleted(defaultCompleteState);
+  };
 
   useEffect(() => {
     setInitialValues(emptyFormValues);
@@ -33,13 +46,19 @@ const StepperComponent = ({
 
   useEffect(() => {
     setActiveStep(0);
-    setCompleted({});
+    setCompleted(defaultCompleteState);
   }, [steps, activePage]);
 
   const setStepperState = step => {
     setActiveStep(step);
     setActiveForm(step);
     setInitialValues(values);
+  };
+
+  const completeStep = () => {
+    if (activeStep !== 2) {
+      setCompleted({ ...completed, [activeStep]: true });
+    }
   };
 
   const isLastStep = () => {
@@ -51,12 +70,15 @@ const StepperComponent = ({
   };
 
   const handleNext = () => {
-    if (activeStep === 2) {
-      return handleSubmit(values);
+    switch (activeStep) {
+      case 0:
+      case 1:
+        response && setResponse(null);
+        break;
+      case 2:
+        return handleSubmit(values);
     }
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
+    completeStep();
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
@@ -68,6 +90,23 @@ const StepperComponent = ({
     setStepperState(prevActiveStep => prevActiveStep - 1);
   };
 
+  const handleStep = step => {
+    if (step === 2) {
+      if (completed[0] && completed[1]) {
+        return setStepperState(step);
+      }
+      return formApi.resumeValidation();
+    }
+    if (Object.keys(errors).length) {
+      if (completed[step]) {
+        setStepperState(step);
+      }
+      return formApi.resumeValidation();
+    }
+    setStepperState(step);
+    completeStep();
+  };
+
   return (
     <>
       <ContentWrapper>
@@ -76,7 +115,7 @@ const StepperComponent = ({
           {steps.map((label, index) => (
             <Step key={label}>
               <Label
-                // onClick={handleStep(index)}
+                // onClick={() => handleStep(index)}
                 completed={completed[index]}
               >
                 {label}
@@ -87,19 +126,33 @@ const StepperComponent = ({
         {children}
       </ContentWrapper>
       <ButtonWrapper>
-        <Button
-          variant="outlined"
-          color="primary"
-          disabled={activeStep === 0}
-          onClick={handleBack}
-        >
-          Назад
-        </Button>
-        <SubmitButton>
+        <LeftButtons>
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+          >
+            Назад
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={activeStep !== 2}
+            onClick={restartForm}
+            startIcon={<RefreshIcon />}
+          >
+            Новое заявление
+          </Button>
+        </LeftButtons>
+        <RightButtons>
           {submitting && <CircularProgress size={25} />}
           <Button
             disabled={
-              validationErrors?.length > 0 || Object.keys(errors).length > 0
+              submitting ||
+              validationErrors?.length > 0 ||
+              Object.keys(errors).length > 0
+              // || (activeStep === 2 && !(completed[0] && completed[1]))
             }
             variant="contained"
             color="primary"
@@ -108,7 +161,7 @@ const StepperComponent = ({
           >
             {activeStep === 2 ? "Отправить" : "Далее"}
           </Button>
-        </SubmitButton>
+        </RightButtons>
       </ButtonWrapper>
     </>
   );
@@ -139,11 +192,22 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-const SubmitButton = styled.div`
+const RightButtons = styled.div`
   display: flex;
   align-items: center;
   div {
     margin-right: 9px;
+  }
+`;
+
+const LeftButtons = styled.div`
+  display: flex;
+  align-items: center;
+  button:last-child {
+    margin-left: 9px;
+    @media (max-width: 440px) {
+      display: none;
+    }
   }
 `;
 

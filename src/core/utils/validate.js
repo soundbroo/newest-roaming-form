@@ -1,11 +1,11 @@
-import { INN_LENGTH, KPP_LENGTH, KPP_REGEXP, EMAIL_REGEXP } from "constants";
+import { INN_LENGTH, KPP_REGEXP, EMAIL_REGEXP } from "constants";
 
 const requiredField = "Обязательное поле";
 
 export const required = value => (value ? undefined : requiredField);
 
 export const disableRules = ({ name, index, values }) => {
-  const nameLabel = name.slice(0, -3);
+  const nameLabel = index < 10 ? name.slice(0, -3) : name.slice(0, -4);
   const inn = values?.[nameLabel][index]?.inn;
   const isEntityInn = inn?.length === INN_LENGTH[1];
   const isOrganizationInn = inn?.length === INN_LENGTH[0];

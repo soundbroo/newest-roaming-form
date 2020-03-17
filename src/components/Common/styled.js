@@ -98,6 +98,10 @@ export const Row = styled.div`
 export const Cell = styled.div`
   display: flex;
   align-items: center;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const Background = styled.div`
@@ -108,4 +112,16 @@ export const Background = styled.div`
   width: 100%;
   height: 100%;
   z-index: 6;
+`;
+
+export const TitleError = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 13px;
+  color: ${p => p.theme.palette.error};
+  max-width: 280px;
+  min-width: fit-content;
+  padding-right: 2px;
+  text-align: right;
 `;

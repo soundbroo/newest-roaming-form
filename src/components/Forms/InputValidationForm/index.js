@@ -53,7 +53,11 @@ const InputValidationForm = ({
       const snackbarColor =
         response?.data?.status === 0 ? statuses.success : statuses.error;
       showSnackbar(notification, snackbarColor, true, null);
-      setResponse(null);
+      if (
+        response?.data?.sender?.text === "" ||
+        response?.data?.receiver?.text === ""
+      )
+        setResponse(null);
     }
   }, [response]);
 

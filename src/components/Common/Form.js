@@ -98,13 +98,17 @@ const Form = ({
     return unsubscribe;
   };
 
-  useEffect(() => {
+  const setNewPage = () => {
     setActiveForm(0);
     setFiles(defaultFiles);
     setResponse(null);
     setFilesToReload(defaultFilesToReload);
     setValidationErrors({});
     setFileSaverSwitcher(false);
+  };
+
+  useEffect(() => {
+    setNewPage();
   }, [activePage]);
 
   useEffect(() => {
@@ -204,6 +208,10 @@ const Form = ({
                   mainTitle={mainTitle}
                   filesToReload={filesToReload}
                   submitting={submitting}
+                  response={response}
+                  setResponse={setResponse}
+                  setNewPage={setNewPage}
+                  formApi={formApi}
                 >
                   <form onSubmit={handleSubmit}>
                     <Page

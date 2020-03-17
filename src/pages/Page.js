@@ -193,6 +193,7 @@ const Page = ({
           type={type}
           errors={errors}
           push={push}
+          values={values}
           {...snackbarProps}
         />
       );

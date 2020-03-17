@@ -42,10 +42,19 @@ const UploadButtonAdapter = ({
     };
 
     if (list && AVAILABLE_FILE_EXTENSIONS.list.includes(extension)) {
-      changeFileState();
-      formApi.change(name?.split("_")[0], [null]);
       closeModal();
-      readXls({ file, name, content, setContent });
+      const setXls = () => {
+        changeFileState();
+        formApi.change(name?.split("_")[0], [null]);
+      };
+      readXls({
+        file,
+        name,
+        content,
+        setContent,
+        showSnackbar,
+        setXls
+      });
     } else if (
       name === "agreement" &&
       AVAILABLE_FILE_EXTENSIONS.agreement.includes(extension)

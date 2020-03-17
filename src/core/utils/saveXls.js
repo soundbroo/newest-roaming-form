@@ -27,12 +27,10 @@ const saveXls = (
   });
 
   data.unshift(header);
-  console.log(data);
   const ws_data = data;
   const ws = XLSX.utils.aoa_to_sheet(ws_data);
   wb.Sheets["list"] = ws;
   const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
-
   const s2ab = s => {
     const buf = new ArrayBuffer(s.length);
     const view = new Uint8Array(buf);
@@ -42,8 +40,6 @@ const saveXls = (
 
   const blob = new Blob([s2ab(wbout)], { type: "binary" });
   const blobFile = new File([blob], `${agentFileName}.xlsx`);
-  console.log(agentFileName);
-  console.log(blobFile);
   setFilesToReload({ ...filesToReload, [agentFileName]: blobFile });
   if (fileSaverSwitcher && submitting) {
     saveAs(
