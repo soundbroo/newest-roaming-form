@@ -5,6 +5,7 @@ import EndInputAdornment from "components/Common/EndInputAdornment";
 import TextFieldAdapter from "components/Common/TextFieldAdapter";
 
 import { validate } from "utils/validate";
+import { parse } from "utils/parse";
 
 import { HELPER_TEXT } from "constants";
 
@@ -16,6 +17,7 @@ const EmailField = ({ name, ...rest }) => {
     <Field
       name={`${name}.email`}
       validate={validate.email}
+      parse={parse.email}
       component={TextFieldAdapter}
       label="E-mail"
       InputProps={adornmentProps}

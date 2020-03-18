@@ -10,7 +10,12 @@ import { parse } from "utils/parse";
 
 import { FIELDS_NAMES, ASTRAL_ID, HELPER_TEXT } from "constants";
 
-const IdentifierField = ({ inputAdornment, name, ...rest }) => {
+const IdentifierField = ({
+  inputAdornment,
+  name,
+  disableValidation,
+  ...rest
+}) => {
   const adornmentProps = {
     startAdornment: (
       <InputAdornment position="start">{inputAdornment}</InputAdornment>
@@ -30,7 +35,7 @@ const IdentifierField = ({ inputAdornment, name, ...rest }) => {
     <Field
       name={`${name}.${FIELDS_NAMES.id.type}`}
       component={TextFieldAdapter}
-      validate={validate.id}
+      validate={!disableValidation ? validate.id : validate.notRequiredId}
       parse={parse.id}
       label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}

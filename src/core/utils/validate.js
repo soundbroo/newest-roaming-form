@@ -1,6 +1,7 @@
-import { INN_LENGTH, KPP_REGEXP, EMAIL_REGEXP } from "constants";
+import { INN_LENGTH, KPP_REGEXP, ID_REGEXP, EMAIL_REGEXP } from "constants";
 
 const requiredField = "Обязательное поле";
+const maxLength = "Достигнуто максимальное количество символов";
 
 export const required = value => (value ? undefined : requiredField);
 
@@ -18,6 +19,22 @@ export const correctKpp = value => {
   if (!value) return requiredField;
   if (KPP_REGEXP.test(value)) return undefined;
   return "КПП некорректен";
+};
+
+export const correctId = value => {
+  if (!value) return requiredField;
+  if (ID_REGEXP.test(value)) return undefined;
+  return "Идентификатор некорректен";
+};
+
+export const correctNotRequiredId = value => {
+  if (!value || ID_REGEXP.test(value)) return undefined;
+  return "Идентификатор некорректен";
+};
+
+const correctName = value => {
+  if (!value) return requiredField;
+  if (value.length >= 255) return maxLength;
 };
 
 const correctInn = value => {
@@ -89,19 +106,16 @@ const correctInn = value => {
 
 export const correctEmail = value => {
   if (!value) return requiredField;
+  if (value.length >= 255) return maxLength;
   if (value === undefined || EMAIL_REGEXP.test(value)) return undefined;
   return "E-mail некорректен";
 };
 
 export const validate = {
   inn: value => correctInn(value),
+  name: value => correctName(value),
   email: value => correctEmail(value),
   kpp: value => correctKpp(value),
-  id: value => {
-    if (!value) return requiredField;
-    if (value?.length < 36) {
-      return "Некорректный идентификатор";
-    }
-    return undefined;
-  }
+  id: value => correctId(value),
+  notRequiredId: value => correctNotRequiredId(value)
 };

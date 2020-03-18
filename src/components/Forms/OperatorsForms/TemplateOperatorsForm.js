@@ -14,6 +14,9 @@ const TemplateOperatorsForm = props => (
       <IdentifierField
         name={props.name}
         inputAdornment={props.operatorId || ASTRAL_ID}
+        disableValidation={
+          props.name?.slice(0, 8) === "receiver" ? true : false
+        }
       />
     </FormFieldsRow>
   </>

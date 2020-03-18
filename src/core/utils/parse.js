@@ -1,6 +1,6 @@
 const nums = value => value.replace(/[^\d]/g, "");
 
-export const parseDefault = value => value;
+export const parseDefault = value => value.slice(0, 255);
 
 export const parseInn = value => nums(value).substr(0, 12);
 
@@ -10,7 +10,7 @@ export const parseFullname = value => value.replace(/[\d]/g, "");
 
 export const parseId = value => {
   if (!value) return value;
-  const id = value.replace(/[^\w]/g, "").toUpperCase();
+  const id = value.replace(/[^\w]/g, "");
 
   if (id.length <= 8) {
     return id;
