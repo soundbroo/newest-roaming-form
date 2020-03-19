@@ -6,12 +6,14 @@ import RoamingState from "pages/RoamingState";
 import Navigation from "components/Navigation";
 import Form from "components/Common/Form";
 import Snackbar from "components/Common/Snackbar";
+import OperatorsState from "components/RoamingState/OperatorsState";
 
 import { TEMP_MESSAGE, statuses } from "constants";
 
 import useSnackbar from "hooks/useSnackbar";
 
 import AxiosService from "api";
+import ContragentsCheck from "pages/ContragentsCheck";
 
 const Content = () => {
   const axios = new AxiosService();
@@ -74,13 +76,18 @@ const Content = () => {
             setRequestStatus={setRequestStatus}
           />
         );
+      case 3:
+        return <OperatorsState />;
+      case 4:
+        return <ContragentsCheck />;
     }
   };
 
   return (
     <ContentWrapper>
-      <Navigation activePage={activePage} setActivePage={setActivePage} />
-      <MainContent>{renderContent()}</MainContent>
+      <Navigation activePage={activePage} setActivePage={setActivePage}>
+        <MainContent>{renderContent()}</MainContent>
+      </Navigation>
       <Snackbar {...snackbarProps} />
     </ContentWrapper>
   );
@@ -97,4 +104,12 @@ const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 660px) {
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+  }
+  @media (min-width: 660px) {
+    height: calc(100vh - 82px);
+    margin-top: 82px;
+  }
 `;

@@ -255,12 +255,12 @@ const FormWrapper = styled(Paper)`
   padding: 15px;
 
   @media (min-width: 660px) {
-    min-height: 740px;
+    height: calc(100vh - 126px);
     width: 600px;
   }
 
   @media (max-width: 660px) {
-    min-height: calc(100vh - 90px);
+    height: calc(100vh - 90px);
   }
 
   form {

@@ -58,6 +58,10 @@ export const FIELDS_NAMES = {
     type: "request_id",
     label: "Идентификатор заявки в системе роумингового оператора"
   },
+  request_number: {
+    type: "request_number",
+    label: "Номер заявки"
+  },
   email: {
     type: "email",
     label: "Email"

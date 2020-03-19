@@ -54,7 +54,7 @@ export const Content = styled.div`
   scrollbar-width: thin;
 
   @media (min-width: 660px) {
-    height: 460px;
+    height: calc(100vh - 400px);
     padding: 16px;
     border-top: thin solid #cecece3b;
     border-bottom: thin solid #cecece3b;
@@ -62,6 +62,7 @@ export const Content = styled.div`
 
   @media (max-width: 660px) {
     margin: 6px 0 0 0;
+    height: calc(100vh - 342px);
     padding: 1px;
   }
 
@@ -124,4 +125,14 @@ export const TitleError = styled.div`
   min-width: fit-content;
   padding-right: 2px;
   text-align: right;
+`;
+
+export const Wrapper = styled(Paper)`
+  max-width: 1000px;
+  width: 100%;
+  margin-bottom: 40px;
+  padding: 12px;
+  @media (max-width: 660px) {
+    margin-bottom: 9px;
+  }
 `;

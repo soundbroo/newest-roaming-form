@@ -210,6 +210,23 @@ class AxiosService {
       console.log("Error - ", e);
     }
   };
+
+  // Заготовка
+
+  contragents = async inn => {
+    const formData = new FormData();
+    formData.append("INN", inn);
+    try {
+      const result = await axios.post(
+        `https://astral.ru/products/dokumentooborot/${inn}`,
+        formData
+      );
+      console.log("Result - ", result);
+      return result;
+    } catch (e) {
+      console.log("Error - ", e);
+    }
+  };
 }
 
 export default AxiosService;
