@@ -29,11 +29,15 @@ export const parseId = value => {
   )}-${id.slice(20, 32)}`;
 };
 
+const parseOperatorId = value => value.slice(0, 43);
+// value.replace(/^[А-ЯЁ][а-яё]*$/g, "").slice(0, 43);
+
 export const parse = {
   name: value => parseDefault(value),
   inn: value => parseInn(value),
   kpp: value => parseKpp(value),
   id: value => parseId(value),
+  operatorId: value => parseOperatorId(value),
   lastname: value => parseFullname(value),
   firstname: value => parseFullname(value),
   patronymic: value => parseFullname(value),

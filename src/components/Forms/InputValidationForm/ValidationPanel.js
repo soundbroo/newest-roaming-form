@@ -47,12 +47,15 @@ const ValidationPanel = ({
   const errors = prepareErrors();
 
   const renderTitle = () => {
-    const renderTitleName = () => (
-      <Title>
-        {data?.name ||
-          `${data?.lastname} ${data?.firstname} ${data?.patronymic || ""}`}
-      </Title>
-    );
+    const renderTitleName = () => {
+      const title = (() => {
+        if (data?.name) return data.name;
+        if (data?.lastname || data?.firstname || data?.patronymic)
+          return `${data?.lastname} ${data?.firstname} ${data?.patronymic}`;
+        return "Заполните название организации или ФИО";
+      })();
+      return <Title>{title}</Title>;
+    };
 
     const renderTitleError = () => {
       if (
@@ -98,7 +101,7 @@ const ValidationPanel = ({
           <ExpansionPanelContent>
             {Object.entries(data).map(
               ([key, value], index) =>
-                (value || errors?.[key]) && (
+                (value || (value === "" && !isResponse) || errors?.[key]) && (
                   <>
                     <ExpansionPanelItem key={index}>
                       <ItemWrapper>
@@ -117,11 +120,7 @@ const ValidationPanel = ({
                         </Item>
                         {!notification && errors?.[key] && (
                           <Error>
-                            <Card>
-                              <CardContent>
-                                {(!notification && errors?.[key]) || null}
-                              </CardContent>
-                            </Card>
+                            {(!notification && errors?.[key]) || null}
                           </Error>
                         )}
                       </ItemWrapper>
@@ -162,7 +161,7 @@ const ItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 75px;
+  min-height: 75px;
   position: relative;
 `;
 
@@ -186,7 +185,10 @@ const Item = styled.div`
   align-items: ${p => (p.isFile ? "flex-start" : "flex-end")};
   position: absolute;
   top: 10px;
-  width: 334px;
+  width: 100%;
+  div {
+    padding-right: 0;
+  }
 
   @media (max-width: 660px) {
     width: 100%;
@@ -200,30 +202,15 @@ const Item = styled.div`
 `;
 
 const Error = styled.div`
-  font-size: 13px;
-  position: absolute;
-  height: 40px;
-  width: 200px;
-  right: 0px;
-  top: 10px;
+  font-size: 16px;
   z-index: 1;
+  margin-top: 72px;
+  margin-bottom: 8px;
+  margin-left: 13px;
+  color: ${p => p.theme.palette.validationError};
 
   @media (max-width: 660px) {
     right: -10px;
     top: 38px;
-  }
-
-  div {
-    width: inherit;
-    background: ${p => p.theme.palette.errorLight};
-    color: #fff;
-    div {
-      min-height: 31px;
-      max-height: 48px;
-      padding: 4px;
-      &:last-child {
-        padding: 4px;
-      }
-    }
   }
 `;

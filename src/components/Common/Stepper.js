@@ -127,23 +127,21 @@ const StepperComponent = ({
       </ContentWrapper>
       <ButtonWrapper>
         <LeftButtons>
-          <Button
-            variant="outlined"
-            color="primary"
-            disabled={activeStep === 0}
-            onClick={handleBack}
-          >
-            Назад
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            disabled={activeStep !== 2}
-            onClick={restartForm}
-            startIcon={<RefreshIcon />}
-          >
-            Новое заявление
-          </Button>
+          <BackButton activeStep={activeStep}>
+            <Button variant="outlined" color="primary" onClick={handleBack}>
+              Назад
+            </Button>
+          </BackButton>
+          <RestartButton activeStep={activeStep}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={restartForm}
+              startIcon={<RefreshIcon />}
+            >
+              Новое заявление
+            </Button>
+          </RestartButton>
         </LeftButtons>
         <RightButtons>
           {submitting && <CircularProgress size={25} />}
@@ -168,6 +166,14 @@ const StepperComponent = ({
 };
 
 export default StepperComponent;
+
+const BackButton = styled.div`
+  display: ${p => p.activeStep === 0 && "none"};
+`;
+
+const RestartButton = styled.div`
+  display: ${p => p.activeStep !== 2 && "none"};
+`;
 
 const ContentWrapper = styled.div`
   top: 0;

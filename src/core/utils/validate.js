@@ -27,14 +27,21 @@ export const correctId = value => {
   return "Идентификатор некорректен";
 };
 
+export const correctName = value => {
+  if (!value) return requiredField;
+  if (value.length >= 255) return maxLength;
+};
+
 export const correctNotRequiredId = value => {
   if (!value || ID_REGEXP.test(value)) return undefined;
   return "Идентификатор некорректен";
 };
 
-const correctName = value => {
+export const correctOperatorId = value => {
   if (!value) return requiredField;
-  if (value.length >= 255) return maxLength;
+  if (value.length >= 43) return maxLength;
+  if (!value.match(/^[0-9a-zA-Z@.,-]{0,43}$/))
+    return "Идентификатор некорректен";
 };
 
 const correctInn = value => {
@@ -117,5 +124,7 @@ export const validate = {
   email: value => correctEmail(value),
   kpp: value => correctKpp(value),
   id: value => correctId(value),
-  notRequiredId: value => correctNotRequiredId(value)
+  operatorId: value => correctOperatorId(value),
+  notRequiredId: value => correctNotRequiredId(value),
+  required: value => required(value)
 };

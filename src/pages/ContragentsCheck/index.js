@@ -28,7 +28,7 @@ const ContragentsCheck = () => {
                   parse={parse.inn}
                 />
                 <Button variant="contained" color="primary">
-                  Primary
+                  Проверить
                 </Button>
               </FormContent>
             </form>

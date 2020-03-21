@@ -29,13 +29,16 @@ const TemplateDefaultForm = ({
     formApi.change(`${name}.patronymic`, patronymic);
   };
 
-  if (isEntityInn) {
-    formApi.change(`${name}.kpp`, undefined);
-  }
+  useEffect(() => {
+    if (isEntityInn) {
+      formApi.change(`${name}.kpp`, undefined);
+      formApi.change(`${name}.name`, undefined);
+    }
 
-  if (isOrganizationInn) {
-    changeFullname(undefined, undefined, undefined);
-  }
+    if (isOrganizationInn) {
+      changeFullname(undefined, undefined, undefined);
+    }
+  }, [isEntityInn, isOrganizationInn]);
 
   const [type, number] = name.split("[");
   const index = number.replace("]", "");

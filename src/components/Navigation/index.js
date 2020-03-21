@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { Person, Business, SignalCellularAlt } from "@material-ui/icons";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -13,14 +14,11 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import styled from "styled-components";
+import ToolTip from "@material-ui/core/ToolTip";
 
 const drawerWidth = 270;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex"
-  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
@@ -28,20 +26,9 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen
     })
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
   menuButton: {
     marginRight: 10,
     marginLeft: -19
-  },
-  hide: {
-    display: "none"
   },
   drawer: {
     width: drawerWidth,
@@ -87,8 +74,7 @@ const Navigation = ({ activePage, setActivePage, children }) => {
   };
 
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const setDrawer = () => {
     setOpen(!open);
@@ -170,12 +156,17 @@ const Navigation = ({ activePage, setActivePage, children }) => {
             "Статус заявления",
             "Состояние роуминга",
             "Проверка контрагентов"
-          ].map((text, index) => (
-            <ListItem button key={text} onClick={() => handleClick(index)}>
-              <ListItemIcon>{setIcon(index)}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          ].map((text, index) => {
+            const Item = () => (
+              <ToolTip title={!open ? text : ""}>
+                <ListItem button key={text} onClick={() => handleClick(index)}>
+                  <ListItemIcon>{setIcon(index)}</ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              </ToolTip>
+            );
+            return <Item />;
+          })}
         </List>
       </Drawer>
       <main className={classes.content}>{children}</main>

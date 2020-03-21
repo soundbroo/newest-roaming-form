@@ -99,6 +99,7 @@ export const styledTheme = {
     darkGrey: "#828282",
     error: "#ff6e5f",
     errorLight: "#ffa299",
+    validationError: "#f44336",
     success: "#44d678"
   }
 };

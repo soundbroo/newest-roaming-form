@@ -17,6 +17,7 @@ const TemplateOperatorsForm = props => (
         disableValidation={
           props.name?.slice(0, 8) === "receiver" ? true : false
         }
+        parseOperator={props.name?.slice(0, 6) === "sender" ? true : false}
       />
     </FormFieldsRow>
   </>

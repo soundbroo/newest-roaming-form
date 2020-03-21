@@ -14,8 +14,20 @@ const IdentifierField = ({
   inputAdornment,
   name,
   disableValidation,
+  parseOperator,
   ...rest
 }) => {
+  const validation = () => {
+    if (parseOperator) {
+      return validate.operatorId;
+    }
+    if (!disableValidation) {
+      return validate.id;
+    } else {
+      return validate.notRequiredId;
+    }
+  };
+
   const adornmentProps = {
     startAdornment: (
       <InputAdornment position="start">{inputAdornment}</InputAdornment>
@@ -35,8 +47,8 @@ const IdentifierField = ({
     <Field
       name={`${name}.${FIELDS_NAMES.id.type}`}
       component={TextFieldAdapter}
-      validate={!disableValidation ? validate.id : validate.notRequiredId}
-      parse={parse.id}
+      validate={validation()}
+      parse={!parseOperator ? parse.id : parse.operatorId}
       label={FIELDS_NAMES.id.label}
       InputProps={inputAdornment ? adornmentProps : {}}
       {...rest}
