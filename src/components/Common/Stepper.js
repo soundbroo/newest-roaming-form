@@ -8,6 +8,7 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import IconError from "@material-ui/icons/Error";
 
 import { statuses } from "constants";
 
@@ -147,6 +148,11 @@ const StepperComponent = ({
                 key={label}
                 error={showErrors(index)}
                 completed={completed[index]}
+                StepIconProps={
+                  showErrors(index) && {
+                    icon: <ErrorIcon />
+                  }
+                }
               >
                 {label}
               </Label>
@@ -191,6 +197,11 @@ const StepperComponent = ({
 };
 
 export default StepperComponent;
+
+const ErrorIcon = styled(IconError)`
+  font-size: 29px !important;
+  color: ${p => p.theme.palette.error};
+`;
 
 const BackButton = styled.div`
   display: ${p => p.activeStep === 0 && "none"};
