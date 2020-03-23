@@ -4,11 +4,12 @@ import {
   Stepper,
   Step,
   StepLabel,
-  StepButton,
   Button,
   CircularProgress
 } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
+
+import { statuses } from "constants";
 
 const StepperComponent = ({
   steps,
@@ -28,16 +29,28 @@ const StepperComponent = ({
   setResponse,
   setNewPage,
   formApi,
+  showSnackbar,
   children
 }) => {
   const defaultCompleteState = { 0: false, 1: false, 2: false };
   const [completed, setCompleted] = useState(defaultCompleteState);
+  const defaultStepErrors = { 0: null, 1: null, 2: false };
+  const [stepErrors, setStepErrors] = useState(defaultStepErrors);
+  const isErrors = Object.keys(errors).length;
+  const showErrorSnackbar = () =>
+    showSnackbar(
+      "Заполните недостающие поля и исправьте ошибки",
+      statuses.error,
+      true,
+      4000
+    );
 
   const restartForm = () => {
     setNewPage();
     setInitialValues(emptyFormValues);
     setActiveStep(0);
     setCompleted(defaultCompleteState);
+    setStepErrors(defaultStepErrors);
   };
 
   useEffect(() => {
@@ -72,10 +85,21 @@ const StepperComponent = ({
   const handleNext = () => {
     switch (activeStep) {
       case 0:
+        response && setResponse(null);
+        if (!isErrors) {
+          setStepErrors({ ...stepErrors, 0: false });
+        } else setStepErrors({ ...stepErrors, 0: true });
+        break;
       case 1:
         response && setResponse(null);
+        if (stepErrors[0] !== false || isErrors || stepErrors[1] !== false) {
+          return showErrorSnackbar();
+        }
         break;
       case 2:
+        if (validationErrors?.length > 0 || isErrors > 0) {
+          return showErrorSnackbar();
+        }
         return handleSubmit(values);
     }
     completeStep();
@@ -87,24 +111,29 @@ const StepperComponent = ({
   };
 
   const handleBack = () => {
+    if (activeStep === 1 && !isErrors) {
+      setStepErrors({ ...stepErrors, 1: false });
+    }
+    if (activeStep === 1 && isErrors) {
+      setStepErrors({ ...stepErrors, 1: true });
+    }
+    if (activeStep === 2 && isErrors) {
+      setStepErrors({ ...stepErrors, 2: false });
+    }
     setStepperState(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleStep = step => {
-    if (step === 2) {
-      if (completed[0] && completed[1]) {
-        return setStepperState(step);
-      }
-      return formApi.resumeValidation();
+  useEffect(() => {
+    if (!isErrors) return setStepErrors({ ...stepErrors, [activeStep]: false });
+    return setStepErrors({ ...stepErrors, [activeStep]: true });
+  }, [errors]);
+
+  const showErrors = index => {
+    switch (activeStep) {
+      case 0:
+      case 1:
+        return stepErrors?.[index];
     }
-    if (Object.keys(errors).length) {
-      if (completed[step]) {
-        setStepperState(step);
-      }
-      return formApi.resumeValidation();
-    }
-    setStepperState(step);
-    completeStep();
   };
 
   return (
@@ -115,7 +144,8 @@ const StepperComponent = ({
           {steps.map((label, index) => (
             <Step key={label}>
               <Label
-                // onClick={() => handleStep(index)}
+                key={label}
+                error={showErrors(index)}
                 completed={completed[index]}
               >
                 {label}
@@ -146,12 +176,7 @@ const StepperComponent = ({
         <RightButtons>
           {submitting && <CircularProgress size={25} />}
           <Button
-            disabled={
-              submitting ||
-              validationErrors?.length > 0 ||
-              Object.keys(errors).length > 0
-              // || (activeStep === 2 && !(completed[0] && completed[1]))
-            }
+            disabled={submitting}
             variant="contained"
             color="primary"
             type={activeStep === 2 ? "submit" : "button"}

@@ -212,6 +212,7 @@ const Form = ({
                   setResponse={setResponse}
                   setNewPage={setNewPage}
                   formApi={formApi}
+                  {...snackbarProps}
                 >
                   <form onSubmit={handleSubmit}>
                     <Page

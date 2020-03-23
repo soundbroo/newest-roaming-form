@@ -29,8 +29,8 @@ export const parseId = value => {
   )}-${id.slice(20, 32)}`;
 };
 
-const parseOperatorId = value => value.slice(0, 43);
-// value.replace(/^[А-ЯЁ][а-яё]*$/g, "").slice(0, 43);
+const parseOperatorId = value =>
+  value.replace(/[^0-9a-zA-Z@.,-]/g, "").slice(0, 43);
 
 export const parse = {
   name: value => parseDefault(value),

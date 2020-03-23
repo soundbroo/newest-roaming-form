@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Paper, TextField, Button } from "@material-ui/core";
 
+import { Title } from "components/Common/styled";
+
 import { MESSAGES, statuses } from "constants";
 
 import AxiosService from "api";
@@ -14,10 +16,14 @@ const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
     password: ""
   };
 
-  const [data, setData] = useState({
-    ...defaultData,
-    error: null
-  });
+  const defaultErrors = {
+    login: "",
+    password: ""
+  };
+
+  const [data, setData] = useState(defaultData);
+
+  const [errors, setErrors] = useState(defaultErrors);
 
   const handleChange = type => e => {
     setData({ ...data, [type]: e.target.value });
@@ -26,9 +32,20 @@ const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
   const handleLogin = async () => {
     const { status, text } = await axios.auth(data);
 
-    if (status === 401) {
-      showSnackbar(text, statuses.error, true, null);
-      setData({ ...data, ...defaultData });
+    if (status === 401 || status === 400) {
+      if (text === "Неверный логин или пароль") {
+        setErrors({ ...errors, login: true, password: true });
+        showSnackbar(text, statuses.error, true, null);
+        setData({ ...data, ...defaultData });
+      }
+      if (text === "Недопустим пустой логин") {
+        setErrors({ ...errors, login: text });
+        setData({ ...data, login: "" });
+      }
+      if (text === "Недопустим пустой пароль") {
+        setErrors({ ...errors, password: text });
+        setData({ ...data, password: "" });
+      }
     }
     if (status === 0) {
       const [id, ...sessionToken] = text.split(" ");
@@ -53,19 +70,32 @@ const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
     }
   };
 
+  const handleFocus = {
+    login: () => setErrors({ ...errors, login: false }),
+    password: () => setErrors({ ...errors, password: false })
+  };
+
   return (
     <Wrapper>
-      <div>Введите логин и пароль</div>
-      <TextField
+      <Title>Введите логин и пароль</Title>
+      <Field
+        error={errors.login}
         label="Логин"
         value={data.login}
         onChange={handleChange("login")}
+        onFocus={handleFocus.login}
+        helperText={errors?.login}
+        required
       />
-      <TextField
+      <Field
+        error={errors.password}
         label="Пароль"
         type="password"
         value={data.password}
         onChange={handleChange("password")}
+        onFocus={handleFocus.password}
+        helperText={errors?.password}
+        required
       />
       <>
         <LoginButton variant="outlined" color="primary" onClick={handleLogin}>
@@ -90,4 +120,8 @@ const Wrapper = styled(Paper)`
 
 const LoginButton = styled(Button)`
   width: 100%;
+`;
+
+const Field = styled(TextField)`
+  height: 70px;
 `;

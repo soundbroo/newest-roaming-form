@@ -87,6 +87,12 @@ export const muiTheme = createMuiTheme({
         borderRadius: 50,
         left: 9
       }
+    },
+    MuiList: {
+      root: {
+        display: "flex",
+        flexDirection: "column"
+      }
     }
   }
 });

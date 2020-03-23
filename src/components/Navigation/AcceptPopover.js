@@ -1,25 +1,28 @@
-import React from "react";
-import Popover from "@material-ui/core/Popover";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Popover, FormControlLabel, Checkbox, Button } from "@material-ui/core";
 
-const AcceptPopover = ({ Component }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
+const AcceptPopover = ({
+  popoverAnchorEl,
+  handlePopoverClose,
+  setActivePage
+}) => {
+  const [answer, setAnswer] = useState(false);
+  const handleChange = () => setAnswer(!answer);
+  const handleAccept = () => {
+    if (answer === true) {
+      localStorage.setItem("showNavigationDialog", false);
+    }
+    handlePopoverClose();
+    setActivePage(+popoverAnchorEl?.getAttribute("index"));
   };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
-    <div>
-      <Component onClick={handleClick} />
+    <Wrapper>
       <Popover
-        id={open && "simple-popover"}
-        open={false}
-        anchorEl={Boolean(anchorEl)}
-        onClose={handleClose}
+        id={!!popoverAnchorEl ? "simple-popover" : undefined}
+        open={!!popoverAnchorEl}
+        anchorEl={popoverAnchorEl}
+        onClose={handlePopoverClose}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center"
@@ -29,10 +32,59 @@ const AcceptPopover = ({ Component }) => {
           horizontal: "center"
         }}
       >
-        <div>The content of the Popover.</div>
+        <Content>
+          <div>
+            Вы действительно хотите сменить вкладку? Все введенные данные будут
+            удалены.
+          </div>
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={answer}
+                onChange={handleChange}
+                name="popover"
+              />
+            }
+            label="Больше не спрашивать"
+          />
+          <Buttons>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handlePopoverClose}
+            >
+              Отмена
+            </Button>
+            <Button variant="outlined" color="primary" onClick={handleAccept}>
+              Подтвердить
+            </Button>
+          </Buttons>
+        </Content>
       </Popover>
-    </div>
+    </Wrapper>
   );
 };
 
 export default AcceptPopover;
+
+const Wrapper = styled.div``;
+
+const Content = styled.div`
+  max-width: 262px;
+  padding: 12px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  button {
+    flex: 1;
+    :first-child {
+      margin-right: 6px;
+    }
+    :last-child {
+      margin-left: 6px;
+    }
+  }
+`;

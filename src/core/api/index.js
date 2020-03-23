@@ -217,9 +217,8 @@ class AxiosService {
     const formData = new FormData();
     formData.append("INN", inn);
     try {
-      const result = await axios.post(
-        `https://astral.ru/products/dokumentooborot/${inn}`,
-        formData
+      const result = await axios.get(
+        `http://regression.2ae.staging.keydisk.ru/search_guid/?inn=${inn}`
       );
       console.log("Result - ", result);
       return result;

@@ -1,33 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-final-form";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
 import InputField from "components/Fields/InputField";
-import { Wrapper } from "components/Common/styled";
+import { Wrapper, Title } from "components/Common/styled";
 
 import { parse } from "utils/parse";
 
+import AxiosService from "api";
+
 const ContragentsCheck = () => {
-  const submit = values => console.log(values);
+  const axios = new AxiosService();
+
+  const [data, setData] = useState(null);
+
+  const submit = values => {
+    return axios.contragents(values?.contragents?.inn).then(res => {
+      setData(res);
+      console.log(data);
+    });
+  };
   return (
     <FormWrapper>
       <Form
-        initialValues={{ inn: 123 }}
         onSubmit={submit}
         render={({ handleSubmit, submitting, values }) => {
           return (
-            <form onSubmit={() => handleSubmit(values)}>
+            <form onSubmit={handleSubmit}>
               <Title>
                 Проверьте, кто обменивается документами через АО «Калуга Астрал»
               </Title>
               <FormContent>
                 <InputField
+                  name="contragents"
                   variant="outlined"
                   fieldType="inn"
                   parse={parse.inn}
                 />
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                >
                   Проверить
                 </Button>
               </FormContent>
@@ -35,6 +50,7 @@ const ContragentsCheck = () => {
           );
         }}
       />
+      {data ? <div></div> : null}
     </FormWrapper>
   );
 };
@@ -53,11 +69,4 @@ const FormContent = styled.div`
     height: 56px;
     margin-right: 12px;
   }
-`;
-
-const Title = styled.div`
-  font-size: 22px;
-  margin-bottom: 18px;
-  width: 100%;
-  text-align: center;
 `;

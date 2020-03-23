@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Person, Business, SignalCellularAlt } from "@material-ui/icons";
 import clsx from "clsx";
@@ -15,6 +15,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ToolTip from "@material-ui/core/ToolTip";
+
+import AcceptPopover from "components/Navigation/AcceptPopover";
 
 const drawerWidth = 270;
 
@@ -69,12 +71,26 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Navigation = ({ activePage, setActivePage, children }) => {
-  const handleClick = index => {
-    setActivePage(index);
+  const isAcceptPopoverEnabled = localStorage.getItem("showNavigationDialog");
+
+  const handlePopoverClick = event => {
+    setPopoverAnchorEl(event.currentTarget);
+  };
+
+  const handleClick = (e, index) => {
+    if (!isAcceptPopoverEnabled) {
+      return handlePopoverClick(e);
+    }
+    return setActivePage(index);
   };
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
+
+  const handlePopoverClose = () => {
+    setPopoverAnchorEl(null);
+  };
 
   const setDrawer = () => {
     setOpen(!open);
@@ -156,18 +172,28 @@ const Navigation = ({ activePage, setActivePage, children }) => {
             "Статус заявления",
             "Состояние роуминга",
             "Проверка контрагентов"
-          ].map((text, index) => {
-            const Item = () => (
-              <ToolTip title={!open ? text : ""}>
-                <ListItem button key={text} onClick={() => handleClick(index)}>
-                  <ListItemIcon>{setIcon(index)}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              </ToolTip>
-            );
-            return <Item />;
-          })}
+          ].map((text, index) => (
+            <ToolTip title={!open ? text : ""}>
+              <MenuItem
+                button
+                id={text}
+                index={index}
+                key={text}
+                onClick={event => handleClick(event, index)}
+              >
+                <ListItemIcon>{setIcon(index)}</ListItemIcon>
+                <ListItemText primary={text} />
+              </MenuItem>
+            </ToolTip>
+          ))}
         </List>
+        {!isAcceptPopoverEnabled ? (
+          <AcceptPopover
+            popoverAnchorEl={popoverAnchorEl}
+            handlePopoverClose={handlePopoverClose}
+            setActivePage={setActivePage}
+          />
+        ) : null}
       </Drawer>
       <main className={classes.content}>{children}</main>
     </NavigationWrapper>
@@ -195,4 +221,16 @@ const NavBar = styled(Toolbar)`
 
 const Title = styled.span`
   font-size: 20px;
+`;
+
+const MenuItem = styled(ListItem)`
+  :nth-child(0) {
+    order: 0;
+  }
+  :nth-child(2) {
+    order: 3;
+  }
+  :nth-child(4) {
+    order: 2;
+  }
 `;

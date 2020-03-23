@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Field } from "react-final-form";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 
-import { OPERATORS, FIELDS_NAMES } from "constants";
+import { FIELDS_NAMES } from "constants";
 
 import { required } from "utils/validate";
 
@@ -10,9 +10,18 @@ import AxiosService from "api";
 
 const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => {
   const axios = new AxiosService();
+  const [operators, setOperators] = useState(null);
   const fetchOperators = () => {
-    return axios.operators_list().then(res => res);
+    return axios.operators_list().then(res => {
+      setOperators(JSON.parse(res?.data?.text));
+      console.log(operators);
+    });
   };
+
+  useEffect(() => {
+    fetchOperators();
+  }, []);
+
   return (
     <FormControl {...rest}>
       <InputLabel>{FIELDS_NAMES.operator.label}</InputLabel>
@@ -21,11 +30,12 @@ const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => {
         error={Boolean(meta.touched && meta.error)}
         onChange={value => input.onChange(value)}
       >
-        {OPERATORS.map((operator, index) => (
-          <MenuItem key={index} value={operator.value}>
-            {operator.label}
-          </MenuItem>
-        ))}
+        {operators &&
+          Object.entries(operators).map(([value, label], index) => (
+            <MenuItem key={index} value={value}>
+              {label}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );

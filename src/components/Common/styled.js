@@ -114,6 +114,13 @@ export const Background = styled.div`
   z-index: 6;
 `;
 
+export const Title = styled.div`
+  font-size: 22px;
+  margin-bottom: 18px;
+  width: 100%;
+  text-align: center;
+`;
+
 export const TitleError = styled.div`
   display: flex;
   align-items: center;

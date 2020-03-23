@@ -39,7 +39,6 @@ export const correctNotRequiredId = value => {
 
 export const correctOperatorId = value => {
   if (!value) return requiredField;
-  if (value.length >= 43) return maxLength;
   if (!value.match(/^[0-9a-zA-Z@.,-]{0,43}$/))
     return "Идентификатор некорректен";
 };
