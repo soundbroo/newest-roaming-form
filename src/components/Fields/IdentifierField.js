@@ -15,6 +15,7 @@ const IdentifierField = ({
   name,
   disableValidation,
   parseOperator,
+  error,
   ...rest
 }) => {
   const validation = () => {
@@ -49,7 +50,7 @@ const IdentifierField = ({
       component={TextFieldAdapter}
       validate={validation()}
       parse={!parseOperator ? parse.id : parse.operatorId}
-      label={FIELDS_NAMES.id.label}
+      label={error || `${FIELDS_NAMES.id.label}`}
       InputProps={inputAdornment ? adornmentProps : {}}
       {...rest}
     />

@@ -11,10 +11,27 @@ import AxiosService from "api";
 const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => {
   const axios = new AxiosService();
   const [operators, setOperators] = useState(null);
-  const fetchOperators = () => {
-    return axios.operators_list().then(res => {
+
+  const sortOperators = () => {
+    const array = operators && [...Object.values(operators)];
+    const withoutPrefix = array?.map(el =>
+      el.replace(/ОАО |ЗАО |ООО |АО /g, "")
+    );
+
+    let sortedOperators = Object.fromEntries(
+      withoutPrefix.sort().map(el => [el.substr(-3, 3), el])
+    );
+
+    for (let key in sortedOperators) {
+      sortedOperators[key] = operators[key];
+    }
+
+    return sortedOperators;
+  };
+
+  const fetchOperators = async () => {
+    return await axios.operators_list().then(res => {
       setOperators(JSON.parse(res?.data?.text));
-      console.log(operators);
     });
   };
 
@@ -31,7 +48,7 @@ const OperatorSelectFieldAdapter = ({ input, meta, ...rest }) => {
         onChange={value => input.onChange(value)}
       >
         {operators &&
-          Object.entries(operators).map(([value, label], index) => (
+          Object.entries(sortOperators()).map(([value, label], index) => (
             <MenuItem key={index} value={value}>
               {label}
             </MenuItem>

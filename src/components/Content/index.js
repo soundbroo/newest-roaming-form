@@ -18,6 +18,12 @@ import ContragentsCheck from "pages/ContragentsCheck";
 const Content = () => {
   const axios = new AxiosService();
 
+  const [auth, setAuth] = useState({
+    status: false,
+    refresh: false,
+    operatorId: localStorage.getItem("operator"),
+    sessionToken: null
+  });
   const [activePage, setActivePage] = useState(0);
   const [query, setQuery] = useState(null);
   const [response, setResponse] = useState(null);
@@ -66,6 +72,8 @@ const Content = () => {
             setResponse={setResponse}
             requestStatus={requestStatus}
             setRequestStatus={setRequestStatus}
+            auth={auth}
+            setAuth={setAuth}
           />
         );
       case 2:
@@ -85,7 +93,12 @@ const Content = () => {
 
   return (
     <ContentWrapper>
-      <Navigation activePage={activePage} setActivePage={setActivePage}>
+      <Navigation
+        setAuth={setAuth}
+        isAuth={auth.status}
+        activePage={activePage}
+        setActivePage={setActivePage}
+      >
         <MainContent>{renderContent()}</MainContent>
       </Navigation>
       <Snackbar {...snackbarProps} />

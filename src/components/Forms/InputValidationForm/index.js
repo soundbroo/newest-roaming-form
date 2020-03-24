@@ -31,6 +31,7 @@ const InputValidationForm = ({
   fileSaverSwitcher,
   setFileSaverSwitcher,
   submitting,
+  operatorId,
   formApi
 }) => {
   const { showSnackbar } = snackbarProps;
@@ -127,6 +128,8 @@ const InputValidationForm = ({
               isFile={agentFile}
               notification={notification}
               data={data}
+              operatorId={operatorId}
+              activePage={activePage}
               processed={validationData?.[index].processed}
               responseText={validationData?.[index].text}
               responseErrors={validationData?.[index].errors}
@@ -198,6 +201,8 @@ const InputValidationForm = ({
                           isFile={agentFile}
                           notification={notification}
                           data={validationData?.[index].input}
+                          operatorId={operatorId}
+                          activePage={activePage}
                           processed={validationData?.[index].processed}
                           responseText={validationData?.[index].text}
                           responseErrors={validationData?.[index].errors}

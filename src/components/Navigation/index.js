@@ -17,6 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ToolTip from "@material-ui/core/ToolTip";
 
 import AcceptPopover from "components/Navigation/AcceptPopover";
+import Logout from "components/Navigation/Logout";
 
 const drawerWidth = 270;
 
@@ -70,8 +71,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Navigation = ({ activePage, setActivePage, children }) => {
+const Navigation = ({
+  setAuth,
+  isAuth,
+  activePage,
+  setActivePage,
+  children
+}) => {
   const isAcceptPopoverEnabled = localStorage.getItem("showNavigationDialog");
+  const menuItems = [
+    "Клиентам",
+    "Операторам",
+    "Статус заявления",
+    "Состояние роуминга",
+    "Проверка контрагентов"
+  ];
 
   const handlePopoverClick = event => {
     setPopoverAnchorEl(event.currentTarget);
@@ -140,16 +154,19 @@ const Navigation = ({ activePage, setActivePage, children }) => {
     <NavigationWrapper>
       <AppBar position="fixed" className={classes.appBar}>
         <NavBar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={setDrawer}
-            edge="start"
-            className={classes.menuButton}
-          >
-            <MenuIcon fontSize="large" />
-          </IconButton>
-          <Title>Астрал.Роуминг ЭДО</Title>
+          <LeftNavBar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={setDrawer}
+              edge="start"
+              className={classes.menuButton}
+            >
+              <MenuIcon fontSize="large" />
+            </IconButton>
+            <Title>Астрал.Роуминг ЭДО</Title>
+          </LeftNavBar>
+          {activePage === 1 && isAuth && <Logout setAuth={setAuth} />}
         </NavBar>
       </AppBar>
       <Drawer
@@ -166,13 +183,7 @@ const Navigation = ({ activePage, setActivePage, children }) => {
         }}
       >
         <List>
-          {[
-            "Клиентам",
-            "Операторам",
-            "Статус заявления",
-            "Состояние роуминга",
-            "Проверка контрагентов"
-          ].map((text, index) => (
+          {menuItems.map((text, index) => (
             <ToolTip title={!open ? text : ""}>
               <MenuItem
                 button
@@ -219,8 +230,18 @@ const NavBar = styled(Toolbar)`
   }
 `;
 
+const LeftNavBar = styled.div`
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  min-width: 218px;
+`;
 const Title = styled.span`
   font-size: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const MenuItem = styled(ListItem)`

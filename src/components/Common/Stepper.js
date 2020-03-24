@@ -209,6 +209,20 @@ const BackButton = styled.div`
 
 const RestartButton = styled.div`
   display: ${p => p.activeStep !== 2 && "none"};
+  @media (max-width: 660px) {
+    button {
+      font-size: 0;
+      padding: 0;
+      height: 34px;
+      min-width: 34px;
+      span:first-child {
+        width: 20px;
+        span {
+          margin: 0;
+        }
+      }
+    }
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -247,9 +261,6 @@ const LeftButtons = styled.div`
   align-items: center;
   button:last-child {
     margin-left: 9px;
-    @media (max-width: 440px) {
-      display: none;
-    }
   }
 `;
 

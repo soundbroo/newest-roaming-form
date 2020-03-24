@@ -9,7 +9,7 @@ import { parse } from "utils/parse";
 
 import { HELPER_TEXT } from "constants";
 
-const EmailField = ({ name, ...rest }) => {
+const EmailField = ({ name, error, ...rest }) => {
   const adornmentProps = {
     endAdornment: <EndInputAdornment title={HELPER_TEXT.email} />
   };
@@ -19,7 +19,7 @@ const EmailField = ({ name, ...rest }) => {
       validate={validate.email}
       parse={parse.email}
       component={TextFieldAdapter}
-      label="E-mail"
+      label={error || "E-mail"}
       InputProps={adornmentProps}
       {...rest}
     />

@@ -7,12 +7,12 @@ import { FIELDS_NAMES } from "constants";
 
 import { required } from "utils/validate";
 
-const RequestIdField = () => (
+const RequestIdField = ({ error }) => (
   <Field
     name={FIELDS_NAMES.request_id.type}
     component={TextFieldAdapter}
     validate={required}
-    label={FIELDS_NAMES.request_id.label}
+    label={error || `${FIELDS_NAMES.request_id.label}`}
   />
 );
 

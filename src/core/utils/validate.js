@@ -6,7 +6,12 @@ const maxLength = "Достигнуто максимальное количес�
 export const required = value => (value ? undefined : requiredField);
 
 export const disableRules = ({ name, index, values }) => {
-  const nameLabel = index < 10 ? name.slice(0, -3) : name.slice(0, -4);
+  const getNameLabel = () => {
+    if (index < 10) return name.slice(0, -3);
+    if (index >= 10 && index < 100) return name.slice(0, -4);
+    if (index >= 100) return name.slice(0, -5);
+  };
+  const nameLabel = getNameLabel();
   const inn = values?.[nameLabel][index]?.inn;
   const isEntityInn = inn?.length === INN_LENGTH[1];
   const isOrganizationInn = inn?.length === INN_LENGTH[0];
@@ -21,6 +26,11 @@ export const correctKpp = value => {
   return "КПП некорректен";
 };
 
+export const correctNotRequiredKpp = value => {
+  if (!value || KPP_REGEXP.test(value)) return undefined;
+  return "КПП некорректен";
+};
+
 export const correctId = value => {
   if (!value) return requiredField;
   if (ID_REGEXP.test(value)) return undefined;
@@ -29,7 +39,6 @@ export const correctId = value => {
 
 export const correctName = value => {
   if (!value) return requiredField;
-  if (value.length >= 255) return maxLength;
 };
 
 export const correctNotRequiredId = value => {
@@ -112,7 +121,6 @@ const correctInn = value => {
 
 export const correctEmail = value => {
   if (!value) return requiredField;
-  if (value.length >= 255) return maxLength;
   if (value === undefined || EMAIL_REGEXP.test(value)) return undefined;
   return "E-mail некорректен";
 };
@@ -122,6 +130,7 @@ export const validate = {
   name: value => correctName(value),
   email: value => correctEmail(value),
   kpp: value => correctKpp(value),
+  notRequiredKpp: value => correctNotRequiredKpp(value),
   id: value => correctId(value),
   operatorId: value => correctOperatorId(value),
   notRequiredId: value => correctNotRequiredId(value),

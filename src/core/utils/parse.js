@@ -12,21 +12,21 @@ export const parseId = value => {
   if (!value) return value;
   const id = value.replace(/[^\w]/g, "");
 
-  if (id.length <= 8) {
+  if (id.length <= 11) {
     return id;
   }
-  if (id.length <= 12) return `${id.slice(0, 8)}-${id.slice(8, 12)}`;
+  if (id.length <= 15) return `${id.slice(0, 11)}-${id.slice(11, 15)}`;
   if (id.length <= 16)
-    return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}`;
-  if (id.length <= 20)
-    return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}-${id.slice(
-      16,
-      20
-    )}`;
-  return `${id.slice(0, 8)}-${id.slice(8, 12)}-${id.slice(12, 16)}-${id.slice(
-    16,
-    20
-  )}-${id.slice(20, 32)}`;
+    return `${id.slice(0, 11)}-${id.slice(11, 15)}-${id.slice(15, 19)}`;
+  if (id.length <= 23)
+    return `${id.slice(0, 11)}-${id.slice(11, 15)}-${id.slice(
+      15,
+      19
+    )}-${id.slice(19, 23)}`;
+  return `${id.slice(0, 11)}-${id.slice(11, 15)}-${id.slice(15, 19)}-${id.slice(
+    19,
+    23
+  )}-${id.slice(23, 35)}`;
 };
 
 const parseOperatorId = value =>

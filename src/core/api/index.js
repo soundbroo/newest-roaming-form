@@ -47,28 +47,6 @@ class AxiosService {
             }
           });
         }
-
-        // Добавляем префиксы операторов
-
-        if (data?.[type]) {
-          data[type] = data?.[type].map(el => {
-            switch (activePage) {
-              case 0: {
-                if (type === "sender") return { ...el, id: `2AE${el.id}` };
-                if (type === "receiver") return { ...el };
-              }
-              case 1: {
-                if (type === "sender") {
-                  const operator = localStorage.getItem("operator");
-                  return { ...el, id: `${operator}${el.id}` };
-                }
-                if (type === "receiver") {
-                  return { ...el, id: `2AE${el.id}` };
-                }
-              }
-            }
-          });
-        }
       };
 
       if (!values?.sender_list) data.sender = values.sender;
@@ -211,15 +189,11 @@ class AxiosService {
     }
   };
 
-  // Заготовка
-
-  contragents = async inn => {
-    const formData = new FormData();
-    formData.append("INN", inn);
+  contragents = async (inn, kpp) => {
     try {
-      const result = await axios.get(
-        `http://regression.2ae.staging.keydisk.ru/search_guid/?inn=${inn}`
-      );
+      const result = kpp
+        ? await this.instance.get(`/abonent/info/${inn}/${kpp}`)
+        : await this.instance.get(`/abonent/info/${inn}`);
       console.log("Result - ", result);
       return result;
     } catch (e) {

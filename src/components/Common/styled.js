@@ -111,7 +111,7 @@ export const Background = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 6;
+  z-index: 1200;
 `;
 
 export const Title = styled.div`

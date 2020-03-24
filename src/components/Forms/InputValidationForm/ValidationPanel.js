@@ -10,6 +10,7 @@ import {
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 import InputField from "components/Fields/InputField";
+import IdentifierField from "components/Fields/IdentifierField";
 import ErrorTooltipIcon from "components/Common/ErrorTooltipIcon";
 import {
   ExpansionPanelContent,
@@ -18,6 +19,8 @@ import {
   TitleError
 } from "components/Common/styled";
 
+import { ASTRAL_ID } from "constants";
+
 const ValidationPanel = ({
   agent,
   agentIndex,
@@ -25,6 +28,8 @@ const ValidationPanel = ({
   isFile,
   notification,
   data,
+  operatorId,
+  activePage,
   isResponse,
   processed,
   responseText,
@@ -91,6 +96,57 @@ const ValidationPanel = ({
     );
   };
 
+  const renderField = key => {
+    switch (key) {
+      case "id":
+        return (
+          <IdentifierField
+            disabled={!responseText && processed}
+            InputLabelProps={
+              !notification &&
+              errors?.[key] && {
+                error: true
+              }
+            }
+            error={(!notification && errors?.[key]) || null}
+            inputAdornment={(activePage === 1 && operatorId) || ASTRAL_ID}
+            disableValidation={
+              activePage === 1 && agent === "receiver" ? true : false
+            }
+            parseOperator={
+              activePage === 1 && agent === "sender" ? true : false
+            }
+            name={
+              isResponse && isFile
+                ? `${name}[${agentIndex}]`
+                : `${agent}[${agentIndex}]`
+            }
+            size="small"
+          />
+        );
+      default:
+        return (
+          <InputField
+            disabled={!responseText && processed}
+            InputLabelProps={
+              !notification &&
+              errors?.[key] && {
+                error: true
+              }
+            }
+            error={(!notification && errors?.[key]) || null}
+            name={
+              isResponse && isFile
+                ? `${name}[${agentIndex}]`
+                : `${agent}[${agentIndex}]`
+            }
+            fieldType={[key]}
+            size="small"
+          />
+        );
+    }
+  };
+
   return (
     <ValidationPanelWrapper>
       <ExpansionPanel>
@@ -105,27 +161,9 @@ const ValidationPanel = ({
                   <>
                     <ExpansionPanelItem key={index}>
                       <ItemWrapper>
-                        <Item isFile={isFile}>
-                          <InputField
-                            disabled={!responseText && processed}
-                            name={
-                              isResponse && isFile
-                                ? `${name}[${agentIndex}]`
-                                : `${agent}[${agentIndex}]`
-                            }
-                            fieldType={[key]}
-                            variant="outlined"
-                            size="small"
-                          />
-                        </Item>
-                        {!notification && errors?.[key] && (
-                          <Error>
-                            {(!notification && errors?.[key]) || null}
-                          </Error>
-                        )}
+                        <Item isFile={isFile}>{renderField(key)}</Item>
                       </ItemWrapper>
                     </ExpansionPanelItem>
-                    <Divider />
                   </>
                 )
             )}
@@ -161,7 +199,7 @@ const ItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  min-height: 75px;
+  min-height: 68px;
   position: relative;
 `;
 

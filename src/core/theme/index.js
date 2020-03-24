@@ -88,6 +88,12 @@ export const muiTheme = createMuiTheme({
         left: 9
       }
     },
+    MuiToolbar: {
+      root: {
+        display: "flex",
+        justifyContent: "space-between"
+      }
+    },
     MuiList: {
       root: {
         display: "flex",

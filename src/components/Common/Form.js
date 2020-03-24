@@ -23,14 +23,10 @@ const Form = ({
   response,
   setResponse,
   requestStatus,
-  setRequestStatus
+  setRequestStatus,
+  auth,
+  setAuth
 }) => {
-  const [auth, setAuth] = useState({
-    status: false,
-    refresh: false,
-    operatorId: localStorage.getItem("operator"),
-    sessionToken: null
-  });
   useEffect(() => {
     if (
       document.cookie.split(" ").find(cookie => cookie.includes("sessionToken"))

@@ -325,6 +325,7 @@ const Page = ({
             fileSaverSwitcher={fileSaverSwitcher}
             setFileSaverSwitcher={setFileSaverSwitcher}
             submitting={submitting}
+            operatorId={operatorId}
             {...authProps}
           />
         </>

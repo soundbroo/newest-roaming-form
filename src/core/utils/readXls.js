@@ -26,7 +26,7 @@ const readXls = ({ file, name, content, setContent, showSnackbar, setXls }) => {
       return header;
     };
 
-    if (data.length >= MAX_NUMBER_OF_FORMS) {
+    if (data.length > MAX_NUMBER_OF_FORMS) {
       showSnackbar(MESSAGES.extendedFormNumbers, statuses.error, true, null);
     } else {
       setContent({
