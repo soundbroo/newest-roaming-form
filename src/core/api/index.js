@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setBaseUrl } from "utils/setBaseUrl";
+import { ASTRAL_ID } from "constants";
 
 class AxiosService {
   constructor() {
@@ -44,6 +45,44 @@ class AxiosService {
             } else if (el?.inn?.length === 12) {
               delete el.kpp;
               delete el.name;
+            }
+          });
+        }
+
+        // Добавляем префиксы операторов
+
+        if (data?.[type]) {
+          data[type] = data?.[type].map(el => {
+            console.log(el, prefix);
+            const prefix = el?.id?.slice(0, 3);
+
+            switch (activePage) {
+              case 0: {
+                if (
+                  type === "sender" &&
+                  el?.id?.length === 36 &&
+                  prefix !== ASTRAL_ID
+                )
+                  return { ...el, id: `${ASTRAL_ID}${el.id}` };
+                if (type === "receiver") return { ...el };
+                return { ...el };
+              }
+              case 1: {
+                const operator = localStorage.getItem("operator");
+                if (
+                  type === "sender" &&
+                  el?.id?.length < 44 &&
+                  prefix !== operator
+                ) {
+                  return { ...el, id: `${operator}${el.id}` };
+                }
+                if (type === "receiver") {
+                  if (el?.id?.length === 36 && prefix !== ASTRAL_ID) {
+                    return { ...el, id: `${ASTRAL_ID}${el.id}` };
+                  }
+                }
+                return { ...el };
+              }
             }
           });
         }

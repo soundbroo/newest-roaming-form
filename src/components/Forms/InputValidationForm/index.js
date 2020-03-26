@@ -16,6 +16,8 @@ import saveXls from "utils/saveXls";
 
 import { VALIDATION_FORM_TITLE, statuses } from "constants";
 
+import { disableRules } from "utils/validate";
+
 const InputValidationForm = ({
   values,
   activePage,
@@ -32,7 +34,8 @@ const InputValidationForm = ({
   setFileSaverSwitcher,
   submitting,
   operatorId,
-  formApi
+  formApi,
+  setNewPage
 }) => {
   const { showSnackbar } = snackbarProps;
 
@@ -40,6 +43,13 @@ const InputValidationForm = ({
   const isReceiver = Boolean(values?.receiver[0] || files.receiver_list);
   const notification = response?.data?.text;
   const emptyList = notification === "Список получателей пуст";
+  const [xlsFormApi, setXlsFormApi] = useState({});
+
+  const bindFormApi = xlsFormApi => {
+    setXlsFormApi(xlsFormApi);
+    const unsubscribe = () => {};
+    return unsubscribe;
+  };
 
   const [Modal, isModal, setIsModal] = useModal({
     component: Auth,
@@ -122,7 +132,7 @@ const InputValidationForm = ({
         {!agentFile ? (
           values[agent].map((data, index) => (
             <ValidationPanel
-              key={index}
+              key={`${agent}[${index}]`}
               agentIndex={index}
               agent={agent}
               isFile={agentFile}
@@ -133,6 +143,8 @@ const InputValidationForm = ({
               processed={validationData?.[index].processed}
               responseText={validationData?.[index].text}
               responseErrors={validationData?.[index].errors}
+              formApi={formApi}
+              {...disableRules({ name: `${agent}[${index}]`, index, values })}
             />
           ))
         ) : !emptyList ? (
@@ -142,6 +154,8 @@ const InputValidationForm = ({
               initialValues={{
                 list: initialValues
               }}
+              validateOnBlur={true}
+              decorators={[bindFormApi]}
               render={({ handleSubmit, values, errors, pristine }) => {
                 const handleSaveXls = () =>
                   saveXls(
@@ -193,7 +207,7 @@ const InputValidationForm = ({
                       />
                       {values.list.map((data, index) => (
                         <ValidationPanel
-                          key={index}
+                          key={`${agent}[${index}]`}
                           name="list"
                           agentIndex={index}
                           agent={agent}
@@ -206,6 +220,13 @@ const InputValidationForm = ({
                           processed={validationData?.[index].processed}
                           responseText={validationData?.[index].text}
                           responseErrors={validationData?.[index].errors}
+                          formApi={xlsFormApi}
+                          {...disableRules({
+                            name: `${agent}[${index}]`,
+                            index,
+                            values,
+                            xls: true
+                          })}
                         />
                       ))}
                     </form>
@@ -213,7 +234,7 @@ const InputValidationForm = ({
                       style={{
                         position: "fixed",
                         top: 200,
-                        right: 10,
+                        left: 60,
                         fontSize: 12
                       }}
                     >

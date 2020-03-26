@@ -51,7 +51,8 @@ const Page = ({
   fileProps,
   fileSaverSwitcher,
   setFileSaverSwitcher,
-  submitting
+  submitting,
+  setNewPage
 }) => {
   const isFileLoaded = name => Boolean(fileProps.files?.[name]);
 
@@ -326,6 +327,7 @@ const Page = ({
             setFileSaverSwitcher={setFileSaverSwitcher}
             submitting={submitting}
             operatorId={operatorId}
+            setNewPage={setNewPage}
             {...authProps}
           />
         </>

@@ -33,10 +33,6 @@ const StepperComponent = ({
   showSnackbar,
   children
 }) => {
-  const defaultCompleteState = { 0: false, 1: false, 2: false };
-  const [completed, setCompleted] = useState(defaultCompleteState);
-  const defaultStepErrors = { 0: null, 1: null, 2: false };
-  const [stepErrors, setStepErrors] = useState(defaultStepErrors);
   const isErrors = Object.keys(errors).length;
   const showErrorSnackbar = () =>
     showSnackbar(
@@ -45,6 +41,11 @@ const StepperComponent = ({
       true,
       4000
     );
+
+  const defaultCompleteState = { 0: false, 1: false, 2: false };
+  const [completed, setCompleted] = useState(defaultCompleteState);
+  const defaultStepErrors = { 0: null, 1: null, 2: false };
+  const [stepErrors, setStepErrors] = useState(defaultStepErrors);
 
   const restartForm = () => {
     setNewPage();
@@ -55,6 +56,11 @@ const StepperComponent = ({
   };
 
   useEffect(() => {
+    if (response?.data?.status === 0 && response?.data?.text)
+      setTimeout(() => restartForm(), 1500);
+  }, [response]);
+
+  useEffect(() => {
     setInitialValues(emptyFormValues);
   }, [activePage]);
 
@@ -62,6 +68,11 @@ const StepperComponent = ({
     setActiveStep(0);
     setCompleted(defaultCompleteState);
   }, [steps, activePage]);
+
+  useEffect(() => {
+    if (!isErrors) return setStepErrors({ ...stepErrors, [activeStep]: false });
+    return setStepErrors({ ...stepErrors, [activeStep]: true });
+  }, [errors]);
 
   const setStepperState = step => {
     setActiveStep(step);
@@ -123,11 +134,6 @@ const StepperComponent = ({
     }
     setStepperState(prevActiveStep => prevActiveStep - 1);
   };
-
-  useEffect(() => {
-    if (!isErrors) return setStepErrors({ ...stepErrors, [activeStep]: false });
-    return setStepErrors({ ...stepErrors, [activeStep]: true });
-  }, [errors]);
 
   const showErrors = index => {
     switch (activeStep) {

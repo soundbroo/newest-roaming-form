@@ -5,14 +5,16 @@ const maxLength = "Достигнуто максимальное количес�
 
 export const required = value => (value ? undefined : requiredField);
 
-export const disableRules = ({ name, index, values }) => {
+export const disableRules = ({ name, index, values, xls }) => {
   const getNameLabel = () => {
-    if (index < 10) return name.slice(0, -3);
-    if (index >= 10 && index < 100) return name.slice(0, -4);
-    if (index >= 100) return name.slice(0, -5);
+    if (index < 10) return name?.slice(0, -3);
+    if (index >= 10 && index < 100) return name?.slice(0, -4);
+    if (index >= 100) return name?.slice(0, -5);
   };
   const nameLabel = getNameLabel();
-  const inn = values?.[nameLabel][index]?.inn;
+  const inn = !xls
+    ? values?.[nameLabel][index]?.inn
+    : values?.list?.[index]?.inn;
   const isEntityInn = inn?.length === INN_LENGTH[1];
   const isOrganizationInn = inn?.length === INN_LENGTH[0];
   const isValidInn = INN_LENGTH.includes(inn?.length);
@@ -48,7 +50,7 @@ export const correctNotRequiredId = value => {
 
 export const correctOperatorId = value => {
   if (!value) return requiredField;
-  if (!value.match(/^[0-9a-zA-Z@.,-]{0,43}$/))
+  if (!value.match(/^[0-9a-zA-Z@.,-]{1,46}$/))
     return "Идентификатор некорректен";
 };
 

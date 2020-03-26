@@ -70,7 +70,7 @@ export const muiTheme = createMuiTheme({
     },
     MuiSnackbar: {
       root: {
-        maxWidth: 600,
+        maxWidth: 660,
         left: "none",
         marginLeft: 8
       }

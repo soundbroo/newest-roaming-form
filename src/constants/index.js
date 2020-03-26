@@ -74,7 +74,8 @@ export const INN_LENGTH = [10, 12];
 export const KPP_LENGTH = 9;
 export const KPP_REGEXP = /^([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})([0-9]{2})([0-9A-Z]{2})([0-9]{3})$/;
 export const EMAIL_REGEXP = /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,7}$/;
-export const ID_REGEXP = /[0-9a-zA-Z]{8}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{12}/;
+// export const ID_REGEXP = /[0-9a-zA-Z]{8}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{4}\-[0-9a-zA-Z]{12}/;
+export const ID_REGEXP = /[0-9a-zA-Z-]{36,39}/;
 
 export const VALIDATION_FORM_TITLE = {
   noDataToSend: "Нет данных для отправки",

@@ -8,7 +8,7 @@ const FileContent = ({ name, content }) => (
       <Card key={`${name}${index}`}>
         {Object.entries(el).map(([label, value], index) => (
           <Row key={`${name}${index}`}>
-            <Cell>{label}:</Cell>
+            <Cell>{label.replace(/\./g, "")}</Cell>
             <Cell>
               <TextField
                 variant="outlined"

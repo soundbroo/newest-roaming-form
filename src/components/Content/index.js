@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Fade from "@material-ui/core/Fade";
 
 import RoamingState from "pages/RoamingState";
 
@@ -28,6 +29,7 @@ const Content = () => {
   const [query, setQuery] = useState(null);
   const [response, setResponse] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
+  const [transition, setTransition] = useState(false);
   const [message, color, open, delay, showSnackbar] = useSnackbar();
 
   const snackbarProps = {
@@ -58,6 +60,11 @@ const Content = () => {
   useEffect(() => {
     showSnackbar(TEMP_MESSAGE, statuses.info, true, 30000);
   }, []);
+
+  useEffect(() => {
+    setTransition(false);
+    setTimeout(() => setTransition(true), 0);
+  }, [activePage]);
 
   const renderContent = () => {
     switch (activePage) {
@@ -99,7 +106,15 @@ const Content = () => {
         activePage={activePage}
         setActivePage={setActivePage}
       >
-        <MainContent>{renderContent()}</MainContent>
+        <Fade
+          in={transition}
+          timeout={{
+            enter: 200,
+            exit: 0
+          }}
+        >
+          <MainContent>{renderContent()}</MainContent>
+        </Fade>
       </Navigation>
       <Snackbar {...snackbarProps} />
     </ContentWrapper>

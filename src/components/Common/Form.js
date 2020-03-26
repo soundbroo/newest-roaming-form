@@ -37,9 +37,9 @@ const Form = ({
     }
   }, [auth.sessionToken]);
 
-  useEffect(() => {
-    requestStatus && redirectToStatusCheck(requestStatus, setActivePage);
-  }, [requestStatus]);
+  // useEffect(() => {
+  //   requestStatus && redirectToStatusCheck(requestStatus, setActivePage);
+  // }, [requestStatus]);
 
   const axios = new AxiosService();
 
@@ -80,6 +80,7 @@ const Form = ({
 
   const [activeForm, setActiveForm] = useState(0);
   const [activeStep, setActiveStep] = useStepChanger(0);
+
   const defaultFiles = {
     sender_list: null,
     receiver_list: null,
@@ -219,6 +220,7 @@ const Form = ({
                       values={values}
                       errors={errors}
                       submitting={submitting}
+                      setNewPage={setNewPage}
                     />
                   </form>
                 </Stepper>

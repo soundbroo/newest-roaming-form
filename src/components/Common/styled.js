@@ -101,7 +101,7 @@ export const Cell = styled.div`
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
 `;
 
 export const Background = styled.div`
