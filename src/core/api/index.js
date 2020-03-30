@@ -7,18 +7,17 @@ class AxiosService {
     this.instance = axios.create({
       baseURL: setBaseUrl()
     });
+    this.instance.defaults.withCredentials = true;
     this.config = {
       json: {
         headers: {
           "Content-Type": "application/json"
-        },
-        withCredentials: true
+        }
       },
       multipart: {
         headers: {
           "Content-Type": "multipart/form-data"
-        },
-        withCredentials: true
+        }
       }
     };
 
@@ -28,6 +27,43 @@ class AxiosService {
 
     this.toJSONWithoutQuotes = value => {
       return this.toJSON(value).replace(/"/g, "");
+    };
+    // Добавляем префиксы операторов
+    this.setPrefix = (data, type, activePage) => {
+      if (data?.[type]) {
+        data[type] = data?.[type].map(el => {
+          const prefix = el?.id?.slice(0, 3);
+
+          switch (activePage) {
+            case 0: {
+              if (
+                type === "sender" &&
+                el?.id?.length === 36 &&
+                prefix !== ASTRAL_ID
+              )
+                return { ...el, id: `${ASTRAL_ID}${el.id}` };
+              if (type === "receiver") return { ...el };
+              return { ...el };
+            }
+            case 1: {
+              const operator = localStorage.getItem("operator");
+              if (
+                type === "sender" &&
+                el?.id?.length < 44 &&
+                prefix !== operator
+              ) {
+                return { ...el, id: `${operator}${el.id}` };
+              }
+              if (type === "receiver") {
+                if (el?.id?.length === 36 && prefix !== ASTRAL_ID) {
+                  return { ...el, id: `${ASTRAL_ID}${el.id}` };
+                }
+              }
+              return { ...el };
+            }
+          }
+        });
+      }
     };
 
     this.setFormData = ({ values, activePage, filesToReload }) => {
@@ -49,43 +85,7 @@ class AxiosService {
           });
         }
 
-        // Добавляем префиксы операторов
-
-        if (data?.[type]) {
-          data[type] = data?.[type].map(el => {
-            console.log(el, prefix);
-            const prefix = el?.id?.slice(0, 3);
-
-            switch (activePage) {
-              case 0: {
-                if (
-                  type === "sender" &&
-                  el?.id?.length === 36 &&
-                  prefix !== ASTRAL_ID
-                )
-                  return { ...el, id: `${ASTRAL_ID}${el.id}` };
-                if (type === "receiver") return { ...el };
-                return { ...el };
-              }
-              case 1: {
-                const operator = localStorage.getItem("operator");
-                if (
-                  type === "sender" &&
-                  el?.id?.length < 44 &&
-                  prefix !== operator
-                ) {
-                  return { ...el, id: `${operator}${el.id}` };
-                }
-                if (type === "receiver") {
-                  if (el?.id?.length === 36 && prefix !== ASTRAL_ID) {
-                    return { ...el, id: `${ASTRAL_ID}${el.id}` };
-                  }
-                }
-                return { ...el };
-              }
-            }
-          });
-        }
+        this.setPrefix(data, type, activePage);
       };
 
       if (!values?.sender_list) data.sender = values.sender;

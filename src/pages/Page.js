@@ -70,7 +70,7 @@ const Page = ({
   const renderSenderFieldArray = () => {
     if (!isFileLoaded("sender_list"))
       return (
-        <FieldArray key="sender" name="sender">
+        <FieldArray key={`${activePage}.sender`} name="sender">
           {({ fields }) =>
             fields.map((name, index) => (
               <FormFieldsWrapper
@@ -111,7 +111,7 @@ const Page = ({
   const renderReceiverFieldArray = () => {
     if (!isFileLoaded("receiver_list"))
       return (
-        <FieldArray key="receiver" name="receiver">
+        <FieldArray key={`${activePage}.receiver`} name="receiver">
           {({ fields }) =>
             fields.map((name, index) => (
               <FormFieldsWrapper
@@ -244,6 +244,22 @@ const Page = ({
       );
   };
 
+  const renderOpenModalButton = type => {
+    return (
+      <OpenModalButton
+        key={type}
+        name={type}
+        activePage={activePage}
+        values={values}
+        snackbarProps={snackbarProps}
+        content={content}
+        setContent={setContent}
+        formApi={formApi}
+        {...fileProps}
+      />
+    );
+  };
+
   switch (activeForm) {
     case 0: {
       return (
@@ -253,17 +269,7 @@ const Page = ({
             {activePage === 1 && (
               <FilesButtons>
                 {renderFilesButtons("sender_list")}
-                <OpenModalButton
-                  key="sender_list"
-                  name="sender_list"
-                  activePage={activePage}
-                  values={values}
-                  snackbarProps={snackbarProps}
-                  content={content}
-                  setContent={setContent}
-                  formApi={formApi}
-                  {...fileProps}
-                />
+                {renderOpenModalButton("sender_list")}
               </FilesButtons>
             )}
           </TypeDataTitle>
@@ -283,17 +289,7 @@ const Page = ({
             <Title>{typeDataTitle}</Title>
             <FilesButtons>
               {renderFilesButtons("receiver_list")}
-              <OpenModalButton
-                key="receiver_list"
-                name="receiver_list"
-                activePage={activePage}
-                values={values}
-                snackbarProps={snackbarProps}
-                content={content}
-                setContent={setContent}
-                formApi={formApi}
-                {...fileProps}
-              />
+              {renderOpenModalButton("receiver_list")}
             </FilesButtons>
           </TypeDataTitle>
           <Content>
@@ -315,6 +311,7 @@ const Page = ({
             key={3}
             activePage={activePage}
             values={values}
+            errors={errors}
             buttonProps={activeFormProps}
             fileProps={fileProps}
             response={response}

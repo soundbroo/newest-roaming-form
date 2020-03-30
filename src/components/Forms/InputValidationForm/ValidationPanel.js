@@ -3,9 +3,7 @@ import styled from "styled-components";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Card,
-  CardContent
+  ExpansionPanelDetails
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
@@ -15,13 +13,15 @@ import ErrorTooltipIcon from "components/Common/ErrorTooltipIcon";
 import {
   ExpansionPanelContent,
   ExpansionPanelItem,
-  Divider,
   TitleError
 } from "components/Common/styled";
 
 import { ASTRAL_ID } from "constants";
 
+import { debouncedAutoComplete } from "utils/autocomplete";
+import { effectInnChanges } from "utils/changeFieldsByInn";
 import { validate } from "utils/validate";
+import markErrors from "utils/markErrors";
 
 const ValidationPanel = ({
   agent,
@@ -30,6 +30,7 @@ const ValidationPanel = ({
   isFile,
   notification,
   data,
+  xlsData,
   operatorId,
   activePage,
   isResponse,
@@ -38,26 +39,24 @@ const ValidationPanel = ({
   responseErrors,
   isEntityInn,
   isOrganizationInn,
+  formErrors,
   formApi
 }) => {
   const fieldName =
     isResponse && isFile ? `${name}[${agentIndex}]` : `${agent}[${agentIndex}]`;
 
-  const changeFullname = (lastname, firstname, patronymic) => {
-    formApi.change(`${fieldName}.lastname`, lastname);
-    formApi.change(`${fieldName}.firstname`, firstname);
-    formApi.change(`${fieldName}.patronymic`, patronymic);
-  };
+  const inn = xlsData?.inn || data?.inn;
 
   useEffect(() => {
-    if (isEntityInn) {
-      formApi.change(`${fieldName}.kpp`, undefined);
-      formApi.change(`${fieldName}.name`, undefined);
-    }
+    debouncedAutoComplete(inn, formApi, fieldName);
+  }, [inn]);
 
-    if (isOrganizationInn) {
-      changeFullname(undefined, undefined, undefined);
-    }
+  useEffect(() => {
+    markErrors(formErrors, formApi);
+  }, [formErrors]);
+
+  useEffect(() => {
+    effectInnChanges(isEntityInn, isOrganizationInn, fieldName, formApi);
   }, [isEntityInn, isOrganizationInn]);
 
   const prepareErrors = () => {
@@ -75,8 +74,6 @@ const ValidationPanel = ({
   };
 
   const errors = prepareErrors();
-
-  console.log(errors);
 
   const renderTitle = () => {
     const renderTitleName = () => {

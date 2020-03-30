@@ -20,6 +20,7 @@ import { disableRules } from "utils/validate";
 
 const InputValidationForm = ({
   values,
+  errors,
   activePage,
   buttonProps,
   response,
@@ -144,6 +145,7 @@ const InputValidationForm = ({
               responseText={validationData?.[index].text}
               responseErrors={validationData?.[index].errors}
               formApi={formApi}
+              formErrors={errors}
               {...disableRules({ name: `${agent}[${index}]`, index, values })}
             />
           ))
@@ -161,11 +163,14 @@ const InputValidationForm = ({
                   saveXls(
                     filesToReload,
                     setFilesToReload,
+                    agent,
                     agentFileName,
                     content.header,
                     values.list,
                     fileSaverSwitcher,
-                    submitting
+                    submitting,
+                    response,
+                    activePage
                   );
 
                 const initialValues = values => {
@@ -189,7 +194,7 @@ const InputValidationForm = ({
                   if (!errors?.list?.length) {
                     return handleSaveXls();
                   } else return;
-                }, [errors, values, submitting]);
+                }, [errors, values]);
 
                 return (
                   <>
@@ -215,11 +220,13 @@ const InputValidationForm = ({
                           isFile={agentFile}
                           notification={notification}
                           data={validationData?.[index].input}
+                          xlsData={data}
                           operatorId={operatorId}
                           activePage={activePage}
                           processed={validationData?.[index].processed}
                           responseText={validationData?.[index].text}
                           responseErrors={validationData?.[index].errors}
+                          formErrors={errors}
                           formApi={xlsFormApi}
                           {...disableRules({
                             name: `${agent}[${index}]`,

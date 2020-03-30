@@ -53,17 +53,14 @@ const Form = ({
 
   const submit = values => {
     switch (activePage) {
-      case 0: {
-        {
-          return axios.abonent({
-            values,
-            activePage,
-            setRequestStatus,
-            setResponse,
-            filesToReload
-          });
-        }
-      }
+      case 0:
+        return axios.abonent({
+          values,
+          activePage,
+          setRequestStatus,
+          setResponse,
+          filesToReload
+        });
       case 1:
         return axios.operator({
           values,

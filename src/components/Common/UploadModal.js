@@ -48,6 +48,10 @@ const OpenModalButton = ({ name, files, ...rest }) => {
         <Button
           variant="outlined"
           color="primary"
+          disabled={
+            (name === "sender_list" && files.receiver_list) ||
+            (name === "receiver_list" && files.sender_list)
+          }
           startIcon={<AttachFileIcon />}
           onClick={handleChange}
         >

@@ -12,9 +12,12 @@ import IconError from "@material-ui/icons/Error";
 
 import { statuses } from "constants";
 
+import markErrors from "utils/markErrors";
+
 const StepperComponent = ({
   steps,
   activePage,
+  activeForm,
   setActiveForm,
   activeStep,
   setActiveStep,
@@ -46,6 +49,11 @@ const StepperComponent = ({
   const [completed, setCompleted] = useState(defaultCompleteState);
   const defaultStepErrors = { 0: null, 1: null, 2: false };
   const [stepErrors, setStepErrors] = useState(defaultStepErrors);
+  const defaultFormVisits = {
+    0: 0,
+    1: 0
+  };
+  const [formVisits, setFormVisits] = useState(defaultFormVisits);
 
   const restartForm = () => {
     setNewPage();
@@ -62,12 +70,25 @@ const StepperComponent = ({
 
   useEffect(() => {
     setInitialValues(emptyFormValues);
+    setFormVisits(defaultFormVisits);
   }, [activePage]);
 
   useEffect(() => {
     setActiveStep(0);
     setCompleted(defaultCompleteState);
   }, [steps, activePage]);
+
+  useEffect(() => {
+    if (formVisits[activeForm] > 0) {
+      markErrors(errors, formApi);
+    }
+    if (activeForm === 1) {
+      setFormVisits({ ...formVisits, 0: formVisits[0] + 1 });
+    }
+    if (activeForm === 0 && formVisits[activeForm] > 0) {
+      setFormVisits({ ...formVisits, 1: formVisits[1] + 1 });
+    }
+  }, [errors]);
 
   useEffect(() => {
     if (!isErrors) return setStepErrors({ ...stepErrors, [activeStep]: false });
