@@ -11,7 +11,7 @@ import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
 
 import { RECEIVER_LIST } from "constants/links";
 
-const UploadModal = ({ handleChange, activePage, ...rest }) => (
+const UploadModal = ({ handleChange, ...rest }) => (
   <Background onClick={handleChange}>
     <Wrapper onClick={e => e.stopPropagation()}>
       <Title>{UPLOAD_MODAL_CONTENT.title}</Title>

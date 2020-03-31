@@ -23,6 +23,10 @@ const UploadButtonAdapter = ({
   formApi,
   closeModal,
   title,
+  activePage,
+  agent,
+  filesToReload,
+  setFilesToReload,
   input: { value, onChange, name, ...input }
 }) => {
   const handleChange = uploaded => {
@@ -53,7 +57,11 @@ const UploadButtonAdapter = ({
         content,
         setContent,
         showSnackbar,
-        setXls
+        setXls,
+        activePage,
+        agent,
+        filesToReload,
+        setFilesToReload
       });
     } else if (
       name === "agreement" &&

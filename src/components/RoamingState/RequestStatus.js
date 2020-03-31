@@ -11,7 +11,7 @@ import {
 
 import InputField from "components/Fields/InputField";
 import IdentifierField from "components/Fields/IdentifierField";
-import { Wrapper } from "components/Common/styled";
+import { Wrapper, CheckFormContent } from "components/Common/styled";
 
 import { parse } from "utils/parse";
 
@@ -72,28 +72,32 @@ const RequestStatus = ({ status, response, input, setInput }) => {
             return (
               <form onSubmit={handleSubmit}>
                 <Title>Проверьте статус Вашего заявления</Title>
-                <FormContent>
-                  <IdentifierField
-                    size="small"
-                    variant="outlined"
-                    name="status"
-                    fieldType="id"
-                    parse={parse.id}
-                  />
-                  <InputField
-                    size="small"
-                    variant="outlined"
-                    name="status"
-                    fieldType="request_number"
-                  />
+                <CheckFormContent>
+                  <div>
+                    <IdentifierField
+                      size="small"
+                      variant="outlined"
+                      name="status"
+                      fieldType="id"
+                      parse={parse.id}
+                    />
+                  </div>
+                  <div>
+                    <InputField
+                      size="small"
+                      variant="outlined"
+                      name="status"
+                      fieldType="request_number"
+                    />
+                  </div>
                   <Button
                     onClick={handleSubmit}
                     variant="contained"
                     color="primary"
                   >
-                    Узнать статус
+                    Проверить
                   </Button>
-                </FormContent>
+                </CheckFormContent>
               </form>
             );
           }}
@@ -128,28 +132,6 @@ const Error = styled.div`
 
 const Content = styled(StepContent)`
   padding-left: 28px !important;
-`;
-
-const FormContent = styled.div`
-  display: flex;
-  flex: 1;
-  div:first-child {
-    flex: 6;
-  }
-  div:not(:first-child) {
-    flex: 4;
-  }
-  @media (max-width: 660px) {
-    flex-direction: column;
-  }
-  button {
-    height: 40px;
-    margin-right: 12px;
-    flex: 2;
-    @media (max-width: 660px) {
-      margin-right: 0;
-    }
-  }
 `;
 
 const Title = styled.div`

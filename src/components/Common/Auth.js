@@ -113,9 +113,12 @@ const Wrapper = styled(Paper)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 32px;
+  padding: 32px;
   width: 300px;
   min-height: 230px;
+  @media (max-width: 360px) {
+    padding: 9px;
+  }
 `;
 
 const LoginButton = styled(Button)`

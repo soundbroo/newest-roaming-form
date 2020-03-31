@@ -247,8 +247,9 @@ const Page = ({
   const renderOpenModalButton = type => {
     return (
       <OpenModalButton
-        key={type}
-        name={type}
+        key={`${type}_list`}
+        name={`${type}_list`}
+        agent={type}
         activePage={activePage}
         values={values}
         snackbarProps={snackbarProps}
@@ -269,7 +270,7 @@ const Page = ({
             {activePage === 1 && (
               <FilesButtons>
                 {renderFilesButtons("sender_list")}
-                {renderOpenModalButton("sender_list")}
+                {renderOpenModalButton("sender")}
               </FilesButtons>
             )}
           </TypeDataTitle>
@@ -289,7 +290,7 @@ const Page = ({
             <Title>{typeDataTitle}</Title>
             <FilesButtons>
               {renderFilesButtons("receiver_list")}
-              {renderOpenModalButton("receiver_list")}
+              {renderOpenModalButton("receiver")}
             </FilesButtons>
           </TypeDataTitle>
           <Content>

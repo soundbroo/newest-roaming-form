@@ -139,5 +139,6 @@ const MainContent = styled.div`
   @media (min-width: 660px) {
     height: calc(100vh - 82px);
     margin-top: 82px;
+    padding: 0px 24px;
   }
 `;

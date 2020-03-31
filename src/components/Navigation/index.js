@@ -53,6 +53,9 @@ const useStyles = makeStyles(theme => ({
     }),
     overflowX: "hidden",
     width: 64,
+    [theme.breakpoints.down("xs")]: {
+      width: 0
+    },
     paddingTop: 64
   },
   toolbar: {

@@ -25,19 +25,18 @@ const saveXls = (
 
     switch (activePage) {
       case 0: {
-        if (agent === "sender" && value.length === 36 && prefix !== ASTRAL_ID)
+        if (agent === "sender" && value?.length === 36 && prefix !== ASTRAL_ID)
           return `${ASTRAL_ID}${value}`;
         if (agent === "receiver") return value;
         return value;
       }
       case 1: {
-        console.log(agent, prefix, value);
         const operator = localStorage.getItem("operator");
-        if (agent === "sender" && value.length < 44 && prefix !== operator) {
+        if (agent === "sender" && value?.length < 44 && prefix !== operator) {
           return `${operator}${value}`;
         }
         if (agent === "receiver") {
-          if (value.length === 36 && prefix !== ASTRAL_ID) {
+          if (value?.length === 36 && prefix !== ASTRAL_ID) {
             return `${ASTRAL_ID}${value}`;
           }
         }
@@ -58,7 +57,7 @@ const saveXls = (
       value.patronymic
     ];
   });
-  console.log(data);
+
   data.unshift(header);
   const ws_data = data;
   const ws = XLSX.utils.aoa_to_sheet(ws_data);

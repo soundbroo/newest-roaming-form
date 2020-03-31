@@ -61,11 +61,12 @@ const StepperComponent = ({
     setActiveStep(0);
     setCompleted(defaultCompleteState);
     setStepErrors(defaultStepErrors);
+    setFormVisits(defaultFormVisits);
   };
 
   useEffect(() => {
-    if (response?.data?.status === 0 && response?.data?.text)
-      setTimeout(() => restartForm(), 1500);
+    if (response?.data?.status === 0 && response?.data?.text) restartForm();
+    // setTimeout(() => restartForm(), 1500);
   }, [response]);
 
   useEffect(() => {
@@ -254,7 +255,7 @@ const RestartButton = styled.div`
 
 const ContentWrapper = styled.div`
   top: 0;
-  width: inherit;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -272,6 +273,9 @@ const ButtonWrapper = styled.div`
 
   @media (max-width: 660px) {
     padding: 12px 0 0 0;
+  }
+  @media (max-width: 340px) {
+    padding: 0;
   }
 `;
 

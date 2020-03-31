@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
 import InputField from "components/Fields/InputField";
-import { Wrapper, Title } from "components/Common/styled";
+import { Wrapper, Title, CheckFormContent } from "components/Common/styled";
 
 import { parse } from "utils/parse";
 import { validate } from "utils/validate";
@@ -36,7 +36,11 @@ const ContragentsCheck = () => {
         Object.entries(abonent).map(([key, value], index) => (
           <div>
             <span>{TITLES_FOR_KEYS[key]}:</span>
-            <span>{value}</span>
+            <span>
+              {value === ""
+                ? `${TITLES_FOR_KEYS[key].toLowerCase()} не найден`
+                : value}
+            </span>
           </div>
         ))
       );
@@ -54,22 +58,26 @@ const ContragentsCheck = () => {
               <Title>
                 Проверьте, кто обменивается документами через АО «Калуга Астрал»
               </Title>
-              <FormContent>
-                <InputField
-                  name="contragents"
-                  variant="outlined"
-                  size="small"
-                  fieldType="inn"
-                  parse={parse.inn}
-                />
-                <InputField
-                  name="contragents"
-                  variant="outlined"
-                  size="small"
-                  fieldType="kpp"
-                  parse={parse.kpp}
-                  validate={validate.notRequiredKpp}
-                />
+              <CheckFormContent>
+                <div>
+                  <InputField
+                    name="contragents"
+                    variant="outlined"
+                    size="small"
+                    fieldType="inn"
+                    parse={parse.inn}
+                  />
+                </div>
+                <div>
+                  <InputField
+                    name="contragents"
+                    variant="outlined"
+                    size="small"
+                    fieldType="kpp"
+                    parse={parse.kpp}
+                    validate={validate.notRequiredKpp}
+                  />
+                </div>
                 <Button
                   variant="contained"
                   color="primary"
@@ -77,7 +85,7 @@ const ContragentsCheck = () => {
                 >
                   Проверить
                 </Button>
-              </FormContent>
+              </CheckFormContent>
             </form>
           );
         }}
@@ -94,18 +102,6 @@ const FormWrapper = styled(Wrapper)`
   flex-direction: column;
   margin: 0;
   padding-bottom: 28px;
-`;
-
-const FormContent = styled.div`
-  display: flex;
-  div {
-    flex: 1;
-    height: 40px;
-  }
-  button {
-    height: 40px;
-    margin-right: 12px;
-  }
 `;
 
 const Abonents = styled.div`

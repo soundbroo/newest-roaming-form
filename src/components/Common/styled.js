@@ -139,6 +139,42 @@ export const Wrapper = styled(Paper)`
   margin-bottom: 40px;
   padding: 12px;
   @media (max-width: 660px) {
-    margin-bottom: 9px;
+    margin: 9px 0;
+  }
+`;
+
+export const CheckFormContent = styled.div`
+  display: flex;
+  @media (max-width: 425px) {
+    flex-direction: column;
+    padding: 0 12px;
+  }
+  > div {
+    flex: 2;
+    margin: 0 6px;
+    @media (max-width: 425px) {
+      margin-bottom: 24px;
+    }
+
+    div {
+      flex: 1;
+      height: 40px;
+      @media (max-width: 425px) {
+        padding-left: 0;
+      }
+      label {
+        @media (max-width: 425px) {
+          margin: 0;
+        }
+      }
+    }
+  }
+  button {
+    height: 40px;
+    margin: 0 6px 0 12px;
+    flex: 1;
+    @media (max-width: 425px) {
+      margin: 0 6px;
+    }
   }
 `;
