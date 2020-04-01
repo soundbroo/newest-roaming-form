@@ -21,7 +21,8 @@ export const autoComplete = (inn, formApi, field) => {
 };
 
 export const debouncedAutoComplete = (inn, formApi, field) => {
-  if (inn?.length === 10 || inn?.length === 12) {
+  const getState = () => formApi && formApi.getState && formApi.getState();
+  if (getState()?.dirty && (inn?.length === 10 || inn?.length === 12)) {
     setTimeout(() => autoComplete(inn, formApi, field), 0);
   }
 };

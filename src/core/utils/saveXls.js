@@ -1,7 +1,7 @@
 import XLSX from "xlsx";
 import saveAs from "file-saver";
 
-import { ASTRAL_ID } from "constants";
+import setIdPrefix from "utils/autoPrefixer";
 
 const saveXls = (
   filesToReload,
@@ -20,33 +20,8 @@ const saveXls = (
   wb.SheetNames.push(type);
   let data = [];
 
-  const id = value => {
-    const prefix = value?.slice(0, 3);
-
-    switch (activePage) {
-      case 0: {
-        if (agent === "sender" && value?.length === 36 && prefix !== ASTRAL_ID)
-          return `${ASTRAL_ID}${value}`;
-        if (agent === "receiver") return value;
-        return value;
-      }
-      case 1: {
-        const operator = localStorage.getItem("operator");
-        if (agent === "sender" && value?.length < 44 && prefix !== operator) {
-          return `${operator}${value}`;
-        }
-        if (agent === "receiver") {
-          if (value?.length === 36 && prefix !== ASTRAL_ID) {
-            return `${ASTRAL_ID}${value}`;
-          }
-        }
-        return value;
-      }
-    }
-  };
-
   values.forEach((value, index) => {
-    const idValue = id(value.id);
+    const idValue = setIdPrefix(value.id, agent, activePage);
     data[index] = [
       value.name,
       value.inn,

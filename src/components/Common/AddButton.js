@@ -4,7 +4,15 @@ import Button from "@material-ui/core/Button";
 
 import { MESSAGES, MAX_NUMBER_OF_FORMS, statuses } from "constants";
 
-const AddButton = ({ type, push, values, errors, showSnackbar, disabled }) => {
+const AddButton = ({
+  type,
+  push,
+  values,
+  errors,
+  files,
+  showSnackbar,
+  disabled
+}) => {
   const handleClick = () => {
     const errorKeys = Object.keys(errors);
     if (
@@ -22,7 +30,12 @@ const AddButton = ({ type, push, values, errors, showSnackbar, disabled }) => {
         variant="outlined"
         color="primary"
         onClick={handleClick}
-        disabled={values?.[type].length >= MAX_NUMBER_OF_FORMS || disabled}
+        disabled={
+          (type === "sender" && files.receiver_list) ||
+          (type === "receiver" && files.sender_list) ||
+          values?.[type].length >= MAX_NUMBER_OF_FORMS ||
+          disabled
+        }
       >
         Добавить контрагента
       </Button>

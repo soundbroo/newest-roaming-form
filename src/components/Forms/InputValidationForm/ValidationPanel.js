@@ -122,23 +122,50 @@ const ValidationPanel = ({
   };
 
   const renderField = (key, index, isFile) => {
+    const fieldProps = type => {
+      return {
+        disabled: !responseText && processed,
+        error: (!notification && errors?.[type]) || null,
+        InputLabelProps: !notification &&
+          errors?.[type] && {
+            error: true
+          },
+        name: fieldName,
+        fieldType: type,
+        size: "small"
+      };
+    };
+
     const getField = ({ type, ...rest }) => {
       return (
         <ExpansionPanelItem key={`${agent}.${type}[${index}]`}>
           <ItemWrapper>
             <Item isFile={isFile}>
-              <InputField
-                disabled={!responseText && processed}
-                InputLabelProps={
-                  !notification &&
-                  errors?.[type] && {
-                    error: true
-                  }
+              <InputField {...fieldProps(type)} {...rest} />
+            </Item>
+          </ItemWrapper>
+        </ExpansionPanelItem>
+      );
+    };
+
+    const getIdField = ({ type, ...rest }) => {
+      const getInputAdornment = () => {
+        if (activePage === 1 && agent === "sender") return operatorId;
+        return ASTRAL_ID;
+      };
+      return (
+        <ExpansionPanelItem key={`${agent}.${type}[${index}]`}>
+          <ItemWrapper>
+            <Item isFile={isFile}>
+              <IdentifierField
+                inputAdornment={getInputAdornment()}
+                disableValidation={
+                  activePage === 1 && agent === "receiver" ? true : false
                 }
-                error={(!notification && errors?.[type]) || null}
-                name={fieldName}
-                fieldType={type || [key]}
-                size="small"
+                parseOperator={
+                  activePage === 1 && agent === "sender" ? true : false
+                }
+                {...fieldProps(type)}
                 {...rest}
               />
             </Item>
@@ -171,37 +198,7 @@ const ValidationPanel = ({
           </>
         );
       case "id":
-        const getInputAdornment = () => {
-          if (activePage === 1 && agent === "sender") return operatorId;
-          return ASTRAL_ID;
-        };
-        return (
-          <ExpansionPanelItem key={`${agent}.${key}[${index}]`}>
-            <ItemWrapper>
-              <Item isFile={isFile}>
-                <IdentifierField
-                  disabled={!responseText && processed}
-                  InputLabelProps={
-                    !notification &&
-                    errors?.[key] && {
-                      error: true
-                    }
-                  }
-                  error={(!notification && errors?.[key]) || null}
-                  inputAdornment={getInputAdornment()}
-                  disableValidation={
-                    activePage === 1 && agent === "receiver" ? true : false
-                  }
-                  parseOperator={
-                    activePage === 1 && agent === "sender" ? true : false
-                  }
-                  name={fieldName}
-                  size="small"
-                />
-              </Item>
-            </ItemWrapper>
-          </ExpansionPanelItem>
-        );
+        return getIdField({ type: [key] });
       case "kpp":
       case "name":
       case "lastname":
@@ -281,12 +278,23 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${p => (p.isFile ? "flex-start" : "flex-end")};
+  align-items: "flex-end";
   position: absolute;
   top: 10px;
   width: 100%;
   div {
     padding-right: 0;
+    padding-left: 0;
+    label {
+      margin-left: 0;
+    }
+    div {
+      div {
+        p {
+          margin-bottom: 3px;
+        }
+      }
+    }
   }
 
   @media (max-width: 660px) {

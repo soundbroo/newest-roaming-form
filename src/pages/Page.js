@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FieldArray } from "react-final-form-arrays";
 
@@ -8,6 +8,7 @@ import FileContent from "components/Common/FileContent";
 import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
 import SelectedFileChip from "components/Common/SelectedFileChip";
+import Loader from "components/Common/Loader";
 import Link from "components/Common/Link";
 import { Content } from "components/Common/styled";
 import UploadField from "components/Fields/UploadField";
@@ -57,6 +58,7 @@ const Page = ({
   const isFileLoaded = name => Boolean(fileProps.files?.[name]);
 
   const [content, setContent] = useFileContent();
+  const [loading, setLoading] = useState(false);
 
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
@@ -195,6 +197,7 @@ const Page = ({
           errors={errors}
           push={push}
           values={values}
+          files={fileProps.files}
           {...snackbarProps}
         />
       );
@@ -252,10 +255,12 @@ const Page = ({
         agent={type}
         activePage={activePage}
         values={values}
-        snackbarProps={snackbarProps}
+        showSnackbar={snackbarProps.showSnackbar}
         content={content}
         setContent={setContent}
         formApi={formApi}
+        loading={loading}
+        setLoading={setLoading}
         {...fileProps}
       />
     );
@@ -274,12 +279,16 @@ const Page = ({
               </FilesButtons>
             )}
           </TypeDataTitle>
-          <Content>
-            <WrappedFieldsRows components={[renderRequestIdField()]} />
-            {renderSenderFieldArray()}
-            {renderFileContent("sender_list")}
-            {renderAddButton("sender")}
-          </Content>
+          {!loading ? (
+            <Content>
+              <WrappedFieldsRows components={[renderRequestIdField()]} />
+              {renderSenderFieldArray()}
+              {renderFileContent("sender_list")}
+              {renderAddButton("sender")}
+            </Content>
+          ) : (
+            <Loader />
+          )}
         </PageWrapper>
       );
     }
@@ -293,13 +302,17 @@ const Page = ({
               {renderOpenModalButton("receiver")}
             </FilesButtons>
           </TypeDataTitle>
-          <Content>
-            <WrappedFieldsRows components={[renderOperatorSelectField()]} />
-            {renderAgreementFiled()}
-            {renderReceiverFieldArray()}
-            {renderFileContent("receiver_list")}
-            {renderAddButton("receiver")}
-          </Content>
+          {!loading ? (
+            <Content>
+              <WrappedFieldsRows components={[renderOperatorSelectField()]} />
+              {renderAgreementFiled()}
+              {renderReceiverFieldArray()}
+              {renderFileContent("receiver_list")}
+              {renderAddButton("receiver")}
+            </Content>
+          ) : (
+            <Loader />
+          )}
         </PageWrapper>
       );
     case 2:

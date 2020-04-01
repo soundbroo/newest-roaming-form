@@ -52,6 +52,7 @@ const InputValidationForm = ({
     return unsubscribe;
   };
 
+  // Модалка авторизации на случай, если sessionToken окажется невалидным
   const [Modal, isModal, setIsModal] = useModal({
     component: Auth,
     auth,
@@ -77,6 +78,8 @@ const InputValidationForm = ({
     if (auth.refresh === true) setIsModal(!isModal);
   }, [auth.refresh]);
 
+  // Увидеть этот компонент вероятность крайне мала,
+  // по историческим причинам на всякий случай оставлен
   const renderError = () => {
     const {
       noDataToSend,
@@ -158,7 +161,7 @@ const InputValidationForm = ({
               }}
               validateOnBlur={true}
               decorators={[bindFormApi]}
-              render={({ handleSubmit, values, errors, pristine }) => {
+              render={({ handleSubmit, values, errors }) => {
                 const handleSaveXls = () =>
                   saveXls(
                     filesToReload,

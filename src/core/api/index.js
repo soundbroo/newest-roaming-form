@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setBaseUrl } from "utils/setBaseUrl";
-import { ASTRAL_ID } from "constants";
+import setIdPrefix from "utils/autoPrefixer";
 
 class AxiosService {
   constructor() {
@@ -32,40 +32,14 @@ class AxiosService {
     this.setPrefix = (data, type, activePage) => {
       if (data?.[type]) {
         data[type] = data?.[type].map(el => {
-          const prefix = el?.id?.slice(0, 3);
-
-          switch (activePage) {
-            case 0: {
-              if (
-                type === "sender" &&
-                el?.id?.length === 36 &&
-                prefix !== ASTRAL_ID
-              )
-                return { ...el, id: `${ASTRAL_ID}${el.id}` };
-              if (type === "receiver") return { ...el };
-              return { ...el };
-            }
-            case 1: {
-              const operator = localStorage.getItem("operator");
-              if (
-                type === "sender" &&
-                el?.id?.length < 44 &&
-                prefix !== operator
-              ) {
-                return { ...el, id: `${operator}${el.id}` };
-              }
-              if (type === "receiver") {
-                if (el?.id?.length === 36 && prefix !== ASTRAL_ID) {
-                  return { ...el, id: `${ASTRAL_ID}${el.id}` };
-                }
-              }
-              return { ...el };
-            }
+          if (el?.id) {
+            const id = setIdPrefix(el.id, type, activePage);
+            return { ...el, id: id };
           }
         });
       }
     };
-
+    // Формируем тело запроса
     this.setFormData = ({ values, activePage, filesToReload }) => {
       const formData = new FormData();
       const data = {};

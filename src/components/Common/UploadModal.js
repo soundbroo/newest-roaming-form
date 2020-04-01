@@ -7,11 +7,22 @@ import { Background, Divider } from "components/Common/styled";
 import DownloadButton from "components/Common/DownloadButton";
 import UploadField from "components/Fields/UploadField";
 
-import { UPLOAD_MODAL_CONTENT, BUTTON_TITLES } from "constants";
+import {
+  UPLOAD_MODAL_CONTENT,
+  BUTTON_TITLES,
+  MESSAGES,
+  statuses
+} from "constants";
 
 import { RECEIVER_LIST } from "constants/links";
 
-const UploadModal = ({ handleChange, ...rest }) => (
+const UploadModal = ({
+  handleChange,
+  values,
+  showSnackbar,
+  agent,
+  ...rest
+}) => (
   <Background onClick={handleChange}>
     <Wrapper onClick={e => e.stopPropagation()}>
       <Title>{UPLOAD_MODAL_CONTENT.title}</Title>
@@ -23,6 +34,9 @@ const UploadModal = ({ handleChange, ...rest }) => (
         <UploadField
           closeModal={handleChange}
           title={BUTTON_TITLES.pickFile}
+          values={values}
+          showSnackbar={showSnackbar}
+          agent={agent}
           {...rest}
         />
       </Content>
@@ -30,9 +44,29 @@ const UploadModal = ({ handleChange, ...rest }) => (
   </Background>
 );
 
-const OpenModalButton = ({ name, files, ...rest }) => {
+const OpenModalButton = ({
+  name,
+  files,
+  values,
+  showSnackbar,
+  agent,
+  ...rest
+}) => {
   const [isModal, setIsModal] = useState(false);
-  const handleChange = () => setIsModal(!isModal);
+  const handleChange = () => {
+    if (
+      (agent === "sender" && values?.receiver?.length > 1) ||
+      (agent === "receiver" && values?.sender?.length > 1)
+    ) {
+      return showSnackbar(
+        MESSAGES.tooMuchContragents,
+        statuses.error,
+        true,
+        null
+      );
+    }
+    return setIsModal(!isModal);
+  };
 
   return (
     <>
@@ -41,6 +75,9 @@ const OpenModalButton = ({ name, files, ...rest }) => {
           name={name}
           handleChange={handleChange}
           files={files}
+          values={values}
+          showSnackbar={showSnackbar}
+          agent={agent}
           {...rest}
         />
       ) : null}

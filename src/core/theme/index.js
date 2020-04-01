@@ -75,6 +75,11 @@ export const muiTheme = createMuiTheme({
         marginLeft: 8
       }
     },
+    MuiAlert: {
+      root: {
+        alignItems: "center"
+      }
+    },
     MuiExpansionPanelDetails: {
       root: {
         padding: "8px 24px"

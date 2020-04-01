@@ -5,7 +5,6 @@ export const changeFullname = (
   field,
   formApi
 ) => {
-  console.log("CHANGE");
   formApi.change(`${field}.lastname`, lastname);
   formApi.change(`${field}.firstname`, firstname);
   formApi.change(`${field}.patronymic`, patronymic);
@@ -17,7 +16,6 @@ export const effectInnChanges = (
   field,
   formApi
 ) => {
-  console.log(field);
   if (isEntityInn) {
     formApi.change(`${field}.kpp`, undefined);
     formApi.change(`${field}.name`, undefined);

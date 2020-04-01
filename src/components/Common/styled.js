@@ -31,6 +31,9 @@ export const ExpansionPanelItem = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  :last-child {
+    margin-bottom: 6px;
+  }
 `;
 
 export const Divider = styled.hr`

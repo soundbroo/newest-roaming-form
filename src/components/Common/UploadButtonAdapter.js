@@ -15,12 +15,14 @@ import {
 
 const UploadButtonAdapter = ({
   values,
-  snackbarProps: { showSnackbar },
+  showSnackbar,
   files,
   setFiles,
   content,
   setContent,
   formApi,
+  loading,
+  setLoading,
   closeModal,
   title,
   activePage,
@@ -61,7 +63,9 @@ const UploadButtonAdapter = ({
         activePage,
         agent,
         filesToReload,
-        setFilesToReload
+        setFilesToReload,
+        loading,
+        setLoading
       });
     } else if (
       name === "agreement" &&

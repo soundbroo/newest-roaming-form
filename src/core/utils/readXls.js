@@ -2,9 +2,15 @@ import XLSX from "xlsx";
 
 import saveXls from "utils/saveXls";
 
-import { MAX_NUMBER_OF_FORMS, MESSAGES, statuses } from "constants";
+import {
+  MAX_NUMBER_OF_FORMS,
+  MESSAGES,
+  TEMPLATE_KEYS,
+  statuses
+} from "constants";
 
-import { ASTRAL_ID } from "constants";
+import setIdPrefix from "utils/autoPrefixer";
+
 const readXls = ({
   file,
   name,
@@ -15,8 +21,11 @@ const readXls = ({
   activePage,
   agent,
   filesToReload,
-  setFilesToReload
+  setFilesToReload,
+  loading,
+  setLoading
 }) => {
+  setLoading(true);
   const reader = new FileReader();
 
   reader.onload = e => {
@@ -28,60 +37,64 @@ const readXls = ({
     const ws = wb.Sheets[wsname];
     const wsData = XLSX.utils.sheet_to_json(ws);
 
-    const id = value => {
-      const prefix = value?.slice(0, 3);
-
-      switch (activePage) {
-        case 0: {
-          if (agent === "sender" && value.length === 36 && prefix !== ASTRAL_ID)
-            return `${ASTRAL_ID}${value}`;
-          if (agent === "receiver") return value;
-          return value;
-        }
-        case 1: {
-          const operator = localStorage.getItem("operator");
-          if (agent === "sender" && value.length < 44 && prefix !== operator) {
-            return `${operator}${value}`;
-          }
-          if (agent === "receiver") {
-            if (value.length === 36 && prefix !== ASTRAL_ID) {
-              return `${ASTRAL_ID}${value}`;
-            }
-          }
-          return value;
-        }
-      }
+    const showError = message => {
+      showSnackbar(message, statuses.error, true, null);
+      return setLoading(false);
     };
 
+    if (wsData.length === 0) {
+      return showError(MESSAGES.emptyXlsx);
+    }
+
+    // Добавляем префиксы, которые будут отрендерены при загрузке xlsx
     const data = wsData.map(row => {
       if (row["ИД ЭДО"]) {
-        return { ...row, ["ИД ЭДО"]: id(row["ИД ЭДО"]) };
+        return {
+          ...row,
+          ["ИД ЭДО"]: setIdPrefix(row["ИД ЭДО"], agent, activePage)
+        };
       }
       return row;
     });
 
+    // Готовим объект для перезаписи xlsx, чтобы при первой
+    // отправке добавленные префиксы отправились в измененном xlsx
     const xls = data.map(el => {
+      const {
+        name,
+        inn,
+        kpp,
+        id,
+        lastname,
+        firstname,
+        patronymic
+      } = TEMPLATE_KEYS;
       let newEl = {};
       for (let key in el) {
         switch (key) {
-          case "Краткое наименование организации":
-            newEl.name = el["Краткое наименование организации"];
-          case "ИНН":
-            newEl.inn = el["ИНН"];
-          case "КПП":
-            newEl.kpp = el["КПП"];
-          case "ИД ЭДО":
-            newEl.id = el["ИД ЭДО"];
-          case "Фамилия":
-            newEl.lastname = el["Фамилия"];
-          case "Имя":
-            newEl.firstname = el["Имя"];
-          case "Отчество":
-            newEl.patronymic = el["Отчество"];
+          case name:
+            newEl.name = el[name];
+          case inn:
+            newEl.inn = el[inn];
+          case kpp:
+            newEl.kpp = el[kpp];
+          case id:
+            newEl.id = el[id];
+          case lastname:
+            newEl.lastname = el[lastname];
+          case firstname:
+            newEl.firstname = el[firstname];
+          case patronymic:
+            newEl.patronymic = el[patronymic];
         }
         return newEl;
       }
     });
+
+    if (xls.some(el => Object.keys(el).length === 0)) {
+      console.log(xls);
+      return showError(MESSAGES.invalidXlsx);
+    }
 
     const agentFileName = `${agent}_list`;
 
@@ -119,6 +132,7 @@ const readXls = ({
       });
       setXls();
     }
+    setLoading(false);
   };
 
   reader.readAsBinaryString(file);
