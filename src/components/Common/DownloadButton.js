@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 const DownloadButton = ({ handleChange, link }) => (
   <Button
     variant="outlined"
     color="primary"
-    startIcon={<AttachFileIcon />}
+    startIcon={<GetAppIcon />}
     onClick={handleChange}
   >
     <Link href={link}>Загрузить шаблон</Link>

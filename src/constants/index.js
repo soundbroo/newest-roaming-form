@@ -191,11 +191,28 @@ export const MESSAGES = {
     "Невозможно прочитать файл. Убедитесь, что вы используете правильный шаблон и повторите попытку."
 };
 
+export const ACCEPT_POPOVER_MESSAGES = {
+  message:
+    "Вы действительно хотите сменить вкладку? Все введенные данные будут удалены.",
+  dontShowAgain: "Больше не спрашивать"
+};
+
+export const OPERATOR_STATE_MESSAGES = {
+  notFound: "Оператор с таким названием не найден",
+  title: "Поиск по операторам"
+};
+
 export const statuses = {
   success: "success",
   info: "info",
   warning: "warning",
   error: "error"
+};
+
+export const AUTH_STATUSES = {
+  wrongLoginOrPassword: "Неверный логин или пароль",
+  emptyLogin: "Недопустим пустой логин",
+  emptyPassword: "Недопустим пустой пароль"
 };
 
 export const CATEGORIES = {
@@ -206,7 +223,7 @@ export const CATEGORIES = {
   software: "Доработка ПО, тестирование обмена"
 };
 
-export const rows = [
+export const OPERATOR_STATE_DATA = [
   {
     name: "ДИРЕКТУМ (Synerdocs)",
     cat: CATEGORIES.industrial,

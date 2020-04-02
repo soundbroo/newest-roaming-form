@@ -138,6 +138,7 @@ export const TitleError = styled.div`
 
 export const Wrapper = styled(Paper)`
   max-width: 1000px;
+  min-width: 290px;
   width: 100%;
   margin-bottom: 40px;
   padding: 12px;
@@ -154,9 +155,9 @@ export const CheckFormContent = styled.div`
   }
   > div {
     flex: 2;
-    margin: 0 6px;
+    margin-right: 6px;
     @media (max-width: 425px) {
-      margin-bottom: 24px;
+      margin: 0 6px 24px 6px;
     }
 
     div {

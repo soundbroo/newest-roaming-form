@@ -92,8 +92,8 @@ class AxiosService {
 
   auth = async data => {
     const formData = new FormData();
-    formData.append("login", this.toJSONWithoutQuotes(data.login));
-    formData.append("password", this.toJSONWithoutQuotes(data.password));
+    formData.append("login", this.toJSONWithoutQuotes(data.login.trim()));
+    formData.append("password", this.toJSONWithoutQuotes(data.password.trim()));
     try {
       const result = await this.instance.post(
         "/auth",

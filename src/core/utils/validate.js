@@ -1,7 +1,6 @@
 import { INN_LENGTH, KPP_REGEXP, ID_REGEXP, EMAIL_REGEXP } from "constants";
 
 const requiredField = "Обязательное поле";
-const maxLength = "Достигнуто максимальное количество символов";
 
 export const required = value => (value ? undefined : requiredField);
 

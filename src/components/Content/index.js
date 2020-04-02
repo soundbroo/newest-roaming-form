@@ -133,6 +133,9 @@ const MainContent = styled.div`
   flex-direction: column;
   align-items: center;
   @media (max-width: 660px) {
+    min-width: 100vw;
+  }
+  @media (max-width: 660px) {
     height: calc(100vh - 60px);
     margin-top: 60px;
   }

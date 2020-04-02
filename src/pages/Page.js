@@ -33,6 +33,9 @@ import {
 
 import { required, disableRules } from "utils/validate";
 
+// Логика рендера компонентов на всех трех шагах для
+// обеих форм - Клиентам и Операторам
+
 const Page = ({
   formApi,
   snackbarProps,

@@ -4,7 +4,7 @@ import { Paper, TextField, Button } from "@material-ui/core";
 
 import { Title } from "components/Common/styled";
 
-import { MESSAGES, statuses } from "constants";
+import { MESSAGES, AUTH_STATUSES, statuses } from "constants";
 
 import AxiosService from "api";
 
@@ -31,18 +31,19 @@ const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
 
   const handleLogin = async () => {
     const { status, text } = await axios.auth(data);
+    const { wrongLoginOrPassword, emptyLogin, emptyPassword } = AUTH_STATUSES;
 
     if (status === 401 || status === 400) {
-      if (text === "Неверный логин или пароль") {
+      if (text === wrongLoginOrPassword) {
         setErrors({ ...errors, login: true, password: true });
         showSnackbar(text, statuses.error, true, null);
         setData({ ...data, ...defaultData });
       }
-      if (text === "Недопустим пустой логин") {
+      if (text === emptyLogin) {
         setErrors({ ...errors, login: text });
         setData({ ...data, login: "" });
       }
-      if (text === "Недопустим пустой пароль") {
+      if (text === emptyPassword) {
         setErrors({ ...errors, password: text });
         setData({ ...data, password: "" });
       }

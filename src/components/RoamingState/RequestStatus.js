@@ -103,16 +103,18 @@ const RequestStatus = ({ status, response, input, setInput }) => {
           }}
         />
         {activeStep === -1 && input && <Error>{error}</Error>}
-        <Stepper activeStep={activeStep} orientation="vertical">
-          {steps.map((label, index) => (
-            <Step key={label}>
-              <Label>{label}</Label>
-              <Content>
-                <div>{getStepContent(index, text)}</div>
-              </Content>
-            </Step>
-          ))}
-        </Stepper>
+        <StepperContainer>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <Label>{label}</Label>
+                <Content>
+                  <div>{getStepContent(index, text)}</div>
+                </Content>
+              </Step>
+            ))}
+          </Stepper>
+        </StepperContainer>
       </Wrapper>
     </>
   );
@@ -132,6 +134,12 @@ const Error = styled.div`
 
 const Content = styled(StepContent)`
   padding-left: 28px !important;
+`;
+
+const StepperContainer = styled.div`
+  @media (max-width: 425px) {
+    padding-left: 6px;
+  }
 `;
 
 const Title = styled.div`

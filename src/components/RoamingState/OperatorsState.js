@@ -15,7 +15,11 @@ import {
 } from "@material-ui/core";
 import FindInPageRoundedIcon from "@material-ui/icons/FindInPageRounded";
 
-import { CATEGORIES, rows } from "constants";
+import {
+  CATEGORIES,
+  OPERATOR_STATE_MESSAGES,
+  OPERATOR_STATE_DATA
+} from "constants";
 
 const Search = ({ search, setSearch }) => {
   const handleSearch = event => {
@@ -25,7 +29,7 @@ const Search = ({ search, setSearch }) => {
     <Input
       InputLabelProps={{ shrink: true }}
       size="small"
-      label="Поиск по операторам"
+      label={OPERATOR_STATE_MESSAGES.title}
       autoFocus
       value={search}
       onChange={handleSearch}
@@ -60,13 +64,13 @@ const OperatorsState = () => {
   const [category, setCategory] = useState(CATEGORIES.all);
   const [search, setSearch] = useState("");
 
-  const filteredRows = rows
-    .filter(row => row.name.toUpperCase().includes(search.toUpperCase()))
-    .filter(row => {
-      if (category === CATEGORIES.all) {
-        return row;
-      } else return row.cat === category;
-    });
+  const filteredRows = OPERATOR_STATE_DATA.filter(row =>
+    row.name.toUpperCase().includes(search.toUpperCase())
+  ).filter(row => {
+    if (category === CATEGORIES.all) {
+      return row;
+    } else return row.cat === category;
+  });
 
   const renderRows = () => {
     if (filteredRows.length) {
@@ -95,7 +99,7 @@ const OperatorsState = () => {
         <Cell colSpan={3}>
           <Nothing>
             <FindInPageRoundedIcon />
-            <div>Оператор с таким названием не найден</div>
+            <div>{OPERATOR_STATE_MESSAGES.notFound}</div>
           </Nothing>
         </Cell>
       </TableRow>

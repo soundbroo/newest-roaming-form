@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Popover, FormControlLabel, Checkbox, Button } from "@material-ui/core";
 
+import { ACCEPT_POPOVER_MESSAGES } from "constants";
+
 const AcceptPopover = ({
   popoverAnchorEl,
   handlePopoverClose,
@@ -33,11 +35,7 @@ const AcceptPopover = ({
         }}
       >
         <Content>
-          <div>
-            Вы действительно хотите сменить вкладку? Все введенные данные будут
-            удалены.
-          </div>
-
+          <div>{ACCEPT_POPOVER_MESSAGES.message}</div>
           <FormControlLabel
             control={
               <Checkbox
@@ -46,7 +44,7 @@ const AcceptPopover = ({
                 name="popover"
               />
             }
-            label="Больше не спрашивать"
+            label={ACCEPT_POPOVER_MESSAGES.dontShowAgain}
           />
           <Buttons>
             <Button

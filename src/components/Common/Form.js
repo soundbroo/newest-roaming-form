@@ -12,8 +12,6 @@ import Stepper from "components/Common/Stepper";
 
 import { FORM_TITLES } from "constants";
 
-import { redirectToStatusCheck } from "utils/redirect";
-
 import AxiosService from "api";
 
 const Form = ({
@@ -36,10 +34,6 @@ const Form = ({
       document.cookie = auth.sessionToken;
     }
   }, [auth.sessionToken]);
-
-  // useEffect(() => {
-  //   requestStatus && redirectToStatusCheck(requestStatus, setActivePage);
-  // }, [requestStatus]);
 
   const axios = new AxiosService();
 
