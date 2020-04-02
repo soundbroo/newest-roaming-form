@@ -92,7 +92,6 @@ const readXls = ({
     });
 
     if (xls.some(el => Object.keys(el).length === 0)) {
-      console.log(xls);
       return showError(MESSAGES.invalidXlsx);
     }
 

@@ -159,7 +159,6 @@ const InputValidationForm = ({
               initialValues={{
                 list: initialValues
               }}
-              validateOnBlur={true}
               decorators={[bindFormApi]}
               render={({ handleSubmit, values, errors }) => {
                 const handleSaveXls = () =>

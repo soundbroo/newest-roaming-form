@@ -68,7 +68,7 @@ const RequestStatus = ({ status, response, input, setInput }) => {
         <Form
           initialValues={{}}
           onSubmit={setInput}
-          render={({ handleSubmit, submitting, values }) => {
+          render={({ handleSubmit }) => {
             return (
               <form onSubmit={handleSubmit}>
                 <Title>Проверьте статус Вашего заявления</Title>
@@ -78,7 +78,6 @@ const RequestStatus = ({ status, response, input, setInput }) => {
                       size="small"
                       variant="outlined"
                       name="status"
-                      fieldType="id"
                       parse={parse.id}
                     />
                   </div>

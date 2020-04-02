@@ -186,7 +186,7 @@ const Navigation = ({
       >
         <List>
           {menuItems.map((text, index) => (
-            <ToolTip title={!open ? text : ""}>
+            <ToolTip key={index} title={!open ? text : ""}>
               <MenuItem
                 button
                 id={text}

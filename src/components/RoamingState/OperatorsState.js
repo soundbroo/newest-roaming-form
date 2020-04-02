@@ -79,7 +79,7 @@ const OperatorsState = () => {
           <LabelCell component="th" scope="row">
             {row.name}
           </LabelCell>
-          <Cell category align="left">
+          <Cell catcell="true" align="left">
             {row.cat}
           </Cell>
           <Tooltip title={`${row.status}%`} placement="left">
@@ -137,7 +137,7 @@ const Container = styled(TableContainer)`
 const Cell = styled(TableCell)`
   @media (max-width: 660px) {
     ${p =>
-      p.category &&
+      p.catcell &&
       css`
         font-size: 0 !important;
         padding: 0 !important;

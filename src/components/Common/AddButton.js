@@ -24,18 +24,21 @@ const AddButton = ({
     showSnackbar(MESSAGES.addClient, statuses.error, true, null);
   };
 
+  const disableRules = () => {
+    if (type === "sender" && files.receiver_list) return true;
+    if (type === "receiver" && files.sender_list) return true;
+    if (values?.[type].length >= MAX_NUMBER_OF_FORMS) return true;
+    if (disabled) return true;
+    return false;
+  };
+
   return (
     <ButtonWrapper>
       <Button
         variant="outlined"
         color="primary"
         onClick={handleClick}
-        disabled={
-          (type === "sender" && files.receiver_list) ||
-          (type === "receiver" && files.sender_list) ||
-          values?.[type].length >= MAX_NUMBER_OF_FORMS ||
-          disabled
-        }
+        disabled={disableRules()}
       >
         Добавить контрагента
       </Button>

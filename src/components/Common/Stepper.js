@@ -66,7 +66,6 @@ const StepperComponent = ({
 
   useEffect(() => {
     if (response?.data?.status === 0 && response?.data?.text) restartForm();
-    // setTimeout(() => restartForm(), 1500);
   }, [response]);
 
   useEffect(() => {
@@ -177,9 +176,11 @@ const StepperComponent = ({
                 error={showErrors(index)}
                 completed={completed[index]}
                 StepIconProps={
-                  showErrors(index) && {
-                    icon: <ErrorIcon />
-                  }
+                  showErrors(index)
+                    ? {
+                        icon: <ErrorIcon />
+                      }
+                    : undefined
                 }
               >
                 {label}

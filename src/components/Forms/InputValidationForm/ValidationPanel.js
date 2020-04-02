@@ -122,16 +122,20 @@ const ValidationPanel = ({
   };
 
   const renderField = (key, index, isFile) => {
+    const getLabelProps = type => {
+      if (!notification && errors?.[type]) {
+        return {
+          error: true
+        };
+      }
+      return undefined;
+    };
     const fieldProps = type => {
       return {
         disabled: !responseText && processed,
         error: (!notification && errors?.[type]) || null,
-        InputLabelProps: !notification &&
-          errors?.[type] && {
-            error: true
-          },
+        InputLabelProps: getLabelProps(type),
         name: fieldName,
-        fieldType: type,
         size: "small"
       };
     };
@@ -141,7 +145,7 @@ const ValidationPanel = ({
         <ExpansionPanelItem key={`${agent}.${type}[${index}]`}>
           <ItemWrapper>
             <Item isFile={isFile}>
-              <InputField {...fieldProps(type)} {...rest} />
+              <InputField {...fieldProps(type)} fieldType={type} {...rest} />
             </Item>
           </ItemWrapper>
         </ExpansionPanelItem>
@@ -177,25 +181,25 @@ const ValidationPanel = ({
     switch (key) {
       case "inn":
         return (
-          <>
+          <div key={key}>
             {getField({ type: "inn" })}
 
             {!isEntityInn || isOrganizationInn ? (
-              <>
+              <div>
                 {getField({ type: "name" })}
                 {getField({
                   type: "kpp",
                   validate: !isEntityInn && validate.kpp
                 })}
-              </>
+              </div>
             ) : (
-              <>
+              <div>
                 {getField({ type: "lastname" })}
                 {getField({ type: "firstname" })}
                 {getField({ type: "patronymic", validate: null })}
-              </>
+              </div>
             )}
-          </>
+          </div>
         );
       case "id":
         return getIdField({ type: [key] });

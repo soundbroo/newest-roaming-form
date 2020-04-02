@@ -80,7 +80,7 @@ const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
     <Wrapper>
       <Title>Введите логин и пароль</Title>
       <Field
-        error={errors.login}
+        error={Boolean(errors.login)}
         label="Логин"
         value={data.login}
         onChange={handleChange("login")}
@@ -89,7 +89,7 @@ const Auth = ({ auth, setAuth, showSnackbar, handleModal, refresh }) => {
         required
       />
       <Field
-        error={errors.password}
+        error={Boolean(errors.password)}
         label="Пароль"
         type="password"
         value={data.password}

@@ -9,7 +9,7 @@ const ErrorTooltipIcon = ({ responseText, invisible }) => (
   <TitleError>
     <Tooltip
       disableHoverListener={!responseText}
-      title={responseText}
+      title={responseText || ""}
       placement="top-start"
     >
       <Badge

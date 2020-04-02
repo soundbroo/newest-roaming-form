@@ -68,6 +68,12 @@ const OpenModalButton = ({
     return setIsModal(!isModal);
   };
 
+  const disableRules = () => {
+    if (name === "sender_list" && files.receiver_list) return true;
+    if (name === "receiver_list" && files.sender_list) return true;
+    return false;
+  };
+
   return (
     <>
       {isModal ? (
@@ -85,10 +91,7 @@ const OpenModalButton = ({
         <Button
           variant="outlined"
           color="primary"
-          disabled={
-            (name === "sender_list" && files.receiver_list) ||
-            (name === "receiver_list" && files.sender_list)
-          }
+          disabled={disableRules()}
           startIcon={<AttachFileIcon />}
           onClick={handleChange}
         >
