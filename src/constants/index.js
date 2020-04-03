@@ -68,6 +68,14 @@ export const FIELDS_NAMES = {
   }
 };
 
+export const MENU_ITEMS = [
+  "Клиентам",
+  "Операторам",
+  "Статус заявления",
+  "Состояние роуминга",
+  "Проверка контрагентов"
+];
+
 export const MAX_NUMBER_OF_FORMS = 100;
 
 export const INN_LENGTH = [10, 12];
@@ -158,7 +166,7 @@ export const OPERATORS_WITH_REQUEST_ID = ["2BM"];
 
 // Операторы, которым нужно соглашение о выборе оператора
 
-export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE"];
+export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE", "2AL"];
 
 export const AVAILABLE_FILE_EXTENSIONS = {
   agreement: ["pdf", "png", "jpg"],

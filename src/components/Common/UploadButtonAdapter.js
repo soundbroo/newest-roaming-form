@@ -75,10 +75,23 @@ const UploadButtonAdapter = ({
     }
   };
 
+  const acceptRules = () => {
+    if (name === "agreement") {
+      switch (values.operator) {
+        case "2BM":
+        case "2AL":
+          return ".pdf, .png, .jpg, .jpeg";
+        default:
+          return ".pdf, .png";
+      }
+    }
+    return ".xlsx";
+  };
+
   const onDrop = useCallback(acceptedFiles => handleChange(acceptedFiles), []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: name === "agreement" ? ".pdf, .png" : ".xlsx"
+    accept: acceptRules()
   });
 
   return (
@@ -106,8 +119,7 @@ const UploadButtonAdapter = ({
                 : "Перетащите файл сюда"}
             </div>
             <DragLabel>
-              Перетащите файл сюда или нажмите, чтобы выбрать
-              {name === "agreement" ? " (.pdf, .png)" : " (.xlsx)"}
+              Перетащите файл сюда или нажмите, чтобы выбрать ({acceptRules()})
             </DragLabel>
           </LabelWrapper>
         </Button>

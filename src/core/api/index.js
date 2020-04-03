@@ -36,6 +36,7 @@ class AxiosService {
             const id = setIdPrefix(el.id, type, activePage);
             return { ...el, id: id };
           }
+          return { ...el };
         });
       }
     };

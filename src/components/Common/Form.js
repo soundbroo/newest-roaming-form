@@ -23,7 +23,9 @@ const Form = ({
   requestStatus,
   setRequestStatus,
   auth,
-  setAuth
+  setAuth,
+  isFormValue,
+  setIsFormValue
 }) => {
   useEffect(() => {
     if (
@@ -171,9 +173,26 @@ const Form = ({
           values,
           errors
         }) => {
+          const isValue = () => {
+            if (!localStorage.getItem("showNavigationDialog")) {
+              const check = type => {
+                return (
+                  values[type][0] !== null &&
+                  Object.values(values[type][0]).some(el => el !== "")
+                );
+              };
+              return check("sender") || check("receiver");
+            }
+          };
+
           useEffect(() => {
             reset();
+            setIsFormValue(false);
           }, [activePage]);
+
+          useEffect(() => {
+            isValue() && !isFormValue && setIsFormValue(true);
+          }, [values]);
 
           return (
             <>

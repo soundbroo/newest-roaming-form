@@ -30,6 +30,7 @@ const Content = () => {
   const [response, setResponse] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
   const [transition, setTransition] = useState(false);
+  const [isFormValue, setIsFormValue] = useState(false);
   const [message, color, open, delay, showSnackbar] = useSnackbar();
 
   const snackbarProps = {
@@ -81,6 +82,8 @@ const Content = () => {
             setRequestStatus={setRequestStatus}
             auth={auth}
             setAuth={setAuth}
+            isFormValue={isFormValue}
+            setIsFormValue={setIsFormValue}
           />
         );
       case 2:
@@ -105,6 +108,7 @@ const Content = () => {
         isAuth={auth.status}
         activePage={activePage}
         setActivePage={setActivePage}
+        isFormValue={isFormValue}
       >
         <Fade
           in={transition}

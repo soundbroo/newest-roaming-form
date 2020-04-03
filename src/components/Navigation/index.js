@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Person, Business, SignalCellularAlt } from "@material-ui/icons";
+import {
+  Person,
+  Business,
+  SignalCellularAlt,
+  Menu as MenuIcon,
+  AssignmentInd as AssignmentIndIcon,
+  ListAlt as ListAltIcon
+} from "@material-ui/icons";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
-import ListAltIcon from "@material-ui/icons/ListAlt";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -18,6 +22,8 @@ import ToolTip from "@material-ui/core/ToolTip";
 
 import AcceptPopover from "components/Navigation/AcceptPopover";
 import Logout from "components/Navigation/Logout";
+
+import { MENU_ITEMS } from "constants";
 
 const drawerWidth = 270;
 
@@ -78,23 +84,21 @@ const Navigation = ({
   isAuth,
   activePage,
   setActivePage,
+  isFormValue,
   children
 }) => {
   const isAcceptPopoverEnabled = localStorage.getItem("showNavigationDialog");
-  const menuItems = [
-    "Клиентам",
-    "Операторам",
-    "Статус заявления",
-    "Состояние роуминга",
-    "Проверка контрагентов"
-  ];
 
   const handlePopoverClick = event => {
     setPopoverAnchorEl(event.currentTarget);
   };
 
   const handleClick = (e, index) => {
-    if (!isAcceptPopoverEnabled) {
+    if (
+      !isAcceptPopoverEnabled &&
+      (activePage === 0 || activePage === 1) &&
+      isFormValue
+    ) {
       return handlePopoverClick(e);
     }
     return setActivePage(index);
@@ -185,7 +189,7 @@ const Navigation = ({
         }}
       >
         <List>
-          {menuItems.map((text, index) => (
+          {MENU_ITEMS.map((text, index) => (
             <ToolTip key={index} title={!open ? text : ""}>
               <MenuItem
                 button
