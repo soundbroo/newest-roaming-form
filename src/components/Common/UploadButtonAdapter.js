@@ -10,7 +10,7 @@ import readXls from "utils/readXls";
 import {
   AGREEMENT_LOADED_TITLE,
   AVAILABLE_FILE_EXTENSIONS,
-  MESSAGES
+  MESSAGES,
 } from "constants";
 
 const UploadButtonAdapter = ({
@@ -29,9 +29,9 @@ const UploadButtonAdapter = ({
   agent,
   filesToReload,
   setFilesToReload,
-  input: { value, onChange, name, ...input }
+  input: { value, onChange, name, ...input },
 }) => {
-  const handleChange = uploaded => {
+  const handleChange = (uploaded) => {
     const list = name === "sender_list" || name === "receiver_list";
     if (!uploaded.length) {
       list && closeModal();
@@ -65,7 +65,7 @@ const UploadButtonAdapter = ({
         filesToReload,
         setFilesToReload,
         loading,
-        setLoading
+        setLoading,
       });
     } else if (
       name === "agreement" &&
@@ -80,6 +80,7 @@ const UploadButtonAdapter = ({
       switch (values.operator) {
         case "2BM":
         case "2AL":
+        case "2BE":
           return ".pdf, .png, .jpg, .jpeg";
         default:
           return ".pdf, .png";
@@ -88,17 +89,20 @@ const UploadButtonAdapter = ({
     return ".xlsx";
   };
 
-  const onDrop = useCallback(acceptedFiles => handleChange(acceptedFiles), []);
+  const onDrop = useCallback(
+    (acceptedFiles) => handleChange(acceptedFiles),
+    []
+  );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: acceptRules()
+    accept: acceptRules(),
   });
 
   return (
     <UploadButton
       key={name}
       {...getRootProps({
-        onClick: e => e.stopPropagation()
+        onClick: (e) => e.stopPropagation(),
       })}
     >
       <input
