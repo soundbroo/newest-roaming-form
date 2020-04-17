@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
 } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
@@ -13,7 +13,7 @@ import ErrorTooltipIcon from "components/Common/ErrorTooltipIcon";
 import {
   ExpansionPanelContent,
   ExpansionPanelItem,
-  TitleError
+  TitleError,
 } from "components/Common/styled";
 
 import { ASTRAL_ID } from "constants";
@@ -40,7 +40,7 @@ const ValidationPanel = ({
   isEntityInn,
   isOrganizationInn,
   formErrors,
-  formApi
+  formApi,
 }) => {
   const fieldName =
     isResponse && isFile ? `${name}[${agentIndex}]` : `${agent}[${agentIndex}]`;
@@ -48,8 +48,8 @@ const ValidationPanel = ({
   const inn = xlsData?.inn || data?.inn;
 
   useEffect(() => {
-    debouncedAutoComplete(inn, formApi, fieldName);
-  }, [inn]);
+    isResponse && debouncedAutoComplete(inn, formApi, fieldName);
+  }, [inn, isResponse]);
 
   useEffect(() => {
     markErrors(formErrors, formApi);
@@ -80,8 +80,9 @@ const ValidationPanel = ({
       const title = (() => {
         if (data?.name) return data.name;
         if (data?.lastname || data?.firstname || data?.patronymic)
-          return `${data?.lastname || ""} ${data?.firstname ||
-            ""} ${data?.patronymic || ""}`;
+          return `${data?.lastname || ""} ${data?.firstname || ""} ${
+            data?.patronymic || ""
+          }`;
         return "Заполните название организации или ФИО";
       })();
       return <Title>{title}</Title>;
@@ -91,7 +92,7 @@ const ValidationPanel = ({
       if (
         !notification &&
         errors &&
-        Object.values(errors).some(el => el !== "")
+        Object.values(errors).some((el) => el !== "")
       ) {
         if (responseText) {
           return <ErrorTooltipIcon responseText={responseText} />;
@@ -122,21 +123,21 @@ const ValidationPanel = ({
   };
 
   const renderField = (key, index, isFile) => {
-    const getLabelProps = type => {
+    const getLabelProps = (type) => {
       if (!notification && errors?.[type]) {
         return {
-          error: true
+          error: true,
         };
       }
       return undefined;
     };
-    const fieldProps = type => {
+    const fieldProps = (type) => {
       return {
         disabled: !responseText && processed,
         error: (!notification && errors?.[type]) || null,
         InputLabelProps: getLabelProps(type),
         name: fieldName,
-        size: "small"
+        size: "small",
       };
     };
 
@@ -189,7 +190,7 @@ const ValidationPanel = ({
                 {getField({ type: "name" })}
                 {getField({
                   type: "kpp",
-                  validate: !isEntityInn && validate.kpp
+                  validate: !isEntityInn && validate.kpp,
                 })}
               </div>
             ) : (
@@ -275,7 +276,7 @@ const Title = styled.div`
 `;
 
 const CheckIcon = styled(CheckCircleIcon)`
-  color: ${p => `${p.theme.palette.success} !important`};
+  color: ${(p) => `${p.theme.palette.success} !important`};
 `;
 
 const Item = styled.div`
@@ -318,7 +319,7 @@ const Error = styled.div`
   margin-top: 72px;
   margin-bottom: 8px;
   margin-left: 13px;
-  color: ${p => p.theme.palette.validationError};
+  color: ${(p) => p.theme.palette.validationError};
 
   @media (max-width: 660px) {
     right: -10px;

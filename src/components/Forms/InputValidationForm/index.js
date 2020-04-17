@@ -36,7 +36,7 @@ const InputValidationForm = ({
   submitting,
   operatorId,
   formApi,
-  setNewPage
+  setNewPage,
 }) => {
   const { showSnackbar } = snackbarProps;
 
@@ -46,7 +46,7 @@ const InputValidationForm = ({
   const emptyList = notification === "Список получателей пуст";
   const [xlsFormApi, setXlsFormApi] = useState({});
 
-  const bindFormApi = xlsFormApi => {
+  const bindFormApi = (xlsFormApi) => {
     setXlsFormApi(xlsFormApi);
     const unsubscribe = () => {};
     return unsubscribe;
@@ -58,7 +58,7 @@ const InputValidationForm = ({
     auth,
     setAuth,
     refresh: auth.refresh,
-    snackbarProps
+    snackbarProps,
   });
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const InputValidationForm = ({
       noDataToSend,
       noDataDescription,
       sender,
-      receiver
+      receiver,
     } = VALIDATION_FORM_TITLE;
     return (
       <NoDataPanel title={noDataToSend} description={noDataDescription}>
@@ -103,8 +103,8 @@ const InputValidationForm = ({
 
   const handleSwitch = () => setFileSaverSwitcher(!fileSaverSwitcher);
 
-  const renderSuccess = agent => {
-    const checkAgent = agent => {
+  const renderSuccess = (agent) => {
+    const checkAgent = (agent) => {
       switch (agent) {
         case "sender":
           return files.sender_list;
@@ -140,6 +140,7 @@ const InputValidationForm = ({
               agentIndex={index}
               agent={agent}
               isFile={agentFile}
+              isResponse={!!response}
               notification={notification}
               data={data}
               operatorId={operatorId}
@@ -157,7 +158,7 @@ const InputValidationForm = ({
             <FinalForm
               onSubmit={() => {}}
               initialValues={{
-                list: initialValues
+                list: initialValues,
               }}
               decorators={[bindFormApi]}
               render={({ handleSubmit, values, errors }) => {
@@ -175,7 +176,7 @@ const InputValidationForm = ({
                     activePage
                   );
 
-                const initialValues = values => {
+                const initialValues = (values) => {
                   const data = !values ? response?.data?.[agent] : values?.list;
                   let initial = [];
                   data.forEach((value, index) => {
@@ -234,7 +235,7 @@ const InputValidationForm = ({
                             name: `${agent}[${index}]`,
                             index,
                             values,
-                            xls: true
+                            xls: true,
                           })}
                         />
                       ))}
@@ -281,7 +282,7 @@ const ValidationFormWrapper = styled(Content)`
 `;
 
 const ControlLabel = styled(FormControlLabel)`
-  color: ${p => p.theme.palette.primaryLight};
+  color: ${(p) => p.theme.palette.primaryLight};
   span {
     font-size: 14px;
   }

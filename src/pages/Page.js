@@ -28,7 +28,7 @@ import useFileContent from "hooks/useFileContent";
 import {
   BUTTON_TITLES,
   OPERATORS_WITH_REQUEST_ID,
-  OPERATORS_WITH_AGREEMENT
+  OPERATORS_WITH_AGREEMENT,
 } from "constants";
 
 import { required, disableRules } from "utils/validate";
@@ -56,9 +56,9 @@ const Page = ({
   fileSaverSwitcher,
   setFileSaverSwitcher,
   submitting,
-  setNewPage
+  setNewPage,
 }) => {
-  const isFileLoaded = name => Boolean(fileProps.files?.[name]);
+  const isFileLoaded = (name) => Boolean(fileProps.files?.[name]);
 
   const [content, setContent] = useFileContent();
   const [loading, setLoading] = useState(false);
@@ -166,7 +166,7 @@ const Page = ({
             <UploadField
               values={values}
               validate={required}
-              snackbarProps={snackbarProps}
+              showSnackbar={snackbarProps.showSnackbar}
               name="agreement"
               title={BUTTON_TITLES.uploadAgreement}
               {...fileProps}
@@ -184,7 +184,7 @@ const Page = ({
     }
   };
 
-  const renderAddButton = type => {
+  const renderAddButton = (type) => {
     if (!isFileLoaded(`${type}_list`)) {
       if (activePage === 0 && activeForm === 0) return;
 
@@ -207,14 +207,14 @@ const Page = ({
     }
   };
 
-  const renderFilesButtons = type => {
+  const renderFilesButtons = (type) => {
     let files = {};
     for (let key in fileProps.files) {
       if (key === type) files[key] = fileProps.files[key];
       if (key === "agreement") files[key] = fileProps.files[key];
     }
     return (
-      Object.values(files).some(file => file !== null) &&
+      Object.values(files).some((file) => file !== null) &&
       Object.entries(files).map(([key, value]) => {
         if (value) {
           return (
@@ -243,14 +243,14 @@ const Page = ({
       return <RequestIdField />;
   };
 
-  const renderFileContent = name => {
+  const renderFileContent = (name) => {
     if (isFileLoaded(name))
       return (
         <FileContent key={name} name={name} content={content.data[name]} />
       );
   };
 
-  const renderOpenModalButton = type => {
+  const renderOpenModalButton = (type) => {
     return (
       <OpenModalButton
         key={`${type}_list`}

@@ -5,9 +5,9 @@ export const FORM_TITLES = {
     stepTitles: [
       "Данные Вашей организации",
       "Данные контрагентов",
-      "Проверка введенных данных"
+      "Проверка введенных данных",
     ],
-    typeDataTitle: "Введите данные Вашей организации"
+    typeDataTitle: "Введите данные Вашей организации",
   },
   operators: {
     id: 1,
@@ -15,57 +15,57 @@ export const FORM_TITLES = {
     stepTitles: [
       "Данные Вашего клиента",
       "Контрагенты в АО Калуга Астрал",
-      "Проверка введенных данных"
+      "Проверка введенных данных",
     ],
-    typeDataTitle: "Введите данные Вашего клиента"
-  }
+    typeDataTitle: "Введите данные Вашего клиента",
+  },
 };
 
 export const FIELDS_NAMES = {
   inn: {
     type: "inn",
-    label: "ИНН"
+    label: "ИНН",
   },
   kpp: {
     type: "kpp",
-    label: "КПП"
+    label: "КПП",
   },
   name: {
     type: "name",
-    label: "Название организации"
+    label: "Название организации",
   },
   id: {
     type: "id",
-    label: "Идентификатор"
+    label: "Идентификатор",
   },
   lastname: {
     type: "lastname",
-    label: "Фамилия"
+    label: "Фамилия",
   },
   firstname: {
     type: "firstname",
-    label: "Имя"
+    label: "Имя",
   },
   patronymic: {
     type: "patronymic",
-    label: "Отчество"
+    label: "Отчество",
   },
   operator: {
     type: "operator",
-    label: "Укажите оператора Вашего контрагента"
+    label: "Укажите оператора Вашего контрагента",
   },
   request_id: {
     type: "request_id",
-    label: "Идентификатор заявки в системе роумингового оператора"
+    label: "Идентификатор заявки в системе роумингового оператора",
   },
   request_number: {
     type: "request_number",
-    label: "Номер заявки"
+    label: "Номер заявки",
   },
   email: {
     type: "email",
-    label: "Email"
-  }
+    label: "Email",
+  },
 };
 
 export const MENU_ITEMS = [
@@ -73,7 +73,7 @@ export const MENU_ITEMS = [
   "Операторам",
   "Статус заявления",
   "Состояние роуминга",
-  "Проверка контрагентов"
+  "Проверка контрагентов",
 ];
 
 export const MAX_NUMBER_OF_FORMS = 100;
@@ -90,7 +90,7 @@ export const VALIDATION_FORM_TITLE = {
   noDataDescription: `Отстутствуют или недостаточно данных для отправки на сервер.
   Проверьте введенные данные на шагах:`,
   sender: "Ваши данные",
-  receiver: "Данные контрагентов"
+  receiver: "Данные контрагентов",
 };
 
 export const UPLOAD_MODAL_CONTENT = {
@@ -98,7 +98,7 @@ export const UPLOAD_MODAL_CONTENT = {
   info:
     "Вы можете загрузить файл в формате .xlsx, если он сопоставим с шаблоном",
   warning:
-    "Обратите внимание, что отправка формы по данным из файла удалит все данные контрагентов, введенные вручную"
+    "Обратите внимание, что отправка формы по данным из файла удалит все данные контрагентов, введенные вручную",
 };
 
 export const AGREEMENT_LOADED_TITLE = "Соглашение о выборе оператора загружено";
@@ -114,7 +114,7 @@ export const TITLES_FOR_KEYS = {
   request_id: "Идентификатор заявки в системе роумингового оператора",
   email: "Email",
   operator: "Оператор",
-  agreement: "Соглашение о выборе оператора"
+  agreement: "Соглашение о выборе оператора",
 };
 
 export const TEMPLATE_KEYS = {
@@ -124,38 +124,38 @@ export const TEMPLATE_KEYS = {
   id: "ИД ЭДО",
   lastname: "Фамилия",
   firstname: "Имя",
-  patronymic: "Отчество"
+  patronymic: "Отчество",
 };
 
 export const OPERATORS = [
   {
     value: "2BN",
-    label: "ООО Линк-Сервис – 2BN"
+    label: "ООО Линк-Сервис – 2BN",
   },
   {
     value: "2JD",
-    label: "АО НИИАС – 2JD"
+    label: "АО НИИАС – 2JD",
   },
   {
     value: "2BM",
-    label: "АО ПФ СКБ Контур – 2BM"
+    label: "АО ПФ СКБ Контур – 2BM",
   },
   {
     value: "2AL",
-    label: "ООО Такском – 2AL"
+    label: "ООО Такском – 2AL",
   },
   {
     value: "2AK",
-    label: "ЗАО ТаксНет – 2AK"
+    label: "ЗАО ТаксНет – 2AK",
   },
   {
     value: "2BE",
-    label: "ООО Компания Тензор – 2BE"
+    label: "ООО Компания Тензор – 2BE",
   },
   {
     value: "2IG",
-    label: "ООО Директум – 2IG"
-  }
+    label: "ООО Директум – 2IG",
+  },
 ];
 
 // Операторы, которым нужно поле
@@ -169,19 +169,19 @@ export const OPERATORS_WITH_REQUEST_ID = ["2BM"];
 export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE", "2AL"];
 
 export const AVAILABLE_FILE_EXTENSIONS = {
-  agreement: ["pdf", "png", "jpg"],
-  list: ["xlsx"]
+  agreement: ["pdf", "png", "jpg", "jpeg", "PDF", "PNG", "JPG", "JPEG"],
+  list: ["xlsx"],
 };
 
 export const ASTRAL_ID = "2AE";
 
 export const BUTTON_TITLES = {
   pickFile: "Выбрать файл",
-  uploadAgreement: "Соглашение о выборе оператора"
+  uploadAgreement: "Соглашение о выборе оператора",
 };
 
 export const LINK_TITLES = {
-  agreement: "Скачать шаблон соглашения о выборе оператора"
+  agreement: "Скачать шаблон соглашения о выборе оператора",
 };
 
 export const MESSAGES = {
@@ -196,31 +196,31 @@ export const MESSAGES = {
   emptyXlsx:
     "Недопустима загрузка пустого списка. Заполните шаблон и попробуйте снова.",
   invalidXlsx:
-    "Невозможно прочитать файл. Убедитесь, что вы используете правильный шаблон и повторите попытку."
+    "Невозможно прочитать файл. Убедитесь, что вы используете правильный шаблон и повторите попытку.",
 };
 
 export const ACCEPT_POPOVER_MESSAGES = {
   message:
     "Вы действительно хотите сменить вкладку? Все введенные данные будут удалены.",
-  dontShowAgain: "Больше не спрашивать"
+  dontShowAgain: "Больше не спрашивать",
 };
 
 export const OPERATOR_STATE_MESSAGES = {
   notFound: "Оператор с таким названием не найден",
-  title: "Поиск по операторам"
+  title: "Поиск по операторам",
 };
 
 export const statuses = {
   success: "success",
   info: "info",
   warning: "warning",
-  error: "error"
+  error: "error",
 };
 
 export const AUTH_STATUSES = {
   wrongLoginOrPassword: "Неверный логин или пароль",
   emptyLogin: "Недопустим пустой логин",
-  emptyPassword: "Недопустим пустой пароль"
+  emptyPassword: "Недопустим пустой пароль",
 };
 
 export const CATEGORIES = {
@@ -228,31 +228,31 @@ export const CATEGORIES = {
   industrial: "Промышленная эксплуатация",
   testing: "Тестирование обмена",
   negotiation: "Проведение переговоров",
-  software: "Доработка ПО, тестирование обмена"
+  software: "Доработка ПО, тестирование обмена",
 };
 
 export const OPERATOR_STATE_DATA = [
   {
     name: "ДИРЕКТУМ (Synerdocs)",
     cat: CATEGORIES.industrial,
-    status: 100
+    status: 100,
   },
   {
     name: "ИНФОТЕКС Интернет Траст (VipNet ЭДО Документ)",
     cat: CATEGORIES.industrial,
-    status: 100
+    status: 100,
   },
   { name: "КОНТУР (Диадок)", cat: CATEGORIES.industrial, status: 100 },
   {
     name: "КОРУС Консалтинг СНГ (СФЕРА)",
     cat: CATEGORIES.testing,
-    status: 75
+    status: 75,
   },
   { name: "КРИПТЭКС (Signatura)", cat: CATEGORIES.negotiation, status: 25 },
   {
     name: "МТС (Электронный документооборот)",
     cat: CATEGORIES.software,
-    status: 50
+    status: 50,
   },
   { name: "НИИАС (РЖД)", cat: CATEGORIES.industrial, status: 100 },
   { name: "СИСЛИНК (DOCLINK)", cat: CATEGORIES.negotiation, status: 25 },
@@ -260,15 +260,15 @@ export const OPERATOR_STATE_DATA = [
   {
     name: "ТАКСКОМ (Файлер, 1С-Такском)",
     cat: CATEGORIES.industrial,
-    status: 100
+    status: 100,
   },
   { name: "ТАКСНЕТ (Транскрипт)", cat: CATEGORIES.industrial, status: 100 },
   { name: "ТЕНЗОР (СБИС, 1С-ЭДО)", cat: CATEGORIES.industrial, status: 100 },
   {
     name: "ЭТП ГПБ (Система ЭДО ЭТП ГПБ, 1С-ЭДО)",
     cat: CATEGORIES.industrial,
-    status: 100
-  }
+    status: 100,
+  },
 ];
 
 export const TEMP_MESSAGE = `Уважаемые абоненты!
@@ -279,5 +279,5 @@ export const HELPER_TEXT = {
   astralId: "Идентификатор пользователя в системе ЭДО Калуга Астрал",
   operatorId: "Идентификатор пользователя в системе ЭДО оператора",
   email:
-    "Адрес электронной почты, на который будет отправлен результат обработки заявления"
+    "Адрес электронной почты, на который будет отправлен результат обработки заявления",
 };
