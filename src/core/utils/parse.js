@@ -2,7 +2,7 @@ const nums = (value) => value.replace(/[^\d]/g, "");
 
 export const parseDefault = (value) => value.slice(0, 255);
 
-const parseTicket = (value) => value.replace(" ", "");
+const parseTicket = (value) => value.replace(/[^0-9]/g, "").slice(0, 16);
 
 export const parseName = (value) =>
   value.replace(/[a-zA-Z]/g, "").slice(0, 255);

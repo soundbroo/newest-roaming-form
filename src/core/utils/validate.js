@@ -126,12 +126,18 @@ export const correctEmail = (value) => {
   return "E-mail некорректен";
 };
 
+export const correctTicket = (value) => {
+  if (!value) return undefined;
+  if (value?.length !== 16)
+    return "Номер приглашения должен состоять из 16-ти цифр";
+};
+
 export const validate = {
   inn: (value) => correctInn(value),
   name: (value) => correctName(value),
   email: (value) => correctEmail(value),
   kpp: (value) => correctKpp(value),
-  ticket_number: undefined,
+  ticket_number: (value) => correctTicket(value),
   notRequiredKpp: (value) => correctNotRequiredKpp(value),
   id: (value) => correctId(value),
   operatorId: (value) => correctOperatorId(value),
