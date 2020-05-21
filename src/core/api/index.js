@@ -5,33 +5,33 @@ import setIdPrefix from "utils/autoPrefixer";
 class AxiosService {
   constructor() {
     this.instance = axios.create({
-      baseURL: setBaseUrl()
+      baseURL: setBaseUrl(),
     });
     this.instance.defaults.withCredentials = true;
     this.config = {
       json: {
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       },
       multipart: {
         headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }
+          "Content-Type": "multipart/form-data",
+        },
+      },
     };
 
-    this.toJSON = value => {
+    this.toJSON = (value) => {
       return JSON.stringify(value, 0, 2);
     };
 
-    this.toJSONWithoutQuotes = value => {
+    this.toJSONWithoutQuotes = (value) => {
       return this.toJSON(value).replace(/"/g, "");
     };
     // Добавляем префиксы операторов
     this.setPrefix = (data, type, activePage) => {
       if (data?.[type]) {
-        data[type] = data?.[type].map(el => {
+        data[type] = data?.[type].map((el) => {
           if (el?.id) {
             const id = setIdPrefix(el.id, type, activePage);
             return { ...el, id: id };
@@ -44,11 +44,11 @@ class AxiosService {
     this.setFormData = ({ values, activePage, filesToReload }) => {
       const formData = new FormData();
       const data = {};
-      const prepareData = type => {
+      const prepareData = (type) => {
         // Удаляем лишние поля
 
         if (data?.[type]) {
-          data?.[type].map(el => {
+          data?.[type].map((el) => {
             if (el?.inn?.length === 10) {
               delete el.firstname;
               delete el.lastname;
@@ -71,7 +71,7 @@ class AxiosService {
       prepareData("receiver");
 
       values?.agreement && formData.append("agreement", values.agreement);
-      values?.request_id && formData.append("request_id", values.request_id);
+      if (values?.request_id) data.request_id = values.request_id;
 
       if (filesToReload.sender_list !== null) {
         formData.append("sender_list", filesToReload.sender_list);
@@ -91,7 +91,7 @@ class AxiosService {
     };
   }
 
-  auth = async data => {
+  auth = async (data) => {
     const formData = new FormData();
     formData.append("login", this.toJSONWithoutQuotes(data.login.trim()));
     formData.append("password", this.toJSONWithoutQuotes(data.password.trim()));
@@ -103,7 +103,7 @@ class AxiosService {
       );
       console.log("Result - ", result);
       const {
-        data: { status, text }
+        data: { status, text },
       } = result;
 
       return { status, text };
@@ -117,7 +117,7 @@ class AxiosService {
     activePage,
     setRequestStatus,
     setResponse,
-    filesToReload
+    filesToReload,
   }) => {
     try {
       const result = await this.instance.post(
@@ -141,7 +141,7 @@ class AxiosService {
     setResponse,
     filesToReload,
     auth,
-    setAuth
+    setAuth,
   }) => {
     try {
       const result = await this.instance.post(
@@ -193,7 +193,7 @@ class AxiosService {
     }
   };
 
-  autoComplete = async inn => {
+  autoComplete = async (inn) => {
     try {
       const result = await this.instance.get(`/navigator/${inn}`);
       console.log("Result - ", result);
