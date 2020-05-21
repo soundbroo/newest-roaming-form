@@ -57,6 +57,7 @@ const Page = ({
   setFileSaverSwitcher,
   submitting,
   setNewPage,
+  ticket,
 }) => {
   const isFileLoaded = (name) => Boolean(fileProps.files?.[name]);
 
@@ -92,6 +93,7 @@ const Page = ({
                     values={values}
                     remove={remove}
                     formApi={formApi}
+                    ticket={ticket}
                     {...disableRules({ name, index, values })}
                   />,
                   <ClientForm

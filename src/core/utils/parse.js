@@ -1,17 +1,20 @@
-const nums = value => value.replace(/[^\d]/g, "");
+const nums = (value) => value.replace(/[^\d]/g, "");
 
-export const parseDefault = value => value.slice(0, 255);
+export const parseDefault = (value) => value.slice(0, 255);
 
-export const parseName = value => value.replace(/[a-zA-Z]/g, "").slice(0, 255);
+const parseTicket = (value) => value.replace(" ", "");
 
-export const parseInn = value => nums(value).substr(0, 12);
+export const parseName = (value) =>
+  value.replace(/[a-zA-Z]/g, "").slice(0, 255);
 
-export const parseKpp = value => value.substr(0, 9);
+export const parseInn = (value) => nums(value).substr(0, 12);
 
-export const parseFullname = value =>
+export const parseKpp = (value) => value.substr(0, 9);
+
+export const parseFullname = (value) =>
   value.replace(/[^а-яёА-ЯЁ-\s]/g, "").slice(0, 64);
 
-export const parseId = value => {
+export const parseId = (value) => {
   if (!value) return value;
   const id = value.replace(/[^0-9a-zA-Z-]/g, "");
 
@@ -34,17 +37,18 @@ export const parseId = value => {
   // )}-${id.slice(23, 35)}`;
 };
 
-const parseOperatorId = value =>
+const parseOperatorId = (value) =>
   value.replace(/[^0-9a-zA-Z@.,-]/g, "").slice(0, 46);
 
 export const parse = {
-  name: value => parseName(value),
-  inn: value => parseInn(value),
-  kpp: value => parseKpp(value),
-  id: value => parseId(value),
-  operatorId: value => parseOperatorId(value),
-  lastname: value => parseFullname(value),
-  firstname: value => parseFullname(value),
-  patronymic: value => parseFullname(value),
-  email: value => parseDefault(value)
+  name: (value) => parseName(value),
+  inn: (value) => parseInn(value),
+  kpp: (value) => parseKpp(value),
+  id: (value) => parseId(value),
+  operatorId: (value) => parseOperatorId(value),
+  lastname: (value) => parseFullname(value),
+  firstname: (value) => parseFullname(value),
+  patronymic: (value) => parseFullname(value),
+  email: (value) => parseDefault(value),
+  ticket_number: (value) => parseTicket(value),
 };

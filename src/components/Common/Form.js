@@ -25,11 +25,14 @@ const Form = ({
   auth,
   setAuth,
   isFormValue,
-  setIsFormValue
+  setIsFormValue,
+  ticket,
 }) => {
   useEffect(() => {
     if (
-      document.cookie.split(" ").find(cookie => cookie.includes("sessionToken"))
+      document.cookie
+        .split(" ")
+        .find((cookie) => cookie.includes("sessionToken"))
     )
       setAuth({ ...auth, status: true });
     if (auth.sessionToken) {
@@ -41,13 +44,13 @@ const Form = ({
 
   const defaultFilesToReload = {
     sender_list: null,
-    receiver_list: null
+    receiver_list: null,
   };
   const [filesToReload, setFilesToReload] = useState(defaultFilesToReload);
   const [fileSaverSwitcher, setFileSaverSwitcher] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
-  const submit = values => {
+  const submit = (values) => {
     switch (activePage) {
       case 0:
         return axios.abonent({
@@ -55,7 +58,7 @@ const Form = ({
           activePage,
           setRequestStatus,
           setResponse,
-          filesToReload
+          filesToReload,
         });
       case 1:
         return axios.operator({
@@ -66,7 +69,7 @@ const Form = ({
           setRequestStatus,
           filesToReload,
           auth,
-          setAuth
+          setAuth,
         });
     }
   };
@@ -77,12 +80,12 @@ const Form = ({
   const defaultFiles = {
     sender_list: null,
     receiver_list: null,
-    agreement: null
+    agreement: null,
   };
   const [files, setFiles] = useState(defaultFiles);
   const [formApi, setFormApi] = useState({});
 
-  const bindFormApi = formApi => {
+  const bindFormApi = (formApi) => {
     setFormApi(formApi);
     const unsubscribe = () => {};
     return unsubscribe;
@@ -107,7 +110,7 @@ const Form = ({
   }, [activeForm]);
 
   const activeFormData = Object.values(FORM_TITLES).find(
-    form => form.id === activePage
+    (form) => form.id === activePage
   );
   const mainTitle = activeFormData.mainTitle;
   const typeDataTitle = activeFormData.stepTitles[activeStep];
@@ -120,29 +123,29 @@ const Form = ({
     activeForm,
     activeFormProps: {
       setActiveStep,
-      setActiveForm
+      setActiveForm,
     },
     authProps: {
       auth,
-      setAuth
+      setAuth,
     },
     fileProps: {
       files,
       setFiles,
       filesToReload,
-      setFilesToReload
+      setFilesToReload,
     },
     response,
     setResponse,
     setValidationErrors,
     fileSaverSwitcher,
     setFileSaverSwitcher,
-    operatorId: auth.operatorId
+    operatorId: auth.operatorId,
   };
 
   const emptyFormValues = {
     sender: [null],
-    receiver: [null]
+    receiver: [null],
   };
 
   const [initialValues, setInitialValues] = useState(emptyFormValues);
@@ -156,7 +159,7 @@ const Form = ({
         initialValues={initialValues}
         onSubmit={submit}
         decorators={[bindFormApi]}
-        validate={values => {
+        validate={(values) => {
           const errors = {};
           if (values.receiver_list !== null || values.sender_list !== null)
             return errors;
@@ -165,20 +168,20 @@ const Form = ({
         render={({
           form: {
             mutators: { push, remove },
-            reset
+            reset,
           },
           handleSubmit,
           form,
           submitting,
           values,
-          errors
+          errors,
         }) => {
           const isValue = () => {
             if (!localStorage.getItem("showNavigationDialog")) {
-              const check = type => {
+              const check = (type) => {
                 return (
                   values[type][0] !== null &&
-                  Object.values(values[type][0]).some(el => el !== "")
+                  Object.values(values[type][0]).some((el) => el !== "")
                 );
               };
               return check("sender") || check("receiver");
@@ -231,20 +234,21 @@ const Form = ({
                       errors={errors}
                       submitting={submitting}
                       setNewPage={setNewPage}
+                      ticket={ticket}
                     />
                   </form>
                 </Stepper>
               </FormWrapper>
-              {/* <b
+              <b
                 style={{
                   position: "fixed",
                   top: 200,
                   right: 10,
-                  fontSize: 14
+                  fontSize: 14,
                 }}
               >
                 <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </b> */}
+              </b>
             </>
           );
         }}

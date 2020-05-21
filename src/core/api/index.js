@@ -72,6 +72,7 @@ class AxiosService {
 
       values?.agreement && formData.append("agreement", values.agreement);
       if (values?.request_id) data.request_id = values.request_id;
+      if (values?.ticket_number) data.ticket_number = values.ticket_number;
 
       if (filesToReload.sender_list !== null) {
         formData.append("sender_list", filesToReload.sender_list);

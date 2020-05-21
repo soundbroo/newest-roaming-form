@@ -30,6 +30,7 @@ const ValidationPanel = ({
   isFile,
   notification,
   data,
+  ticketNumber,
   xlsData,
   operatorId,
   activePage,
@@ -142,11 +143,24 @@ const ValidationPanel = ({
     };
 
     const getField = ({ type, ...rest }) => {
+      const getKey = (type) => {
+        switch (type) {
+          case "ticket_number":
+            return "ticket_number";
+          default:
+            return `${agent}.${type}[${index}]`;
+        }
+      };
       return (
-        <ExpansionPanelItem key={`${agent}.${type}[${index}]`}>
+        <ExpansionPanelItem key={getKey(type)}>
           <ItemWrapper>
             <Item isFile={isFile}>
-              <InputField {...fieldProps(type)} fieldType={type} {...rest} />
+              <InputField
+                {...fieldProps(type)}
+                specificName={type === "ticket_number" ? "ticket_number" : null}
+                fieldType={type}
+                {...rest}
+              />
             </Item>
           </ItemWrapper>
         </ExpansionPanelItem>
@@ -204,6 +218,8 @@ const ValidationPanel = ({
         );
       case "id":
         return getIdField({ type: [key] });
+      case "ticket_number":
+        return getField({ type: "ticket_number" });
       case "kpp":
       case "name":
       case "lastname":
@@ -228,6 +244,9 @@ const ValidationPanel = ({
                 (value || (value === "" && !isResponse) || errors?.[key]) &&
                 renderField(key, index, isFile)
             )}
+            {ticketNumber &&
+              agent === "sender" &&
+              renderField("ticket_number", ticketNumber, isFile)}
           </ExpansionPanelContent>
         </PanelDetails>
       </ExpansionPanel>

@@ -66,6 +66,10 @@ export const FIELDS_NAMES = {
     type: "email",
     label: "Email",
   },
+  ticket_number: {
+    type: "ticket_number",
+    label: "Номер приглашения",
+  },
 };
 
 export const MENU_ITEMS = [

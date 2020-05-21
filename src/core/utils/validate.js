@@ -2,7 +2,7 @@ import { INN_LENGTH, KPP_REGEXP, ID_REGEXP, EMAIL_REGEXP } from "constants";
 
 const requiredField = "Обязательное поле";
 
-export const required = value => (value ? undefined : requiredField);
+export const required = (value) => (value ? undefined : requiredField);
 
 export const disableRules = ({ name, index, values, xls }) => {
   const getNameLabel = () => {
@@ -21,45 +21,45 @@ export const disableRules = ({ name, index, values, xls }) => {
   return { isEntityInn, isOrganizationInn, isValidInn };
 };
 
-export const correctKpp = value => {
+export const correctKpp = (value) => {
   if (!value) return requiredField;
   if (KPP_REGEXP.test(value)) return undefined;
   return "КПП некорректен";
 };
 
-export const correctNotRequiredKpp = value => {
+export const correctNotRequiredKpp = (value) => {
   if (!value || KPP_REGEXP.test(value)) return undefined;
   return "КПП некорректен";
 };
 
-export const correctId = value => {
+export const correctId = (value) => {
   if (!value) return requiredField;
   if (ID_REGEXP.test(value)) return undefined;
   return "Идентификатор некорректен";
 };
 
-export const correctName = value => {
+export const correctName = (value) => {
   if (!value) return requiredField;
 };
 
-export const correctNotRequiredId = value => {
+export const correctNotRequiredId = (value) => {
   if (!value || ID_REGEXP.test(value)) return undefined;
   return "Идентификатор некорректен";
 };
 
-export const correctOperatorId = value => {
+export const correctOperatorId = (value) => {
   if (!value) return requiredField;
   if (!value.match(/^[0-9a-zA-Z@.,-]{1,46}$/))
     return "Идентификатор некорректен";
 };
 
-const correctInn = value => {
+const correctInn = (value) => {
   if (!value) return requiredField;
 
   const inn = String(value);
 
   if (inn.length === 10 || inn.length === 12) {
-    if (inn.split("").every(num => num === "0")) return "ИНН некорректен";
+    if (inn.split("").every((num) => num === "0")) return "ИНН некорректен";
   }
 
   if (inn.length === 10) {
@@ -120,20 +120,21 @@ const correctInn = value => {
   return "ИНН некорректен";
 };
 
-export const correctEmail = value => {
+export const correctEmail = (value) => {
   if (!value) return requiredField;
   if (value === undefined || EMAIL_REGEXP.test(value)) return undefined;
   return "E-mail некорректен";
 };
 
 export const validate = {
-  inn: value => correctInn(value),
-  name: value => correctName(value),
-  email: value => correctEmail(value),
-  kpp: value => correctKpp(value),
-  notRequiredKpp: value => correctNotRequiredKpp(value),
-  id: value => correctId(value),
-  operatorId: value => correctOperatorId(value),
-  notRequiredId: value => correctNotRequiredId(value),
-  required: value => required(value)
+  inn: (value) => correctInn(value),
+  name: (value) => correctName(value),
+  email: (value) => correctEmail(value),
+  kpp: (value) => correctKpp(value),
+  ticket_number: undefined,
+  notRequiredKpp: (value) => correctNotRequiredKpp(value),
+  id: (value) => correctId(value),
+  operatorId: (value) => correctOperatorId(value),
+  notRequiredId: (value) => correctNotRequiredId(value),
+  required: (value) => required(value),
 };

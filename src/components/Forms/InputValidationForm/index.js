@@ -143,6 +143,7 @@ const InputValidationForm = ({
               isResponse={!!response}
               notification={notification}
               data={data}
+              ticketNumber={values.ticket_number}
               operatorId={operatorId}
               activePage={activePage}
               processed={validationData?.[index].processed}

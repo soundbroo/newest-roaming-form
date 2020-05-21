@@ -23,10 +23,11 @@ const Content = () => {
     status: false,
     refresh: false,
     operatorId: localStorage.getItem("operator"),
-    sessionToken: null
+    sessionToken: null,
   });
   const [activePage, setActivePage] = useState(0);
   const [query, setQuery] = useState(null);
+  const [ticket, setTicket] = useState(null);
   const [response, setResponse] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
   const [transition, setTransition] = useState(false);
@@ -38,7 +39,7 @@ const Content = () => {
     color,
     delay,
     open,
-    showSnackbar
+    showSnackbar,
   };
 
   useEffect(() => {
@@ -50,11 +51,16 @@ const Content = () => {
       const request_id = query.replace(/\D/g, "");
 
       if (query.includes("status")) {
-        axios.status(uid, request_id).then(res => setQuery(res.data.text));
+        axios.status(uid, request_id).then((res) => setQuery(res.data.text));
       }
       if (query.includes("request")) {
-        axios.request(uid, request_id).then(res => setQuery(res.data.text));
+        axios.request(uid, request_id).then((res) => setQuery(res.data.text));
       }
+    }
+
+    if (search.includes("?ticketnumber=")) {
+      const ticketNumber = search.replace("?ticketnumber=", "");
+      setTicket(ticketNumber);
     }
   }, []);
 
@@ -84,6 +90,7 @@ const Content = () => {
             setAuth={setAuth}
             isFormValue={isFormValue}
             setIsFormValue={setIsFormValue}
+            ticket={ticket}
           />
         );
       case 2:
@@ -114,7 +121,7 @@ const Content = () => {
           in={transition}
           timeout={{
             enter: 200,
-            exit: 0
+            exit: 0,
           }}
         >
           <MainContent>{renderContent()}</MainContent>
