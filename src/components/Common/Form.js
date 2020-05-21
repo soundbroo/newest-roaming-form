@@ -239,7 +239,7 @@ const Form = ({
                   </form>
                 </Stepper>
               </FormWrapper>
-              <b
+              {/* <b
                 style={{
                   position: "fixed",
                   top: 200,
@@ -248,7 +248,7 @@ const Form = ({
                 }}
               >
                 <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </b>
+              </b> */}
             </>
           );
         }}
