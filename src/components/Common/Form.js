@@ -27,6 +27,7 @@ const Form = ({
   isFormValue,
   setIsFormValue,
   ticket,
+  showTicketField,
 }) => {
   useEffect(() => {
     if (
@@ -235,6 +236,7 @@ const Form = ({
                       submitting={submitting}
                       setNewPage={setNewPage}
                       ticket={ticket}
+                      showTicketField={showTicketField}
                     />
                   </form>
                 </Stepper>

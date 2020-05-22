@@ -10,7 +10,7 @@ import { ASTRAL_ID } from "constants";
 // Шаблон для страницы Операторам - Данные вашего клиента
 
 const OwnerOrgForm = (props) => {
-  const { name, ticket, formApi } = props;
+  const { name, ticket, showTicketField, formApi } = props;
 
   useEffect(() => {
     ticket && formApi?.change && formApi?.change("ticket_number", ticket);
@@ -25,9 +25,11 @@ const OwnerOrgForm = (props) => {
         <FormFieldsRow>
           <EmailField name={name} />
         </FormFieldsRow>
-        <FormFieldsRow>
-          <TicketField />
-        </FormFieldsRow>
+        {showTicketField && (
+          <FormFieldsRow>
+            <TicketField />
+          </FormFieldsRow>
+        )}
       </TemplateDefaultForm>
     </>
   );

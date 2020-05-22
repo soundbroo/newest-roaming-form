@@ -28,6 +28,7 @@ const Content = () => {
   const [activePage, setActivePage] = useState(0);
   const [query, setQuery] = useState(null);
   const [ticket, setTicket] = useState(null);
+  const [showTicketField, setShowTicketField] = useState(false);
   const [response, setResponse] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
   const [transition, setTransition] = useState(false);
@@ -41,6 +42,38 @@ const Content = () => {
     open,
     showSnackbar,
   };
+
+  let pressed = new Set();
+
+  const handleHotkeyPress = (event) => {
+    pressed.add(event.code);
+
+    if (!pressed.has("ControlLeft")) return;
+    if (!pressed.has("AltLeft")) return;
+    if (!pressed.has("KeyQ")) return;
+    if (!pressed.has("KeyW")) return;
+
+    pressed.clear();
+
+    setShowTicketField(!showTicketField);
+  };
+
+  const clearPressed = (event) => {
+    pressed.delete(event.code);
+  };
+
+  useEffect(
+    (event) => {
+      window.addEventListener("keydown", handleHotkeyPress);
+      window.addEventListener("keyup", clearPressed);
+
+      return () => {
+        window.removeEventListener("keydown", handleHotkeyPress);
+        window.removeEventListener("keyup", clearPressed);
+      };
+    },
+    [handleHotkeyPress, clearPressed]
+  );
 
   useEffect(() => {
     const { search } = window.location;
@@ -62,6 +95,8 @@ const Content = () => {
       const ticketNumber = search.replace("?ticketnumber=", "");
       setTicket(ticketNumber);
     }
+
+    if (search.includes("?ticket")) setShowTicketField(true);
   }, []);
 
   useEffect(() => {
@@ -91,6 +126,7 @@ const Content = () => {
             isFormValue={isFormValue}
             setIsFormValue={setIsFormValue}
             ticket={ticket}
+            showTicketField={showTicketField}
           />
         );
       case 2:
