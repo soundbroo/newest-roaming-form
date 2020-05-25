@@ -94,6 +94,7 @@ const Content = () => {
     if (search.includes("?ticketnumber=")) {
       const ticketNumber = search.replace("?ticketnumber=", "");
       setTicket(ticketNumber);
+      window.history.replaceState({}, "", `${location.pathname}?ticket`);
     }
 
     if (search.includes("?ticket")) setShowTicketField(true);
@@ -126,6 +127,7 @@ const Content = () => {
             isFormValue={isFormValue}
             setIsFormValue={setIsFormValue}
             ticket={ticket}
+            setTicket={setTicket}
             showTicketField={showTicketField}
           />
         );

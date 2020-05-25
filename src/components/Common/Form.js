@@ -27,6 +27,7 @@ const Form = ({
   isFormValue,
   setIsFormValue,
   ticket,
+  setTicket,
   showTicketField,
 }) => {
   useEffect(() => {
@@ -236,6 +237,7 @@ const Form = ({
                       submitting={submitting}
                       setNewPage={setNewPage}
                       ticket={ticket}
+                      setTicket={setTicket}
                       showTicketField={showTicketField}
                     />
                   </form>

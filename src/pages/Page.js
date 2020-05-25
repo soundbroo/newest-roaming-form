@@ -58,6 +58,7 @@ const Page = ({
   submitting,
   setNewPage,
   ticket,
+  setTicket,
   showTicketField,
 }) => {
   const isFileLoaded = (name) => Boolean(fileProps.files?.[name]);
@@ -95,6 +96,7 @@ const Page = ({
                     remove={remove}
                     formApi={formApi}
                     ticket={ticket}
+                    setTicket={setTicket}
                     showTicketField={showTicketField}
                     {...disableRules({ name, index, values })}
                   />,
