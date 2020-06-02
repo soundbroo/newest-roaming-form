@@ -9,9 +9,7 @@ import FormFieldsWrapper from "components/Common/FormFieldsWrapper";
 import OpenModalButton from "components/Common/UploadModal";
 import SelectedFileChip from "components/Common/SelectedFileChip";
 import Loader from "components/Common/Loader";
-import Link from "components/Common/Link";
 import { Content } from "components/Common/styled";
-import UploadField from "components/Fields/UploadField";
 import OwnerOrgForm from "components/Forms/ClientsForms/OwnerOrgForm";
 import ContragentsForm from "components/Forms/ClientsForms/ContragentsForm";
 import ClientForm from "components/Forms/OperatorsForms/ClientForm";
@@ -19,17 +17,14 @@ import AOContragentsForm from "components/Forms/OperatorsForms/AOContragentsForm
 import InputValidationForm from "components/Forms/InputValidationForm";
 import RequestIdField from "components/Fields/RequestIdField";
 import OperatorSelectField from "components/Fields/OperatorsSelectField";
+import AgreementField from "components/Fields/AgreementField";
 
 import { FIELDS_NAMES, LINK_TITLES } from "constants";
 import { AGREEMENT_TEMPLATE } from "constants/links";
 
 import useFileContent from "hooks/useFileContent";
 
-import {
-  BUTTON_TITLES,
-  OPERATORS_WITH_REQUEST_ID,
-  OPERATORS_WITH_AGREEMENT,
-} from "constants";
+import { BUTTON_TITLES, OPERATORS_WITH_AGREEMENT } from "constants";
 
 import { required, disableRules } from "utils/validate";
 
@@ -65,6 +60,7 @@ const Page = ({
 
   const [content, setContent] = useFileContent();
   const [loading, setLoading] = useState(false);
+  const [agreementsList, setAgreementsList] = useState(null);
 
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
@@ -167,17 +163,16 @@ const Page = ({
 
       if (OPERATORS_WITH_AGREEMENT.includes(operator)) {
         return (
-          <AgreementField>
-            <Link link={AGREEMENT_TEMPLATE} label={LINK_TITLES.agreement} />
-            <UploadField
-              values={values}
-              validate={required}
-              showSnackbar={snackbarProps.showSnackbar}
-              name="agreement"
-              title={BUTTON_TITLES.uploadAgreement}
-              {...fileProps}
-            />
-          </AgreementField>
+          <AgreementField
+            link={AGREEMENT_TEMPLATE}
+            label={LINK_TITLES.agreement}
+            values={values}
+            validate={required}
+            showSnackbar={snackbarProps.showSnackbar}
+            name="agreement"
+            title={BUTTON_TITLES.uploadAgreement}
+            {...fileProps}
+          />
         );
       } else formApi.change("agreement", undefined);
     }
@@ -241,12 +236,8 @@ const Page = ({
   };
 
   const renderRequestIdField = () => {
-    if (
-      !isFileLoaded("sender_list") &&
-      activePage === 1 &&
-      OPERATORS_WITH_REQUEST_ID.includes(operatorId)
-    )
-      return <RequestIdField />;
+    if (!isFileLoaded("sender_list") && activePage === 1)
+      return <RequestIdField operatorId={operatorId} />;
   };
 
   const renderFileContent = (name) => {
@@ -384,15 +375,6 @@ const Title = styled.div`
   @media (max-width: 660px) {
     align-self: flex-start;
     margin-bottom: 6px;
-  }
-`;
-
-const AgreementField = styled.div`
-  margin: 12px 0;
-  width: 100%;
-  @media (max-width: 660px) {
-    align-self: flex-end;
-    margin: 0;
   }
 `;
 

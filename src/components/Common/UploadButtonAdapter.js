@@ -81,6 +81,7 @@ const UploadButtonAdapter = ({
         case "2BM":
         case "2AL":
         case "2BE":
+        case "2BK":
           return ".pdf, .png, .jpg, .jpeg";
         default:
           return ".pdf, .png";

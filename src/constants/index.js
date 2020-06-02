@@ -170,7 +170,7 @@ export const OPERATORS_WITH_REQUEST_ID = ["2BM"];
 
 // Операторы, которым нужно соглашение о выборе оператора
 
-export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BE", "2AL"];
+export const OPERATORS_WITH_AGREEMENT = ["2BM", "2BK", "2BE", "2AL"];
 
 export const AVAILABLE_FILE_EXTENSIONS = {
   agreement: ["pdf", "png", "jpg", "jpeg", "PDF", "PNG", "JPG", "JPEG"],

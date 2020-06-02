@@ -194,6 +194,19 @@ class AxiosService {
     }
   };
 
+  agreements_list = async () => {
+    try {
+      const result = await this.instance.get(
+        "/utils/operator_agreement_list",
+        this.config.json
+      );
+      console.log("Result agreements_list - ", result);
+      return result;
+    } catch (e) {
+      console.log("Error agreements_list - ", e);
+    }
+  };
+
   autoComplete = async (inn) => {
     try {
       const result = await this.instance.get(`/navigator/${inn}`);
