@@ -60,7 +60,6 @@ const Page = ({
 
   const [content, setContent] = useFileContent();
   const [loading, setLoading] = useState(false);
-  const [agreementsList, setAgreementsList] = useState(null);
 
   const renderForm = (activePage, firstPage, secondPage) => {
     switch (activePage) {
@@ -171,7 +170,7 @@ const Page = ({
             showSnackbar={snackbarProps.showSnackbar}
             name="agreement"
             title={BUTTON_TITLES.uploadAgreement}
-            {...fileProps}
+            fileProps={fileProps}
           />
         );
       } else formApi.change("agreement", undefined);
